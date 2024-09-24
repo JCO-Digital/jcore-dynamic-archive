@@ -1,10 +1,12 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 
-namespace Jcore\Template;
+namespace Jcore\DynamicArchive;
 
 use Jcore\Ydin\BootstrapInterface;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+if ( is_file( __DIR__ . '/../vendor/autoload.php' ) ) {
+	require_once __DIR__ . '/../vendor/autoload.php';
+}
 
 /**
  * The bootstrap class, should be used by all dependencies.
