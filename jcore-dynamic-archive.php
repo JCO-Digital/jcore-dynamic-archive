@@ -12,10 +12,12 @@
  * @package Jcore\DynamicArchive
  */
 
-use Jcore\DynamicArchive\Bootstrap;
+use Jcore\DynamicArchive;
 
 if ( is_file( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-Bootstrap::init();
+require_once __DIR__ . '/blocks/dynamic-archive.php';
+
+DynamicArchive\Bootstrap::init();
