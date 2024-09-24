@@ -1,7 +1,7 @@
 {
   "name": "jcore/dynamic-archive",
   "description": "JCORE Dynamic Archive module",
-  "type": "library",
+  "type": "wordpress-plugin",
   "license": "GPL-2.0-only",
   "autoload": {
     "psr-4": {
