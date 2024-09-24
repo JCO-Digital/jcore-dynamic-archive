@@ -12,9 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function init_dynamic_archive_block(): void {
-	$success = register_block_type( __DIR__ . '/build' );
-	if ( false === $success && wp_get_environment_type() !== 'production' ) {
-		wp_admin_notice( 'Dynamic Archive block could not be registered.' );
+	$blocks = array( 'dynamic-archive' );
+	foreach ( $blocks as $block ) {
+		$success[] = register_block_type( __DIR__ . '/build/' . $block );
+	}
+	if ( in_array( false, $success, true ) && wp_get_environment_type() !== 'production' ) {
+		wp_admin_notice( 'Dynamic Archive blocks could not be registered.' );
 	}
 }
 add_action( 'init', 'init_dynamic_archive_block' );
