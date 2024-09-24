@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.2.1...v0.3.0) (2024-09-24)
+
+
+### Features
+
+* updated jcore-dynamic archive to be a plugin. ✨ ([c1f81a5](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c1f81a59ad376cb22436e503d464ee85a2bdb95c))
+
+
+
 ## [0.2.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.2.0...v0.2.1) (2024-09-24)
 
 
