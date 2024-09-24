@@ -5,7 +5,7 @@
   "license": "GPL-2.0-only",
   "autoload": {
     "psr-4": {
-      "Jcore\\Template\\": "classes/"
+      "Jcore\\DynamicArchive\\": "classes/"
     }
   },
   "authors": [

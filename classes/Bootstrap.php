@@ -23,7 +23,6 @@ class Bootstrap implements BootstrapInterface {
 	 * Bootstrap constructor.
 	 */
 	private function __construct() {
-		// TODO: Add stuff here to use
 	}
 
 	/**
