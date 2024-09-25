@@ -1,3 +1,12 @@
+# [0.6.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.5.0...v0.6.0) (2024-09-25)
+
+
+### Features
+
+* **block:** Added load more functionality for the block. ✨ ([e9a4b67](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e9a4b6771769fc69186fc449cc159773971770ff))
+
+
+
 # [0.5.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.4.1...v0.5.0) (2024-09-25)
 
 
@@ -32,15 +41,6 @@
 ### Features
 
 * updated jcore-dynamic archive to be a plugin. ✨ ([c1f81a5](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c1f81a59ad376cb22436e503d464ee85a2bdb95c))
-
-
-
-## [0.2.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.2.0...v0.2.1) (2024-09-24)
-
-
-### Bug Fixes
-
-* composer namespace updated to match the used namespace 🐛 ([fc9e4be](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fc9e4bef6ccd17caaabd0b9c9c5d04bf91650e97))
 
 
 
