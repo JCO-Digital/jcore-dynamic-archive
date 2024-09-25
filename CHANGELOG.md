@@ -1,3 +1,12 @@
+## [0.6.5](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.4...v0.6.5) (2024-09-25)
+
+
+### Bug Fixes
+
+* **gutenberg:** fix an issue fetching CPTs :bug: ([4751d23](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4751d23831486d14a3f83413d1f25ae4cc63ce19))
+
+
+
 ## [0.6.4](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.3...v0.6.4) (2024-09-25)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * masonry grid class name fixed 🐛 ([03c70dc](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/03c70dc7aa9cb6e42b773360f41f7e8518cd2266))
-
-
-
-# [0.6.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.5.0...v0.6.0) (2024-09-25)
-
-
-### Features
-
-* **block:** Added load more functionality for the block. ✨ ([e9a4b67](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e9a4b6771769fc69186fc449cc159773971770ff))
 
 
 
