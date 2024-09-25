@@ -1,3 +1,12 @@
+## [0.6.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.0...v0.6.1) (2024-09-25)
+
+
+### Bug Fixes
+
+* masonry grid class name fixed 🐛 ([03c70dc](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/03c70dc7aa9cb6e42b773360f41f7e8518cd2266))
+
+
+
 # [0.6.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.5.0...v0.6.0) (2024-09-25)
 
 
@@ -32,15 +41,6 @@
 
 * **gutenberg:** Added basic version of dynamic archive block ✨ ([8e20c9d](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/8e20c9d3da39ed4277d1c62b42d3989fb66fe393))
 * **gutenberg:** multi block functionality and loading added ✨ ([e8b697f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e8b697f33da053504a53a54f005ae96ac48a4bb0))
-
-
-
-# [0.3.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.2.1...v0.3.0) (2024-09-24)
-
-
-### Features
-
-* updated jcore-dynamic archive to be a plugin. ✨ ([c1f81a5](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c1f81a59ad376cb22436e503d464ee85a2bdb95c))
 
 
 
