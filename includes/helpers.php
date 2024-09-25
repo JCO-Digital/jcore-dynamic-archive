@@ -28,10 +28,15 @@ function is_post_type( string $post_type ): bool {
  * @return array
  */
 function handle_dynamic_args( array $args, array $attributes ): array {
-	$instance_id   = $attributes['instanceId'] ?? '';
-	$args['paged'] = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
-	$order         = get_parameter( build_param_name( 'order', $instance_id ), $attributes['order'] ?? 'desc' );
-	$order         = match ( strtolower( $order ) ) {
+	$instance_id = $attributes['instanceId'] ?? '';
+	if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
+		$args['paged'] = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
+	} elseif ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
+		$paged                  = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
+		$args['posts_per_page'] = $args['posts_per_page'] * $paged + 1;
+	}
+	$order = get_parameter( build_param_name( 'order', $instance_id ), $attributes['order'] ?? 'desc' );
+	$order = match ( strtolower( $order ) ) {
 		'asc'  => 'asc',
 		default => 'desc',
 	};
