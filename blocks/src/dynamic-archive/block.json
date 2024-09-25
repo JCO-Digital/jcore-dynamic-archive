@@ -13,17 +13,20 @@
 	},
 	"attributes": {
 		"instanceId": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"postType": {
 			"type": "string",
 			"default": "post"
 		},
 		"search": {
-			"type": "boolean"
+			"type": "boolean",
+			"default": false
 		},
 		"columns": {
-			"type": "number"
+			"type": "number",
+			"default": 3
 		},
 		"perPage": {
 			"type": "number"

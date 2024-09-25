@@ -30,10 +30,10 @@
 	</div>
 	<div class="wp-block-jcore-dynamic-archive-posts__pagination">
 		{% if attributes.showPagination and not attributes.infiniteScroll %}
-			{% include ['dynamic-archive/partials/pagination.twig', 'partials/pagination.twig'] %}
+			{% include ['dynamic-archive/partials/pagination.twig', 'partials/pagination.twig'] ignore missing %}
 		{% endif %}
 		{% if attributes.showPagination and attributes.infiniteScroll %}
-			{% include ['dynamic-archive/partials/load-more.twig', 'partials/load-more.twig'] %}
+			{% include ['dynamic-archive/partials/load-more.twig', 'partials/load-more.twig'] ignore missing %}
 		{% endif %}
 	</div>
 	<input type="submit" x-ref="submit" hidden>

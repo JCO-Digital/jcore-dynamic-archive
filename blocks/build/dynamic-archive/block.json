@@ -23,7 +23,8 @@
       "type": "boolean"
     },
     "columns": {
-      "type": "number"
+      "type": "number",
+      "default": 3
     },
     "perPage": {
       "type": "number"
