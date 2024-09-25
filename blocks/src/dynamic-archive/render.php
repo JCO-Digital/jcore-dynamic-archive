@@ -9,7 +9,9 @@
 
 use Timber\FunctionWrapper;
 use Timber\URLHelper;
+use function Jcore\DynamicArchive\Helpers\build_param_name;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
+use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
 use function Jcore\DynamicArchive\Helpers\is_post_type;
 
@@ -31,18 +33,32 @@ $context['block_wrapper_attributes'] = new FunctionWrapper( 'get_block_wrapper_a
 $context['attributes']               = $attributes;
 $context['taxonomies_filter']        = build_taxonomies_filter( $attributes );
 
-$args = array(
+$block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 );
+$args           = array(
 	'post_type'      => $attributes['postType'],
 	'post__not_in'   => array( get_the_ID() ),
-	'posts_per_page' => $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 ),
+	'posts_per_page' => $block_per_page,
 );
 
-$args         = handle_dynamic_args( $args, $attributes );
-$args         = apply_filters( 'jcore_dynamic_archive_args', $args, $attributes );
+$args = handle_dynamic_args( $args, $attributes );
+$args = apply_filters( 'jcore_dynamic_archive_args', $args, $attributes );
+
+// If pagination is enabled and not "load more", we need to subtract 1 from the posts per page, as we do not need to check for more posts.
+if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
+	$args['posts_per_page'] -= 1;
+}
 $timber_posts = Timber::get_posts(
 	$args
 );
 
-$context['posts'] = $timber_posts;
+$context['has_more']     = count( $timber_posts ) > $block_per_page;
+$context['current_page'] = get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 );
+// If pagination is enabled and "load more", we need to slice the posts array to remove the last post, as we do not need to check for more posts.
+if ( ! is_null( $timber_posts ) && ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
+	$final_posts      = array_slice( $timber_posts->to_array(), 0, - 1 );
+	$context['posts'] = $final_posts;
+} else {
+	$context['posts'] = array();
+}
 
 Timber::render( 'dynamic-archive/archive.twig', $context );

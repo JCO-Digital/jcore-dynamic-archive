@@ -1,0 +1,9 @@
+<input type="hidden" name="{{ build_param_name( 'paged', attributes.instanceId ) }}" value="{{ current_page }}"
+	   x-ref="nextPage"/>
+{% if has_more %}
+	<button type="button"
+			@click="handleLoadMore">
+		<div class="wp-block-jcore-dynamic-archive__pagination__load-more__spinner htmx-indicator"></div>
+		{{ __( 'Load more', 'dynamic-archive' ) }}
+	</button>
+{% endif %}

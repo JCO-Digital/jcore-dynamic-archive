@@ -3,7 +3,19 @@
 	  hx-select="#dynamic-archive-{{ attributes.instanceId }}"
 	  hx-push-url="true"
 	  class="wp-block-jcore-dynamic-archive"
-	  hx-ext="alpine-morph" hx-swap="morph" x-data="{}" x-ref="form" hx-trigger="submit">
+	  hx-ext="alpine-morph" hx-swap="morph" x-data="{
+	  	handleLoadMore() {
+	  		const nextPage = this.$refs.nextPage.value;
+	  		if (isNaN(parseInt(nextPage))) {
+	  			this.$refs.nextPage.value = 1;
+	  			return;
+	  		}
+	  		this.$refs.nextPage.value = parseInt(nextPage) + 1;
+	  		if (nextPage) {
+	  			this.$refs.submit.click();
+	  		}
+	  	}
+	  }" x-ref="form" hx-trigger="submit">
 	<div class="wp-block-jcore-dynamic-archive__filters">
 		{% include ['dynamic-archive/partials/filters.twig', 'partials/filters.twig'] ignore missing %}
 	</div>
@@ -13,10 +25,16 @@
 			{% for post in posts %}
 				{% include ['dynamic-archive/partials/tease.twig', 'partials/tease.twig'] with { post: post, nr: loop.index } %}
 			{% endfor %}
-			{% if attributes.showPagination %}
-				{% include ['dynamic-archive/partials/pagination.twig', 'partials/pagination.twig'] %}
-			{% endif %}
+
 		</div>
+	</div>
+	<div class="wp-block-jcore-dynamic-archive-posts__pagination">
+		{% if attributes.showPagination and not attributes.infiniteScroll %}
+			{% include ['dynamic-archive/partials/pagination.twig', 'partials/pagination.twig'] %}
+		{% endif %}
+		{% if attributes.showPagination and attributes.infiniteScroll %}
+			{% include ['dynamic-archive/partials/load-more.twig', 'partials/load-more.twig'] %}
+		{% endif %}
 	</div>
 	<input type="submit" x-ref="submit" hidden>
 </form>
