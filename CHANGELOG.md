@@ -1,3 +1,12 @@
+## [0.6.3](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.2...v0.6.3) (2024-09-25)
+
+
+### Bug Fixes
+
+* Some defaults added to prevent issues when first adding the block. 🐛 ([454031b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/454031bf21159b34e8d939bbb0c3bf764c64b246))
+
+
+
 ## [0.6.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.1...v0.6.2) (2024-09-25)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Dynamic archive made dynamic courtesy of HTMX ✨ ([5099c77](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/5099c773f4224892a4873069909ff2584507e08f))
-
-
-
-## [0.4.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.4.0...v0.4.1) (2024-09-25)
-
-
-### Bug Fixes
-
-* renderblocks class added for now. ([d0493bc](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d0493bc9097cdc6cfda0987bb76141761e028e8c))
 
 
 
