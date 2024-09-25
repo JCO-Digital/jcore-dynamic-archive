@@ -1,1 +1,0 @@
-{"version":3,"file":"dynamic-archive/style-index.css","mappings":";;;AAAA;CACC,qBAAqB;AACtB","sources":["webpack://dynamic-archive/./src/dynamic-archive/style.css"],"sourcesContent":[".wp-block-jcore-dynamic-archive-posts {\n\tborder: 1px solid red;\n}\n"],"names":[],"sourceRoot":""}

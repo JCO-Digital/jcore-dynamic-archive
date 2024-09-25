@@ -51,14 +51,14 @@ $timber_posts = Timber::get_posts(
 	$args
 );
 
-$context['has_more']     = count( $timber_posts ) > $block_per_page;
-$context['current_page'] = get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 );
+$current_page            = get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 );
+$has_more                = count( $timber_posts ) > ( $block_per_page * absint( $current_page ) );
+$context['has_more']     = $has_more;
+$context['current_page'] = $current_page;
 // If pagination is enabled and "load more", we need to slice the posts array to remove the last post, as we do not need to check for more posts.
-if ( ! is_null( $timber_posts ) && ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
-	$final_posts      = array_slice( $timber_posts->to_array(), 0, - 1 );
-	$context['posts'] = $final_posts;
-} else {
-	$context['posts'] = array();
+if ( ! is_null( $timber_posts ) && ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) && $has_more ) {
+	$final_posts = array_slice( $timber_posts->to_array(), 0, - 1 );
 }
+$context['posts'] = $final_posts ?? $timber_posts;
 
 Timber::render( 'dynamic-archive/archive.twig', $context );
