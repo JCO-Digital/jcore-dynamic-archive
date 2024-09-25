@@ -1,10 +1,22 @@
-<div {{ block_wrapper_attributes }} data-block-id="dynamic-archive-{{ attributes.instanceId }}">
-	<div class="wp-block-jcore-dynamic-archive__inner {{ attributes.masonryGrid ? 'masonry' : '' }} {{ attributes.columns ? 'columns-' ~ attributes.columns : '' }}">
-		{% for post in posts %}
-			{% include ['dynamic-archive/partials/tease-' ~ post.post_type ~ '.twig', 'dynamic-archive/partials/tease.twig', 'partials/tease-' ~ post.post_type ~ '.twig', 'partials/tease.twig'] with { post: post, nr: loop.index }  %}
-		{% endfor %}
-		<button hx-get="{{ current_url }}?dynamic=1">
-			Load more
-		</button>
+<form id="dynamic-archive-{{ attributes.instanceId }}"
+	  hx-get="{{ current_path }}" hx-target="#dynamic-archive-{{ attributes.instanceId }}"
+	  hx-select="#dynamic-archive-{{ attributes.instanceId }}"
+	  hx-push-url="true"
+	  class="wp-block-jcore-dynamic-archive"
+	  hx-ext="alpine-morph" hx-swap="morph" x-data="{}" x-ref="form" hx-trigger="submit">
+	<div class="wp-block-jcore-dynamic-archive__filters">
+		{% include ['dynamic-archive/partials/filters.twig', 'partials/filters.twig'] ignore missing %}
 	</div>
-</div>
+	<div class="wp-block-jcore-dynamic-archive-posts {{ 'post-type-' ~ attributes.postType }}">
+		<div
+			class="wp-block-jcore-dynamic-archive-posts__inner{{ attributes.masonryGrid ? ' masonry' : '' }}{{ attributes.columns ? ' columns-' ~ attributes.columns : '' }}">
+			{% for post in posts %}
+				{% include ['dynamic-archive/partials/tease.twig', 'partials/tease.twig'] with { post: post, nr: loop.index } %}
+			{% endfor %}
+			{% if attributes.showPagination %}
+				{% include ['dynamic-archive/partials/pagination.twig', 'partials/pagination.twig'] %}
+			{% endif %}
+		</div>
+	</div>
+	<input type="submit" x-ref="submit" hidden>
+</form>

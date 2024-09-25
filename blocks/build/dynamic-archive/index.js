@@ -26,35 +26,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_server_side_render__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _editor_scss__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./editor.scss */ "./src/dynamic-archive/editor.scss");
+/* harmony import */ var _editor_css__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./editor.css */ "./src/dynamic-archive/editor.css");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__);
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ * Hooks
  */
 
 
 
 
 
+
 /**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
+ * Components
  */
 
 
 
 
-
 /**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ * Styles
  */
 
 
@@ -75,7 +67,9 @@ function Edit({
     postType,
     perPage,
     columns,
-    masonryGrid
+    masonryGrid,
+    showPagination,
+    infiniteScroll
   } = attributes;
   const instanceId = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__.useInstanceId)(Edit);
   setAttributes({
@@ -118,41 +112,140 @@ function Edit({
   }, [_site]);
   // END: Per Page
 
+  // BEGIN: Order
+  const {
+    order,
+    orderBy
+  } = attributes;
+  const orderOptions = [{
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Ascending", "jcore-dynamic-archive"),
+    value: "ASC"
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Descending", "jcore-dynamic-archive"),
+    value: "DESC"
+  }];
+  const orderByOptions = [{
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Date", "jcore-dynamic-archive"),
+    value: "date"
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Title", "jcore-dynamic-archive"),
+    value: "title"
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Modified", "jcore-dynamic-archive"),
+    value: "modified"
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Author", "jcore-dynamic-archive"),
+    value: "author"
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("ID", "jcore-dynamic-archive"),
+    value: "ID"
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Menu order", "jcore-dynamic-archive"),
+    value: "menu_order"
+  }];
+  // END: Order
+
+  // BEGIN: Taxonomies
+  const {
+    taxonomies
+  } = attributes;
+  const [taxonomyOptions, setTaxonomyOptions] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
+  const {
+    _taxonomies
+  } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => ({
+    _taxonomies: select("core").getTaxonomies()
+  }), []);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (_taxonomies) {
+      const filteredTaxonomies = _taxonomies.filter(taxonomy => taxonomy.types?.includes(postType)).map(taxonomy => ({
+        label: taxonomy.name,
+        value: taxonomy.slug
+      }));
+      setTaxonomyOptions(filteredTaxonomies);
+      const newStoredTaxonomies = taxonomies.filter(taxonomy => filteredTaxonomies.map(t => t.value).includes(taxonomy));
+      setAttributes({
+        taxonomies: newStoredTaxonomies
+      });
+    }
+  }, [_taxonomies, postType]);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.Fragment, {
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.InspectorControls, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Settings", "block-development-examples"),
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Post Type", "block-development-examples"),
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Settings", "jcore-dynamic-archive"),
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Post Type", "jcore-dynamic-archive"),
           value: postType,
           options: postTypes,
           onChange: value => setAttributes({
             postType: value
           })
-        })
+        }), taxonomyOptions.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)("p", {
+          children: "Taxonomies"
+        }), taxonomyOptions.map(taxonomy => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.CheckboxControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)(taxonomy.label, "jcore-dynamic-archive"),
+          checked: taxonomies.includes(taxonomy.value),
+          onChange: _checked => setAttributes({
+            taxonomies: taxonomies.includes(taxonomy.value) ? taxonomies.filter(t => t !== taxonomy.value) : [...taxonomies, taxonomy.value]
+          })
+        })), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Show pagination", "jcore-dynamic-archive"),
+          checked: showPagination,
+          onChange: checked => setAttributes({
+            showPagination: checked
+          })
+        }), showPagination && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Infinite scroll", "jcore-dynamic-archive"),
+          checked: infiniteScroll,
+          onChange: checked => setAttributes({
+            infiniteScroll: checked
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Order", "jcore-dynamic-archive"),
+          value: order,
+          options: orderOptions,
+          onChange: value => setAttributes({
+            order: value
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Order by", "jcore-dynamic-archive"),
+          value: orderBy,
+          options: orderByOptions,
+          onChange: value => setAttributes({
+            orderBy: value
+          })
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.PanelBody, {
-        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Layout", "block-development-examples"),
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Layout", "jcore-dynamic-archive"),
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.ToggleControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Masonry Grid", "block-development-examples"),
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Masonry Grid", "jcore-dynamic-archive"),
           checked: masonryGrid,
           onChange: checked => setAttributes({
             masonryGrid: checked
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Columns", "block-development-examples"),
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.RangeControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Columns", "jcore-dynamic-archive"),
           value: columns || 3,
-          onChange: value => setAttributes({
-            columns: parseInt(value)
-          }),
-          type: "number",
+          onChange: value => {
+            if (isNaN(parseInt(value))) {
+              return;
+            }
+            setAttributes({
+              columns: parseInt(value)
+            });
+          },
           min: 1,
-          max: 10
+          max: 4
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_8__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Posts per Page", "block-development-examples"),
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Posts per Page", "jcore-dynamic-archive"),
           value: perPage || _perPage,
-          onChange: value => setAttributes({
-            perPage: parseInt(value)
-          }),
+          onChange: value => {
+            if (isNaN(parseInt(value))) {
+              return;
+            }
+            setAttributes({
+              perPage: parseInt(value)
+            });
+          },
           type: "number",
           min: 1,
           max: 100
@@ -179,7 +272,7 @@ function Edit({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/blocks */ "@wordpress/blocks");
 /* harmony import */ var _wordpress_blocks__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_blocks__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _style_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.scss */ "./src/dynamic-archive/style.scss");
+/* harmony import */ var _style_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./style.css */ "./src/dynamic-archive/style.css");
 /* harmony import */ var _edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./edit */ "./src/dynamic-archive/edit.js");
 /* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./block.json */ "./src/dynamic-archive/block.json");
 /**
@@ -219,10 +312,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/dynamic-archive/editor.scss":
-/*!*****************************************!*\
-  !*** ./src/dynamic-archive/editor.scss ***!
-  \*****************************************/
+/***/ "./src/dynamic-archive/editor.css":
+/*!****************************************!*\
+  !*** ./src/dynamic-archive/editor.css ***!
+  \****************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -231,10 +324,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/dynamic-archive/style.scss":
-/*!****************************************!*\
-  !*** ./src/dynamic-archive/style.scss ***!
-  \****************************************/
+/***/ "./src/dynamic-archive/style.css":
+/*!***************************************!*\
+  !*** ./src/dynamic-archive/style.css ***!
+  \***************************************/
 /***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
 
 __webpack_require__.r(__webpack_exports__);
@@ -339,7 +432,7 @@ module.exports = window["wp"]["serverSideRender"];
   \****************************************/
 /***/ (function(module) {
 
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"jcore/dynamic-archive","version":"0.1.0","title":"Dynamic Archive","category":"widgets","icon":"smiley","description":"A dynamic archive block.","example":{},"supports":{"html":false},"attributes":{"instanceId":{"type":"string"},"postType":{"type":"string"},"sortBy":{"type":"string"},"search":{"type":"boolean"},"columns":{"type":"number"},"perPage":{"type":"number"},"masonryGrid":{"type":"boolean"}},"textdomain":"dynamic-archive","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"jcore/dynamic-archive","version":"0.1.0","title":"Dynamic Archive","category":"widgets","icon":"smiley","description":"A dynamic archive block.","example":{},"supports":{"html":false},"attributes":{"instanceId":{"type":"string"},"postType":{"type":"string","default":"post"},"search":{"type":"boolean"},"columns":{"type":"number"},"perPage":{"type":"number"},"masonryGrid":{"type":"boolean"},"showPagination":{"type":"boolean","default":true},"infiniteScroll":{"type":"boolean","default":true},"order":{"type":"string","default":"DESC"},"orderBy":{"type":"string","default":"date","enum":["date","title","modified","author","ID","menu_order"]},"taxonomies":{"type":"array","default":[]}},"textdomain":"dynamic-archive","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScript":["dynamic-archive-htmx","dynamic-archive-htmx-alpine-morph-plugin","dynamic-archive-alpine","file:./view.js"]}');
 
 /***/ })
 

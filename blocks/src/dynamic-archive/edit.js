@@ -1,22 +1,15 @@
 /**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
+ * Hooks
  */
 import { __ } from "@wordpress/i18n";
-
 import { useSelect } from "@wordpress/data";
 import { useEffect, useState } from "@wordpress/element";
 import { useInstanceId } from "@wordpress/compose";
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
 import { useBlockProps } from "@wordpress/block-editor";
 
+/**
+ * Components
+ */
 import ServerSideRender from "@wordpress/server-side-render";
 import { InspectorControls } from "@wordpress/block-editor";
 import {
@@ -24,15 +17,14 @@ import {
 	ToggleControl,
 	SelectControl,
 	TextControl,
+	RangeControl,
+	CheckboxControl,
 } from "@wordpress/components";
 
 /**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
+ * Styles
  */
-import "./editor.scss";
+import "./editor.css";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -43,7 +35,14 @@ import "./editor.scss";
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { postType, perPage, columns, masonryGrid } = attributes;
+	const {
+		postType,
+		perPage,
+		columns,
+		masonryGrid,
+		showPagination,
+		infiniteScroll,
+	} = attributes;
 	const instanceId = useInstanceId(Edit);
 	setAttributes({ instanceId: instanceId.toString() });
 
@@ -91,35 +90,124 @@ export default function Edit({ attributes, setAttributes }) {
 	}, [_site]);
 	// END: Per Page
 
+	// BEGIN: Order
+	const { order, orderBy } = attributes;
+	const orderOptions = [
+		{ label: __("Ascending", "jcore-dynamic-archive"), value: "ASC" },
+		{ label: __("Descending", "jcore-dynamic-archive"), value: "DESC" },
+	];
+	const orderByOptions = [
+		{ label: __("Date", "jcore-dynamic-archive"), value: "date" },
+		{ label: __("Title", "jcore-dynamic-archive"), value: "title" },
+		{ label: __("Modified", "jcore-dynamic-archive"), value: "modified" },
+		{ label: __("Author", "jcore-dynamic-archive"), value: "author" },
+		{ label: __("ID", "jcore-dynamic-archive"), value: "ID" },
+		{
+			label: __("Menu order", "jcore-dynamic-archive"),
+			value: "menu_order",
+		},
+	];
+	// END: Order
+
+	// BEGIN: Taxonomies
+	const { taxonomies } = attributes;
+	const [taxonomyOptions, setTaxonomyOptions] = useState([]);
+	const { _taxonomies } = useSelect(
+		(select) => ({ _taxonomies: select("core").getTaxonomies() }),
+		[],
+	);
+	useEffect(() => {
+		if (_taxonomies) {
+			const filteredTaxonomies = _taxonomies
+				.filter((taxonomy) => taxonomy.types?.includes(postType))
+				.map((taxonomy) => ({
+					label: taxonomy.name,
+					value: taxonomy.slug,
+				}));
+			setTaxonomyOptions(filteredTaxonomies);
+			const newStoredTaxonomies = taxonomies.filter((taxonomy) =>
+				filteredTaxonomies.map((t) => t.value).includes(taxonomy),
+			);
+			setAttributes({ taxonomies: newStoredTaxonomies });
+		}
+	}, [_taxonomies, postType]);
+
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={__("Settings", "block-development-examples")}>
+				<PanelBody title={__("Settings", "jcore-dynamic-archive")}>
 					<SelectControl
-						label={__("Post Type", "block-development-examples")}
+						label={__("Post Type", "jcore-dynamic-archive")}
 						value={postType}
 						options={postTypes}
 						onChange={(value) => setAttributes({ postType: value })}
 					/>
-				</PanelBody>
-				<PanelBody title={__("Layout", "block-development-examples")}>
+					{taxonomyOptions.length > 0 && <p>Taxonomies</p>}
+					{taxonomyOptions.map((taxonomy) => (
+						<CheckboxControl
+							label={__(taxonomy.label, "jcore-dynamic-archive")}
+							checked={taxonomies.includes(taxonomy.value)}
+							onChange={(_checked) =>
+								setAttributes({
+									taxonomies: taxonomies.includes(taxonomy.value)
+										? taxonomies.filter((t) => t !== taxonomy.value)
+										: [...taxonomies, taxonomy.value],
+								})
+							}
+						/>
+					))}
 					<ToggleControl
-						label={__("Masonry Grid", "block-development-examples")}
+						label={__("Show pagination", "jcore-dynamic-archive")}
+						checked={showPagination}
+						onChange={(checked) => setAttributes({ showPagination: checked })}
+					/>
+					{showPagination && (
+						<ToggleControl
+							label={__("Infinite scroll", "jcore-dynamic-archive")}
+							checked={infiniteScroll}
+							onChange={(checked) => setAttributes({ infiniteScroll: checked })}
+						/>
+					)}
+					<SelectControl
+						label={__("Order", "jcore-dynamic-archive")}
+						value={order}
+						options={orderOptions}
+						onChange={(value) => setAttributes({ order: value })}
+					/>
+					<SelectControl
+						label={__("Order by", "jcore-dynamic-archive")}
+						value={orderBy}
+						options={orderByOptions}
+						onChange={(value) => setAttributes({ orderBy: value })}
+					/>
+				</PanelBody>
+				<PanelBody title={__("Layout", "jcore-dynamic-archive")}>
+					<ToggleControl
+						label={__("Masonry Grid", "jcore-dynamic-archive")}
 						checked={masonryGrid}
 						onChange={(checked) => setAttributes({ masonryGrid: checked })}
 					/>
-					<TextControl
-						label={__("Columns", "block-development-examples")}
+					<RangeControl
+						label={__("Columns", "jcore-dynamic-archive")}
 						value={columns || 3}
-						onChange={(value) => setAttributes({ columns: parseInt(value) })}
-						type="number"
+						onChange={(value) => {
+							if (isNaN(parseInt(value))) {
+								return;
+							}
+							setAttributes({ columns: parseInt(value) });
+						}}
 						min={1}
-						max={10}
+						max={4}
 					/>
 					<TextControl
-						label={__("Posts per Page", "block-development-examples")}
+						label={__("Posts per Page", "jcore-dynamic-archive")}
 						value={perPage || _perPage}
-						onChange={(value) => setAttributes({ perPage: parseInt(value) })}
+						onChange={(value) => {
+							if (isNaN(parseInt(value))) {
+								return;
+							}
+							setAttributes({ perPage: parseInt(value) });
+						}}
 						type="number"
 						min={1}
 						max={100}
