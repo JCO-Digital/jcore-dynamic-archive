@@ -48,7 +48,7 @@ export default function Edit({ attributes, setAttributes }) {
 
 	// BEGIN: Post Types
 	const { _postTypes } = useSelect(
-		(select) => ({ _postTypes: select("core").getPostTypes() }),
+		(select) => ({ _postTypes: select("core").getPostTypes({ per_page: -1 }) }),
 		[],
 	);
 	const [postTypes, setPostTypes] = useState([]);
