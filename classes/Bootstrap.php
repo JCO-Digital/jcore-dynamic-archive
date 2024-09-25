@@ -4,12 +4,6 @@ namespace Jcore\DynamicArchive;
 
 use Jcore\Ydin\BootstrapInterface;
 
-if ( is_file( __DIR__ . '/../vendor/autoload.php' ) ) {
-	require_once __DIR__ . '/../vendor/autoload.php';
-}
-
-require_once __DIR__ . '/../blocks/dynamic-archive/dynamic-archive.php';
-
 /**
  * The bootstrap class, should be used by all dependencies.
  */
@@ -25,6 +19,7 @@ class Bootstrap implements BootstrapInterface {
 	 * Bootstrap constructor.
 	 */
 	private function __construct() {
+		RenderBlocks::init();
 	}
 
 	/**

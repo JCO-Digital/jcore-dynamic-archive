@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0ce6eb9342d875b33fbeff750dd58ffc",
+    "content-hash": "6cf2fec3570110a92a2abb4f350752fa",
     "packages": [
         {
             "name": "jcore/ydin",
-            "version": "v3.5.2",
+            "version": "v3.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JCO-Digital/jcore-ydin.git",
-                "reference": "781942de024280f126f52a05359f49bca4beba91"
+                "reference": "176ed71e5225f0776c01033ba42fe7ab817457e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JCO-Digital/jcore-ydin/zipball/781942de024280f126f52a05359f49bca4beba91",
-                "reference": "781942de024280f126f52a05359f49bca4beba91",
+                "url": "https://api.github.com/repos/JCO-Digital/jcore-ydin/zipball/176ed71e5225f0776c01033ba42fe7ab817457e2",
+                "reference": "176ed71e5225f0776c01033ba42fe7ab817457e2",
                 "shasum": ""
             },
             "require": {
@@ -32,6 +32,9 @@
             },
             "type": "library",
             "autoload": {
+                "files": [
+                    "includes/helpers.php"
+                ],
                 "psr-4": {
                     "Jcore\\Ydin\\": "classes/"
                 }
@@ -49,9 +52,9 @@
             "description": "JCORE Ydin (JYDIN), the core module for JCORE",
             "support": {
                 "issues": "https://github.com/JCO-Digital/jcore-ydin/issues",
-                "source": "https://github.com/JCO-Digital/jcore-ydin/tree/v3.5.2"
+                "source": "https://github.com/JCO-Digital/jcore-ydin/tree/v3.6.0"
             },
-            "time": "2024-09-23T11:20:14+00:00"
+            "time": "2024-09-24T14:13:18+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

@@ -5208,9 +5208,9 @@ var htmx = (function() {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-/*!*********************!*\
-  !*** ./src/view.js ***!
-  \*********************/
+/*!*************************************!*\
+  !*** ./src/dynamic-archive/view.js ***!
+  \*************************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var htmx_org__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! htmx.org */ "./node_modules/.pnpm/htmx.org@2.0.2/node_modules/htmx.org/dist/htmx.esm.js");
 
