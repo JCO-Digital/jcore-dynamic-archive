@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6cf2fec3570110a92a2abb4f350752fa",
+    "content-hash": "29c14a904836a5c41e7fdff5e4041f2a",
     "packages": [
         {
             "name": "jcore/ydin",
-            "version": "v3.6.0",
+            "version": "v3.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JCO-Digital/jcore-ydin.git",
-                "reference": "176ed71e5225f0776c01033ba42fe7ab817457e2"
+                "reference": "973265c7ebd4dbb89190c0dd19f6126f27d1fa29"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JCO-Digital/jcore-ydin/zipball/176ed71e5225f0776c01033ba42fe7ab817457e2",
-                "reference": "176ed71e5225f0776c01033ba42fe7ab817457e2",
+                "url": "https://api.github.com/repos/JCO-Digital/jcore-ydin/zipball/973265c7ebd4dbb89190c0dd19f6126f27d1fa29",
+                "reference": "973265c7ebd4dbb89190c0dd19f6126f27d1fa29",
                 "shasum": ""
             },
             "require": {
@@ -52,9 +52,9 @@
             "description": "JCORE Ydin (JYDIN), the core module for JCORE",
             "support": {
                 "issues": "https://github.com/JCO-Digital/jcore-ydin/issues",
-                "source": "https://github.com/JCO-Digital/jcore-ydin/tree/v3.6.0"
+                "source": "https://github.com/JCO-Digital/jcore-ydin/tree/v3.7.2"
             },
-            "time": "2024-09-24T14:13:18+00:00"
+            "time": "2024-09-25T06:37:58+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
