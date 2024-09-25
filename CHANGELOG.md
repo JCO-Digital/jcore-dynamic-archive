@@ -1,3 +1,12 @@
+## [0.6.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.1...v0.6.2) (2024-09-25)
+
+
+### Bug Fixes
+
+* lock ydin to 3.7.2 ⬆️ ([9f97402](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/9f97402653415e6e6fdc4bc77676a7816065f14f))
+
+
+
 ## [0.6.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.0...v0.6.1) (2024-09-25)
 
 
@@ -31,16 +40,6 @@
 ### Bug Fixes
 
 * renderblocks class added for now. ([d0493bc](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d0493bc9097cdc6cfda0987bb76141761e028e8c))
-
-
-
-# [0.4.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.3.0...v0.4.0) (2024-09-25)
-
-
-### Features
-
-* **gutenberg:** Added basic version of dynamic archive block ✨ ([8e20c9d](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/8e20c9d3da39ed4277d1c62b42d3989fb66fe393))
-* **gutenberg:** multi block functionality and loading added ✨ ([e8b697f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e8b697f33da053504a53a54f005ae96ac48a4bb0))
 
 
 
