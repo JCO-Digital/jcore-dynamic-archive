@@ -16,10 +16,8 @@
 			"type": "string"
 		},
 		"postType": {
-			"type": "string"
-		},
-		"sortBy": {
-			"type": "string"
+			"type": "string",
+			"default": "post"
 		},
 		"search": {
 			"type": "boolean"
@@ -32,6 +30,27 @@
 		},
 		"masonryGrid": {
 			"type": "boolean"
+		},
+		"showPagination": {
+			"type": "boolean",
+			"default": true
+		},
+		"infiniteScroll": {
+			"type": "boolean",
+			"default": true
+		},
+		"order": {
+			"type": "string",
+			"default": "DESC"
+		},
+		"orderBy": {
+			"type": "string",
+			"default": "date",
+			"enum": ["date", "title", "modified", "author", "ID", "menu_order"]
+		},
+		"taxonomies": {
+			"type": "array",
+			"default": []
 		}
 	},
 	"textdomain": "dynamic-archive",
@@ -39,5 +58,10 @@
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+	"viewScript": [
+		"dynamic-archive-htmx",
+		"dynamic-archive-htmx-alpine-morph-plugin",
+		"dynamic-archive-alpine",
+		"file:./view.js"
+	]
 }
