@@ -80,7 +80,9 @@ function Edit({
   const {
     _postTypes
   } = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_1__.useSelect)(select => ({
-    _postTypes: select("core").getPostTypes()
+    _postTypes: select("core").getPostTypes({
+      per_page: -1
+    })
   }), []);
   const [postTypes, setPostTypes] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)([]);
   const forbiddenPostTypes = ["attachment"];
