@@ -1,4 +1,4 @@
-<input type="hidden" name="{{ build_param_name( 'paged', attributes.instanceId ) }}" value="{{ current_page }}"
+<input type="hidden" name="{{ build_param_name( 'paged', attributes.instanceId ?? '' ) }}" value="{{ current_page }}"
 	   x-ref="nextPage"/>
 {% if has_more %}
 	<button type="button"
