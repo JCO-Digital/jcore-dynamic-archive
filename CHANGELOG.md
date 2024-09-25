@@ -1,3 +1,13 @@
+# [0.4.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.3.0...v0.4.0) (2024-09-25)
+
+
+### Features
+
+* **gutenberg:** Added basic version of dynamic archive block ✨ ([8e20c9d](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/8e20c9d3da39ed4277d1c62b42d3989fb66fe393))
+* **gutenberg:** multi block functionality and loading added ✨ ([e8b697f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e8b697f33da053504a53a54f005ae96ac48a4bb0))
+
+
+
 # [0.3.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.2.1...v0.3.0) (2024-09-24)
 
 
