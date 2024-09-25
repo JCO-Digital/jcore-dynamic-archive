@@ -1,3 +1,12 @@
+## [0.4.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.4.0...v0.4.1) (2024-09-25)
+
+
+### Bug Fixes
+
+* renderblocks class added for now. ([d0493bc](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d0493bc9097cdc6cfda0987bb76141761e028e8c))
+
+
+
 # [0.4.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.3.0...v0.4.0) (2024-09-25)
 
 
