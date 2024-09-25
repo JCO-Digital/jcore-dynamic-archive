@@ -19,6 +19,7 @@ class Bootstrap implements BootstrapInterface {
 	 * Bootstrap constructor.
 	 */
 	private function __construct() {
+		RenderBlocks::init();
 	}
 
 	/**

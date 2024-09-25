@@ -1,8 +1,13 @@
 <?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName
 
+use function Jcore\Ydin\register_timber_location;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
+// Register the Timber templates directory.
+register_timber_location( trailingslashit( __DIR__ ) . 'templates/', 1 );
 
 /**
  * Registers the block using the metadata loaded from the `block.json` file.

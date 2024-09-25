@@ -1,0 +1,10 @@
+<div {{ block_wrapper_attributes }} data-block-id="dynamic-archive-{{ attributes.instanceId }}">
+	<div class="wp-block-jcore-dynamic-archive__inner {{ attributes.masonryGrid ? 'masonry' : '' }} {{ attributes.columns ? 'columns-' ~ attributes.columns : '' }}">
+		{% for post in posts %}
+			{% include ['dynamic-archive/partials/tease-' ~ post.post_type ~ '.twig', 'dynamic-archive/partials/tease.twig', 'partials/tease-' ~ post.post_type ~ '.twig', 'partials/tease.twig'] with { post: post, nr: loop.index }  %}
+		{% endfor %}
+		<button hx-get="{{ current_url }}?dynamic=1">
+			Load more
+		</button>
+	</div>
+</div>

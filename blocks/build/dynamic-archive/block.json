@@ -11,6 +11,29 @@
   "supports": {
     "html": false
   },
+  "attributes": {
+    "instanceId": {
+      "type": "string"
+    },
+    "postType": {
+      "type": "string"
+    },
+    "sortBy": {
+      "type": "string"
+    },
+    "search": {
+      "type": "boolean"
+    },
+    "columns": {
+      "type": "number"
+    },
+    "perPage": {
+      "type": "number"
+    },
+    "masonryGrid": {
+      "type": "boolean"
+    }
+  },
   "textdomain": "dynamic-archive",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
