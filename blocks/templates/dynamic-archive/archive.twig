@@ -2,7 +2,7 @@
 	  hx-get="{{ current_path }}" hx-target="#dynamic-archive-{{ attributes.instanceId }}"
 	  hx-select="#dynamic-archive-{{ attributes.instanceId }}"
 	  hx-push-url="true"
-	  class="wp-block-jcore-dynamic-archive"
+	  {{ block_wrapper_attributes }}
 	  hx-ext="alpine-morph" hx-swap="morph" x-data="{
 	  	handleLoadMore() {
 	  		const nextPage = this.$refs.nextPage.value;

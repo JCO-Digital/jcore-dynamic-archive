@@ -9,7 +9,8 @@
   "description": "A dynamic archive block.",
   "example": {},
   "supports": {
-    "html": false
+    "html": false,
+    "align": true
   },
   "attributes": {
     "instanceId": {
