@@ -1,3 +1,12 @@
+## [0.6.6](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.5...v0.6.6) (2024-09-30)
+
+
+### Bug Fixes
+
+* use block attributes + add support for alignment ([ff1a723](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ff1a723abc24ea70d3586f9f92f70026c92fbe44))
+
+
+
 ## [0.6.5](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.4...v0.6.5) (2024-09-25)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * lock ydin to 3.7.2 ⬆️ ([9f97402](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/9f97402653415e6e6fdc4bc77676a7816065f14f))
-
-
-
-## [0.6.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.0...v0.6.1) (2024-09-25)
-
-
-### Bug Fixes
-
-* masonry grid class name fixed 🐛 ([03c70dc](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/03c70dc7aa9cb6e42b773360f41f7e8518cd2266))
 
 
 
