@@ -62,6 +62,10 @@
     "taxonomies": {
       "type": "array",
       "default": []
+    },
+    "filterTypes": {
+      "type": "object",
+      "default": {}
     }
   },
   "textdomain": "dynamic-archive",

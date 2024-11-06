@@ -25,6 +25,7 @@ import {
  * Styles
  */
 import "./editor.css";
+import ToggleWrapper from "../shared/ToggleWrapper";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -84,7 +85,6 @@ export default function Edit({ attributes, setAttributes }) {
 			return;
 		}
 		if (_site?.posts_per_page) {
-			console.log(_site);
 			setPerPage(_site.posts_per_page);
 		}
 	}, [_site]);
@@ -132,6 +132,14 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 	}, [_taxonomies, postType]);
 
+	const filterTypesOptions = [
+		{ label: __("Checkbox", "jcore-dynamic-archive"), value: "checkbox" },
+		{ label: __("Radio", "jcore-dynamic-archive"), value: "radio" },
+		{ label: __("Dropdown", "jcore-dynamic-archive"), value: "dropdown" },
+	];
+
+	const { filterTypes } = attributes;
+
 	return (
 		<>
 			<InspectorControls>
@@ -142,32 +150,18 @@ export default function Edit({ attributes, setAttributes }) {
 						options={postTypes}
 						onChange={(value) => setAttributes({ postType: value })}
 					/>
-					{taxonomyOptions.length > 0 && <p>Taxonomies</p>}
-					{taxonomyOptions.map((taxonomy) => (
-						<CheckboxControl
-							label={__(taxonomy.label, "jcore-dynamic-archive")}
-							checked={taxonomies.includes(taxonomy.value)}
-							onChange={(_checked) =>
-								setAttributes({
-									taxonomies: taxonomies.includes(taxonomy.value)
-										? taxonomies.filter((t) => t !== taxonomy.value)
-										: [...taxonomies, taxonomy.value],
-								})
-							}
-						/>
-					))}
-					<ToggleControl
+					<ToggleWrapper
 						label={__("Show pagination", "jcore-dynamic-archive")}
 						checked={showPagination}
-						onChange={(checked) => setAttributes({ showPagination: checked })}
-					/>
-					{showPagination && (
+						setAttributes={setAttributes}
+						attributeName="showPagination"
+					>
 						<ToggleControl
 							label={__("Infinite scroll", "jcore-dynamic-archive")}
 							checked={infiniteScroll}
 							onChange={(checked) => setAttributes({ infiniteScroll: checked })}
 						/>
-					)}
+					</ToggleWrapper>
 					<SelectControl
 						label={__("Order", "jcore-dynamic-archive")}
 						value={order}
@@ -212,6 +206,39 @@ export default function Edit({ attributes, setAttributes }) {
 						min={1}
 						max={100}
 					/>
+				</PanelBody>
+				<PanelBody title={__("Filters", "jcore-dynamic-archive")}>
+					{taxonomyOptions.length > 0 && <p>Filters to show</p>}
+					{taxonomyOptions.map((taxonomy) => (
+						<>
+							<CheckboxControl
+								label={__(taxonomy.label, "jcore-dynamic-archive")}
+								checked={taxonomies.includes(taxonomy.value)}
+								onChange={(_checked) =>
+									setAttributes({
+										taxonomies: taxonomies.includes(taxonomy.value)
+											? taxonomies.filter((t) => t !== taxonomy.value)
+											: [...taxonomies, taxonomy.value],
+									})
+								}
+							/>
+							{taxonomies.includes(taxonomy.value) && (
+								<SelectControl
+									label={__("Filter type", "jcore-dynamic-archive")}
+									value={filterTypes[taxonomy.value]}
+									options={filterTypesOptions}
+									onChange={(value) =>
+										setAttributes({
+											filterTypes: {
+												...filterTypes,
+												[taxonomy.value]: value,
+											},
+										})
+									}
+								/>
+							)}
+						</>
+					))}
 				</PanelBody>
 			</InspectorControls>
 			<div {...useBlockProps()}>
