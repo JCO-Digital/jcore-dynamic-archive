@@ -26,6 +26,7 @@ import {
  */
 import "./editor.css";
 import ToggleWrapper from "../shared/ToggleWrapper";
+import usePostTypes from "../shared/usePostTypes";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -48,29 +49,7 @@ export default function Edit({ attributes, setAttributes }) {
 	setAttributes({ instanceId: instanceId.toString() });
 
 	// BEGIN: Post Types
-	const { _postTypes } = useSelect(
-		(select) => ({ _postTypes: select("core").getPostTypes({ per_page: -1 }) }),
-		[],
-	);
-	const [postTypes, setPostTypes] = useState([]);
-
-	const forbiddenPostTypes = ["attachment"];
-
-	useEffect(() => {
-		if (_postTypes) {
-			setPostTypes(
-				_postTypes
-					.filter(
-						(postType) =>
-							postType.viewable && !forbiddenPostTypes.includes(postType.slug),
-					)
-					.map((postType) => ({
-						label: postType.name,
-						value: postType.slug,
-					})),
-			);
-		}
-	}, [_postTypes]);
+	const postTypes = usePostTypes();
 	// END: Post Types
 
 	// BEGIN: Per Page
@@ -147,7 +126,10 @@ export default function Edit({ attributes, setAttributes }) {
 					<SelectControl
 						label={__("Post Type", "jcore-dynamic-archive")}
 						value={postType}
-						options={postTypes}
+						options={postTypes.map((postType) => ({
+							label: postType.name,
+							value: postType.slug,
+						}))}
 						onChange={(value) => setAttributes({ postType: value })}
 					/>
 					<ToggleWrapper
