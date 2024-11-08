@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Dynamic Archive",
 	"category": "widgets",
-	"icon": "smiley",
+	"icon": "grid-view",
 	"description": "A dynamic archive block.",
 	"example": {},
 	"supports": {
@@ -24,6 +24,11 @@
 		"search": {
 			"type": "boolean",
 			"default": false
+		},
+		"sticky": {
+			"type": "string",
+			"default": "include",
+			"enum": [ "include", "exclude", "only" ]
 		},
 		"columns": {
 			"type": "number",
@@ -57,6 +62,14 @@
 			"default": []
 		},
 		"filterTypes": {
+			"type": "object",
+			"default": {}
+		},
+		"forcedCategories": {
+			"type": "object",
+			"default": {}
+		},
+		"hierarchicalFilter": {
 			"type": "object",
 			"default": {}
 		}
