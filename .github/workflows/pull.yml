@@ -1,4 +1,4 @@
-name: Validate Pull Request
+name: Validate & Build Blocks
 
 on: [pull_request]
 
@@ -6,33 +6,33 @@ jobs:
   validate:
     uses: jco-digital/jcore-module-actions/.github/workflows/pull.yml@v1.0.0
 
-  build:
-    needs: validate
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Cache node modules
-        uses: actions/cache@v3
-        with:
-          path: ./blocks/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Build project
-        run: make
-
-      - name: Commit built blocks
-        uses: EndBug/add-and-commit@v9
-        with:
-          add: 'blocks/build'
-          message: 'chore(blocks): build blocks for release'
-          default_author: github_actions
-      
+#  build:
+#    needs: validate
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          ref: ${{ github.event.pull_request.head.ref }}
+#
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: 20
+#
+#      - name: Cache node modules
+#        uses: actions/cache@v3
+#        with:
+#          path: ./blocks/node_modules
+#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-node-
+#
+#      - name: Build project
+#        run: make
+#
+#      - name: Commit built blocks
+#        uses: EndBug/add-and-commit@v9
+#        with:
+#          add: 'blocks/build'
+#          message: 'chore(blocks): build blocks for release'
+#          default_author: github_actions
+#
