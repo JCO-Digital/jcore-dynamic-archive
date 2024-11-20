@@ -29,11 +29,11 @@ import {
  * Styles
  */
 import "./editor.css";
-import ToggleWrapper from "../shared/components/ToggleWrapper";
-import usePostTypes from "../shared/usePostTypes";
-import useSiteSetting from "../shared/useSiteSetting";
-import useTaxonomies from "../shared/useTaxonomies";
-import TaxonomyPicker from "../shared/components/TaxonomyPicker";
+import ToggleWrapper from "@/shared/components/ToggleWrapper";
+import usePostTypes from "@/shared/usePostTypes";
+import useSiteSetting from "@/shared/useSiteSetting";
+import useTaxonomies from "@/shared/useTaxonomies";
+import TaxonomyPicker from "@/shared/components/TaxonomyPicker";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -104,6 +104,7 @@ export default function Edit({ attributes, setAttributes }) {
 			const filteredTaxonomies = _taxonomies.map((taxonomy) => ({
 				label: taxonomy.name,
 				value: taxonomy.slug,
+				id: taxonomy.id,
 			}));
 			setTaxonomyOptions(filteredTaxonomies ?? []);
 			const newStoredTaxonomies = taxonomies.filter((taxonomy) =>
@@ -228,7 +229,7 @@ export default function Edit({ attributes, setAttributes }) {
 								<p>No filters available for selected post type</p>
 							)}
 							{taxonomyOptions.map((taxonomy) => (
-								<div className={"jcore-taxonomy-item"}>
+								<div key={taxonomy.id} className={"jcore-taxonomy-item"}>
 									<CheckboxControl
 										label={__(taxonomy.label, "jcore-dynamic-archive")}
 										checked={taxonomies.includes(taxonomy.value)}

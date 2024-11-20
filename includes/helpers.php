@@ -211,10 +211,11 @@ function build_taxonomies_filter( array $attributes ): array {
 		);
 		foreach ( $terms as $term ) {
 			$taxonomies[ $term->taxonomy ][] = array(
-				'id'      => $term->term_id,
-				'type'    => $term->taxonomy,
-				'name'    => $term->name,
-				'checked' => in_array( $term->term_id, $active_filters, true ),
+				'id'         => $term->term_id,
+				'type'       => $term->taxonomy,
+				'name'       => $term->name,
+				'filterType' => get_nested_value( $attributes, array( 'filterType', $term->taxonomy ), 'checkbox' ),
+				'active'     => in_array( $term->term_id, $active_filters, true ),
 			);
 		}
 	}

@@ -10,7 +10,8 @@
 	"example": {},
 	"supports": {
 		"html": false,
-		"align": true
+		"align": true,
+		"interactivity": true
 	},
 	"attributes": {
 		"instanceId": {
@@ -28,7 +29,11 @@
 		"sticky": {
 			"type": "string",
 			"default": "include",
-			"enum": [ "include", "exclude", "only" ]
+			"enum": [
+				"include",
+				"exclude",
+				"only"
+			]
 		},
 		"columns": {
 			"type": "number",
@@ -55,7 +60,14 @@
 		"orderBy": {
 			"type": "string",
 			"default": "date",
-			"enum": ["date", "title", "modified", "author", "ID", "menu_order"]
+			"enum": [
+				"date",
+				"title",
+				"modified",
+				"author",
+				"ID",
+				"menu_order"
+			]
 		},
 		"taxonomies": {
 			"type": "array",
@@ -79,10 +91,5 @@
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"render": "file:./render.php",
-	"viewScript": [
-		"dynamic-archive-htmx",
-		"dynamic-archive-htmx-alpine-morph-plugin",
-		"dynamic-archive-alpine",
-		"file:./view.js"
-	]
+	"viewScriptModule": "file:./view.js"
 }

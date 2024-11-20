@@ -1,0 +1,12 @@
+<button
+	data-wp-on--click="actions.toggleFilter"
+	{% if taxonomy.active %}
+		data-active
+	{% endif %}
+	data-taxonomy="{{ taxonomy.type }}"
+	data-filter-type="{{ taxonomy.filterType }}"
+	data-term="{{ taxonomy.id }}"
+	class="wp-block-jcore-dynamic-archive-filters__checkbox"
+>
+	{{ taxonomy.name }}
+</button>

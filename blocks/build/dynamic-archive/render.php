@@ -61,4 +61,23 @@ if ( ! is_null( $timber_posts ) && ( $attributes['showPagination'] ?? false ) &&
 }
 $context['posts'] = $final_posts ?? $timber_posts;
 
-Timber::render( 'dynamic-archive/archive.twig', $context );
+$taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
+
+$interactivity_context = array(
+	'currentPage' => $current_page ?? 1,
+	'filters'     => array(
+		$taxonomy_key => get_parameter( $taxonomy_key ),
+	),
+	'blockId'     => $attributes['instanceId'],
+);
+
+wp_interactivity_state(
+	'jcore/dynamic-archive',
+	array()
+);
+
+$context['interactivity_context_attribute'] = wp_interactivity_data_wp_context( $interactivity_context, 'jcore/dynamic-archive' );
+
+$rendered = Timber::compile( 'dynamic-archive/archive.twig', $context );
+
+echo wp_interactivity_process_directives( $rendered ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
