@@ -7,7 +7,6 @@ import {
 } from "@wordpress/interactivity";
 import qs from "qs";
 import cloneDeep from "lodash/cloneDeep";
-import { content } from "../../../../../../.jcore/wordpress/wp-includes/js/codemirror/csslint";
 
 /** @typedef {string} TaxonomyName */
 /** @typedef {string} FilterName */
