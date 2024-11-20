@@ -3,6 +3,9 @@
 	{{ interactivity_context_attribute }}
 	 data-wp-interactive="jcore/dynamic-archive"
 	 data-wp-router-region="dynamic-archive-{{ attributes.instanceId }}"
+	 data-wp-class--is-loading="context.isLoading"
+	 data-wp-class--is-prefetching="context.isPrefetching"
+	 data-wp-watch="callbacks.updateServerContext"
 >
 	<div class="wp-block-jcore-dynamic-archive__filters">
 		{% include ['dynamic-archive/partials/filters.twig', 'partials/filters.twig'] ignore missing %}
@@ -13,6 +16,11 @@
 			{% for post in posts %}
 				{% include ['dynamic-archive/partials/tease.twig', 'partials/tease.twig'] with { post: post, nr: loop.index } %}
 			{% endfor %}
+			{% if posts|length == 0 %}
+				<div class="wp-block-jcore-dynamic-archive-posts__empty">
+					{{ __( 'No posts found', 'dynamic-archive' ) }}
+				</div>
+			{% endif %}
 		</div>
 	</div>
 	<div class="wp-block-jcore-dynamic-archive-posts__pagination">

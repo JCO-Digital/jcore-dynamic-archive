@@ -266,14 +266,14 @@ export default function Edit({ attributes, setAttributes }) {
 												label={__("Filter type", "jcore-dynamic-archive")}
 												value={filterTypes[taxonomy.value]}
 												options={filterTypesOptions}
-												onChange={(value) =>
+												onChange={(value) => {
 													setAttributes({
 														filterTypes: {
 															...filterTypes,
 															[taxonomy.value]: value,
 														},
-													})
-												}
+													});
+												}}
 											/>
 
 											<TaxonomyPicker
@@ -300,6 +300,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<ServerSideRender
 					block="jcore/dynamic-archive"
 					attributes={attributes}
+					httpMethod={"POST"}
 				/>
 			</div>
 		</>

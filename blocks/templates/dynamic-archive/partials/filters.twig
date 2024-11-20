@@ -1,10 +1,39 @@
 {% if taxonomies_filter|length > 0 %}
 	<div class="wp-block-jcore-dynamic-archive__filters__taxonomies">
-		{% for term_type in taxonomies_filter|keys %}
-			<div class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ term_type }}">
-				{% for taxonomy in taxonomies_filter[term_type] %}
-					{% include ['dynamic-archive/partials/filters/filter-' ~ taxonomy.filterType ~ '.twig', 'partials/filters/filter-' ~ taxonomy.filterType ~ '.twig'] ignore missing with { taxonomy: taxonomy }  %}
+		{% for taxonomy in taxonomies_filter %}
+			<div
+				class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}">
+				{% if taxonomy.label %}
+					<h3
+						class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__label"
+						id="taxonomy-{{ instanceId }}-{{ taxonomy.name }}-label"
+					>
+						{{ taxonomy.label }}
+					</h3>
+				{% endif %}
+				{% if taxonomy.filterType == 'dropdown' %}
+					<select
+						aria-labelledby="taxonomy-{{ instanceId }}-{{ taxonomy.name }}-label"
+						class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__dropdown"
+						data-wp-on-async--change="actions.filterChange"
+						data-taxonomy="{{ taxonomy.name }}"
+						data-filter-type="{{ taxonomy.filterType }}"
+					>
+						<option
+							value=""
+							data-term=""
+							data-taxonomy="{{ taxonomy.name }}"
+							{% if taxonomy.terms|filter(term => term.active)|length == 0 %}
+								selected="selected"
+							{% endif %}
+						>{{ __( 'Select', 'dynamic-archive' ) }}</option>
+				{% endif %}
+				{% for term in taxonomy.terms %}
+					{% include ['dynamic-archive/partials/filters/filter-' ~ term.filterType ~ '.twig', 'partials/filters/filter-' ~ term.filterType ~ '.twig'] ignore missing with { term: term } %}
 				{% endfor %}
+				{% if taxonomy.filterType == 'dropdown' %}
+					</select>
+				{% endif %}
 			</div>
 		{% endfor %}
 	</div>

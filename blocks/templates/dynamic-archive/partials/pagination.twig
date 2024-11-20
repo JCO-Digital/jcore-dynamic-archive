@@ -1,3 +1,66 @@
-<div class="wp-block-jcore-dynamic-archive__pagination">
-	Pagination
-</div>
+{% if total_pages > 1 %}
+	<nav
+		aria-label="{{ __( 'Pagination', 'dynamic-archive' ) }}"
+		class="wp-block-jcore-dynamic-archive__pagination{{ total_pages == 1 ? ' is-single-page' : '' }}{{ current_page == 1 ? ' is-first-page' : '' }}{{ current_page > 1 ? ' has-previous-page' : '' }}{{ current_page < total_pages ? ' has-next-page' : '' }}{{ current_page == total_pages ? ' is-last-page' : '' }}"
+	>
+		<a
+			href="{{ first_page_link }}"
+			class="wp-block-jcore-dynamic-archive__pagination__link-first"
+			data-wp-on--click="actions.pageChange"
+			data-wp-on-async--mouseover="actions.prefetchPage"
+		>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__icon"></span>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__text">
+			{{ __( 'First page', 'dynamic-archive' ) }}
+		</span>
+		</a>
+		<a
+			href="{{ previous_page_link }}"
+			class="wp-block-jcore-dynamic-archive__pagination__link-previous"
+			data-wp-on--click="actions.pageChange"
+			data-wp-on-async--mouseover="actions.prefetchPage"
+		>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__icon"></span>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__text">
+			{{ __( 'Previous page', 'dynamic-archive' ) }}
+		</span>
+		</a>
+		{% for page in pagination %}
+			<a
+				href="{{ page.href }}"
+				data-wp-on--click="actions.pageChange"
+				data-wp-on-async--mouseover="actions.prefetchPage"
+				data-page="{{ page.number }}"
+				class="wp-block-jcore-dynamic-archive__pagination__link {{ page.current ? 'is-current' : '' }}"
+				{% if page.current %}
+					data-current
+					aria-current="page"
+				{% endif %}
+			>
+				{{ page.title }}
+			</a>
+		{% endfor %}
+		<a
+			href="{{ next_page_link }}"
+			class="wp-block-jcore-dynamic-archive__pagination__link-next"
+			data-wp-on--click="actions.pageChange"
+			data-wp-on-async--mouseover="actions.prefetchPage"
+		>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__icon"></span>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__text">
+			{{ __( 'Next page', 'dynamic-archive' ) }}
+		</span>
+		</a>
+		<a
+			href="{{ last_page_link }}"
+			class="wp-block-jcore-dynamic-archive__pagination__link-last"
+			data-wp-on--click="actions.pageChange"
+			data-wp-on-async--mouseover="actions.prefetchPage"
+		>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__icon"></span>
+			<span class="wp-block-jcore-dynamic-archive__pagination__link__text">
+			{{ __( 'Last page', 'dynamic-archive' ) }}
+		</span>
+		</a>
+	</nav>
+{% endif %}

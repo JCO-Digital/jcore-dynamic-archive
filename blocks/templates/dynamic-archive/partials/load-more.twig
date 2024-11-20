@@ -1,9 +1,11 @@
-<input type="hidden" name="{{ build_param_name( 'paged', attributes.instanceId ?? '' ) }}" value="{{ current_page }}"
-	   x-ref="nextPage"/>
 {% if has_more %}
-	<button type="button"
-			@click="handleLoadMore">
-		<div class="wp-block-jcore-dynamic-archive__pagination__load-more__spinner htmx-indicator"></div>
+	<a
+		href="{{ next_page_link }}"
+		class="wp-block-jcore-dynamic-archive-posts__load_more"
+		data-wp-on--click="actions.pageChange"
+		data-wp-on-async--mouseover="actions.prefetchPage"
+	>
+		<span class="wp-block-jcore-dynamic-archive-posts__load_more-spinner"></span>
 		{{ __( 'Load more', 'dynamic-archive' ) }}
-	</button>
+	</a>
 {% endif %}

@@ -18,6 +18,13 @@ function extendScriptConfig(config) {
 	};
 }
 
+function extendModuleConfig(config) {
+	return {
+		...config,
+		target: ["web"],
+	};
+}
+
 module.exports = (() => {
 	if (Array.isArray(wordpressConfig)) {
 		const [scriptConfig, moduleConfig] = wordpressConfig;
@@ -25,7 +32,9 @@ module.exports = (() => {
 		const extendedScriptConfig = extendSharedConfig(
 			extendScriptConfig(scriptConfig),
 		);
-		const extendedModuleConfig = extendSharedConfig(moduleConfig);
+		const extendedModuleConfig = extendSharedConfig(
+			extendModuleConfig(moduleConfig),
+		);
 
 		return [extendedScriptConfig, extendedModuleConfig];
 	} else {

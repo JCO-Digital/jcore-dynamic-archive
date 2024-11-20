@@ -13,12 +13,12 @@ composer-install:
 
 blocks-install:
 	corepack enable
-	cd blocks && pnpm install
+	cd blocks && npm install
 
 blocks-build:
 	corepack enable
-	cd blocks && pnpm build
+	cd blocks && npm run build
 
 blocks-watch:
 	corepack enable
-	cd blocks && pnpm start
+	cd blocks && npm run start

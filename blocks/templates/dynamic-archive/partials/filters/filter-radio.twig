@@ -1,12 +1,12 @@
 <label
-	class="wp-block-jcore-dynamic-archive-filters__checkbox"
+	class="wp-block-jcore-dynamic-archive-filters__radio"
 	for="taxonomy-{{ instanceId }}-{{ term.type }}-{{ term.id }}"
 	data-wp-on-async--mouseover="actions.prefetchFilter"
 >
 	{{ term.name }}
 </label>
 <input
-	type="checkbox"
+	type="radio"
 	id="taxonomy-{{ instanceId }}-{{ term.type }}-{{ term.id }}"
 	name="{{ term.type }}"
 	value="{{ term.id }}"
@@ -20,5 +20,5 @@
 	{% if term.active %}
 		checked="checked"
 	{% endif %}
-	class="wp-block-jcore-dynamic-archive-filters__checkbox__input"
+	class="wp-block-jcore-dynamic-archive-filters__radio__input"
 />

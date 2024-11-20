@@ -9,6 +9,7 @@
 
 use Timber\FunctionWrapper;
 use Timber\URLHelper;
+use function Jcore\DynamicArchive\Helpers\build_pagination_url;
 use function Jcore\DynamicArchive\Helpers\build_param_name;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
 use function Jcore\DynamicArchive\Helpers\get_parameter;
@@ -40,21 +41,54 @@ $args           = array(
 	'posts_per_page' => $block_per_page,
 );
 
+if ( isset( $attributes['sticky'] ) ) {
+	$args_to_add = match( $attributes['sticky'] ) {
+		'exclude' => array(
+			'post__not_in' => get_option( 'sticky_posts' ),
+		),
+		'only' => array(
+			'post__in' => get_option( 'sticky_posts' ),
+			'ignore_sticky_posts' => true, // This might seem redundant, but all it does is improve performance. See https://wordpress.stackexchange.com/questions/260941/why-ignore-sticky-posts-argument-is-in-sticky-post-query#:~:text=Explanation%20of%20the%20codex%20example%3A
+		),
+		default => array(),
+	};
+	$args = array_merge( $args, $args_to_add );
+}
+
 $args = handle_dynamic_args( $args, $attributes );
 $args = apply_filters( 'jcore_dynamic_archive_args', $args, $attributes );
 
-// If pagination is enabled and not "load more", we need to subtract 1 from the posts per page, as we do not need to check for more posts.
-if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
-	$args['posts_per_page'] -= 1;
-}
 $timber_posts = Timber::get_posts(
 	$args
 );
 
 $current_page            = get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 );
-$has_more                = count( $timber_posts ) > ( $block_per_page * absint( $current_page ) );
-$context['has_more']     = $has_more;
 $context['current_page'] = $current_page;
+
+$total_pages = ceil( $timber_posts->found_posts / $block_per_page );
+// If pagination is enabled and not "load more", we need to subtract 1 from the posts per page, as we do not need to check for more posts.
+if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
+	$pagination = array();
+	for ( $i = 1; $i <= $total_pages; $i++ ) {
+		$pagination[] = array(
+			'number' => $i,
+			'title' => $i,
+			'current' => $i === absint($current_page),
+			'href' => build_pagination_url( $attributes, $i ),
+		);
+	}
+	$context['pagination'] = $pagination;
+	$context["first_page_link"] = build_pagination_url( $attributes, 1 );
+	$context["last_page_link"] = build_pagination_url( $attributes, $total_pages );
+	$context["previous_page_link"] = build_pagination_url( $attributes, ($current_page > 1) ? $current_page - 1 : 1 );
+	$context["next_page_link"] = build_pagination_url( $attributes, ($current_page < $total_pages) ? $current_page + 1 : $total_pages );
+	$context["total_pages"] = $total_pages;
+}
+if ( ($attributes['showPagination'] ?? false) && ($attributes['infiniteScroll'] ?? false) ) {
+	$context['has_more']     = $current_page < $total_pages;
+	$context['next_page_link'] = build_pagination_url( $attributes, ($current_page < $total_pages) ? $current_page + 1 : $total_pages );
+}
+
 // If pagination is enabled and "load more", we need to slice the posts array to remove the last post, as we do not need to check for more posts.
 if ( ! is_null( $timber_posts ) && ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) && $has_more ) {
 	$final_posts = array_slice( $timber_posts->to_array(), 0, - 1 );
@@ -65,8 +99,9 @@ $taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
 
 $interactivity_context = array(
 	'currentPage' => $current_page ?? 1,
+	'isInfiniteScroll' => $attributes['infiniteScroll'] ?? false,
 	'filters'     => array(
-		$taxonomy_key => get_parameter( $taxonomy_key ),
+		$taxonomy_key => get_parameter( $taxonomy_key, array() ),
 	),
 	'blockId'     => $attributes['instanceId'],
 );

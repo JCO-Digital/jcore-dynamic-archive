@@ -2,6 +2,8 @@
 
 namespace Jcore\DynamicArchive\Helpers;
 
+use Timber\URLHelper;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -33,7 +35,7 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 		$args['paged'] = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
 	} elseif ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
 		$paged                  = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
-		$args['posts_per_page'] = $args['posts_per_page'] * $paged + 1;
+		$args['posts_per_page'] *= $paged;
 	}
 	$order = get_parameter( build_param_name( 'order', $instance_id ), $attributes['order'] ?? 'desc' );
 	$order = match ( strtolower( $order ) ) {
@@ -209,16 +211,35 @@ function build_taxonomies_filter( array $attributes ): array {
 				'hide_empty' => true,
 			)
 		);
+        $taxonomies[ $taxonomy ] = array(
+            'name' => $taxonomy,
+            'label' => apply_filters( 'jcore_dynamic_archive_taxonomy_label', $taxonomy, $attributes ),
+            'filterType' => get_nested_value( $attributes, array( 'filterTypes', $taxonomy ), 'checkbox' ),
+            'terms' => array(),
+        );
 		foreach ( $terms as $term ) {
-			$taxonomies[ $term->taxonomy ][] = array(
+			$taxonomies[ $taxonomy ]['terms'][] = array(
 				'id'         => $term->term_id,
 				'type'       => $term->taxonomy,
 				'name'       => $term->name,
-				'filterType' => get_nested_value( $attributes, array( 'filterType', $term->taxonomy ), 'checkbox' ),
+				'filterType' => get_nested_value( $attributes, array( 'filterTypes', $term->taxonomy ), 'checkbox' ),
 				'active'     => in_array( $term->term_id, $active_filters, true ),
 			);
 		}
 	}
-
 	return apply_filters( 'jcore_dynamic_archive_taxonomies_filter', $taxonomies, $attributes );
+}
+
+/**
+ * Handles building pagination url.
+ *
+ * @param array $attributes The attributes of the dynamic archive block.
+ * @param int $page The page number.
+ * @return string
+ */
+function build_pagination_url(array $attributes, int $page ): string {
+    $url = URLHelper::get_current_url();
+    $param_name = build_param_name( 'paged', $attributes['instanceId'] ?? '' );
+    $url = remove_query_arg( $param_name, $url );
+    return add_query_arg( $param_name, absint($page), $url );
 }
