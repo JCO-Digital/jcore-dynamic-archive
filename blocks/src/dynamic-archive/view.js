@@ -103,24 +103,20 @@ const buildFilterUrl = ({
 		default:
 			break;
 	}
+
+	const url = new URL(window.location.href);
+	const parsedUrl = qs.parse(url.search.replaceAll("?", ""));
+	let urlState = {
+		...parsedUrl,
+		...filterState,
+	};
 	const parsedPage = parseInt(currentPage);
 	if (isInfiniteScroll && !isNaN(parsedPage) && parsedPage > 1) {
-		filterState[buildParamName(blockId, "paged")] = currentPage;
+		urlState[buildParamName(blockId, "paged")] = currentPage;
+	} else {
+		delete urlState[buildParamName(blockId, "paged")];
 	}
-	return buildUrl(blockId, filterState);
-};
-
-/**
- * Builds a filter for the dynamic archive block.
- *
- * @param {string|Number} instanceId
- * @param {Record<string, any>} state
- *
- * @returns {string}
- */
-const buildUrl = (instanceId, state) => {
-	const url = new URL(window.location.href);
-	url.search = qs.stringify(state, {
+	url.search = qs.stringify(urlState, {
 		encode: false,
 	});
 	return url.toString();
