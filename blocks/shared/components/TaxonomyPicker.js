@@ -12,7 +12,8 @@ import useTaxonomy from "../useTaxonomy";
 
 export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 	const [taxonomyList, setTaxonomyList] = useState([]);
-	const [currentPage, setCurrentPage] = useState(1);
+	const [visibleTaxonomyList, setVisibleTaxonomyList] = useState({});
+	const [currentPage, setCurrentPage] = useState(1); // For future if need arises.
 
 	const { taxonomy, loading: loadingTaxonomy } = useTaxonomy(taxonomySlug);
 	const { taxonomyRecords, loading: loadingRecords } = useTaxonomyRecords(
@@ -25,8 +26,17 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 
 	useEffect(() => {
 		if (taxonomyRecords) {
-			const mappedRecords = taxonomyRecords.map((record) => record.slug);
+			const mappedRecords = taxonomyRecords.map((record) => record.id);
+			const mappedVisibleRecord = {};
+			console.log(taxonomyRecords);
+			taxonomyRecords.forEach((term) => {
+				mappedVisibleRecord[term.id] = {
+					slug: term.slug,
+					name: term.name,
+				};
+			});
 			setTaxonomyList(mappedRecords);
+			setVisibleTaxonomyList(mappedVisibleRecord);
 		}
 	}, [taxonomyRecords]);
 
@@ -37,6 +47,15 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 					__experimentalExpandOnFocus
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom
+					displayTransform={(token) => {
+						if (visibleTaxonomyList[token]) {
+							return visibleTaxonomyList[token].name;
+						}
+						return token;
+					}}
+					saveTransform={(token) => {
+						return token + "";
+					}}
 					suggestions={taxonomyList}
 					value={value}
 					onChange={onChange}

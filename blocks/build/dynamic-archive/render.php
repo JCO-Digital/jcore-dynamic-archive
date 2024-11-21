@@ -12,6 +12,7 @@ use Timber\URLHelper;
 use function Jcore\DynamicArchive\Helpers\build_pagination_url;
 use function Jcore\DynamicArchive\Helpers\build_param_name;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
+use function Jcore\DynamicArchive\Helpers\get_nested_value;
 use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
 use function Jcore\DynamicArchive\Helpers\is_post_type;

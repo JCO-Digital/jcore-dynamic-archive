@@ -86,6 +86,25 @@ function handle_taxonomies_filter( array $args, array $attributes ): array {
 		}
 		$args['tax_query'][] = $tax_query;
 	}
+	if ( empty( $args['tax_query'] ) ) {
+		$forced_terms = get_nested_value( $attributes, array( 'forcedCategories' ), array() );
+		if ( ! is_array( $forced_terms ) ) {
+			$forced_terms = array();
+		}
+		if ( ! empty( $forced_terms ) ) {
+			foreach ( $forced_terms as $taxonomy => $term ) {
+				$term                = array_map( 'absint', $term );
+				$args['tax_query'][] = array(
+					'taxonomy'         => $taxonomy,
+					'field'            => 'id',
+					'terms'            => $term,
+					'operator'         => 'IN',
+					'include_children' => true,
+				);
+			}
+			$args['tax_query']['relation'] = 'OR';
+		}
+	}
 	/**
 	 * Filters the tax query for the dynamic archive block. (Includes the active filters)
 	 *
@@ -221,7 +240,13 @@ function build_taxonomies_filter( array $attributes ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
 	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id ), array() );
 	foreach ( $attributes['taxonomies'] ?? array() as $taxonomy ) {
-		$tax_object = get_taxonomy( $taxonomy );
+		$tax_object   = get_taxonomy( $taxonomy );
+		$forced_terms = get_nested_value( $attributes, array( 'forcedCategories', $taxonomy ), array() );
+		if ( ! is_array( $forced_terms ) ) {
+			$forced_terms = array();
+		}
+		$forced_terms = array_map( 'absint', $forced_terms );
+		$has_forced   = count( $forced_terms ) > 0;
 		if ( ! $tax_object ) {
 			continue;
 		}
@@ -242,6 +267,7 @@ function build_taxonomies_filter( array $attributes ): array {
 			'filterType'      => get_nested_value( $attributes, array( 'filterTypes', $taxonomy ), 'checkbox' ),
 			'filterTypeChild' => get_nested_value( $attributes, array( 'filterTypesChild', $taxonomy ), 'checkbox' ),
 			'hierarchical'    => $tax_object->hierarchical ? get_nested_value( $attributes, array( 'hierarchicalFilter', $taxonomy ), false ) : false,
+			'forcedTerms'     => $forced_terms,
 			'terms'           => array(),
 		);
 		foreach ( $terms as $term ) {
@@ -249,9 +275,14 @@ function build_taxonomies_filter( array $attributes ): array {
 			if ( ( $taxonomies[ $taxonomy ]['hierarchical'] ?? false ) && $term->parent > 0 ) {
 				$filter_type = $taxonomies[ $taxonomy ]['filterTypeChild'] ?? 'checkbox';
 			}
+			// Handles only showing forced categories.
+			if ( $has_forced && ! in_array( $term->term_id, $forced_terms, true ) ) {
+				continue;
+			}
 			$taxonomies[ $taxonomy ]['terms'][] = array(
 				'id'           => $term->term_id,
 				'type'         => $term->taxonomy,
+				'slug'         => $term->slug,
 				'name'         => $term->name,
 				'isChild'      => $term->parent > 0,
 				'parent'       => $term->parent,
