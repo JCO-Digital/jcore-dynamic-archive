@@ -7,6 +7,8 @@ import {
 } from "@wordpress/interactivity";
 import qs from "qs";
 import cloneDeep from "lodash/cloneDeep";
+import _debug from "debug";
+const debug = _debug("dynamic-archive:frontend");
 
 /** @typedef {string} TaxonomyName */
 /** @typedef {string} FilterName */
@@ -274,6 +276,15 @@ const { state } = store("jcore/dynamic-archive", {
 			}
 			const context = getContext();
 			const { filters, blockId, isInfiniteScroll, currentPage } = context;
+			debug({
+				blockId,
+				type,
+				filters,
+				taxonomyName,
+				value,
+				isInfiniteScroll,
+				currentPage,
+			});
 			const newUrl = buildFilterUrl({
 				blockId,
 				type,
