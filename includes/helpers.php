@@ -93,7 +93,10 @@ function handle_taxonomies_filter( array $args, array $attributes ): array {
 		}
 		if ( ! empty( $forced_terms ) ) {
 			foreach ( $forced_terms as $taxonomy => $term ) {
-				$term                = array_map( 'absint', $term );
+				$term = array_map( 'absint', $term );
+				if ( empty( $term ) ) {
+					continue;
+				}
 				$args['tax_query'][] = array(
 					'taxonomy'         => $taxonomy,
 					'field'            => 'id',
