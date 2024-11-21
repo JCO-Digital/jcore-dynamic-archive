@@ -2,10 +2,12 @@
  * Hooks
  */
 import { __ } from "@wordpress/i18n";
-import { useSelect } from "@wordpress/data";
 import { useEffect, useState } from "@wordpress/element";
 import { useInstanceId } from "@wordpress/compose";
 import { useBlockProps } from "@wordpress/block-editor";
+import { settings, layout, funnel } from "@wordpress/icons";
+import _debug from "debug";
+const debug = _debug("dynamic-archive:Edit");
 
 /**
  * Components
@@ -19,12 +21,21 @@ import {
 	TextControl,
 	RangeControl,
 	CheckboxControl,
+	Flex,
+	FlexItem,
+	Spinner,
+	FlexBlock,
 } from "@wordpress/components";
 
 /**
  * Styles
  */
 import "./editor.css";
+import ToggleWrapper from "@/shared/components/ToggleWrapper";
+import usePostTypes from "@/shared/usePostTypes";
+import useSiteSetting from "@/shared/useSiteSetting";
+import useTaxonomies from "@/shared/useTaxonomies";
+import TaxonomyPicker from "@/shared/components/TaxonomyPicker";
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -42,52 +53,28 @@ export default function Edit({ attributes, setAttributes }) {
 		masonryGrid,
 		showPagination,
 		infiniteScroll,
+		sticky,
+		filterTypes,
+		filterTypesChild,
+		forcedCategories,
+		taxonomies,
+		hierarchicalFilter,
 	} = attributes;
 	const instanceId = useInstanceId(Edit);
 	setAttributes({ instanceId: instanceId.toString() });
 
 	// BEGIN: Post Types
-	const { _postTypes } = useSelect(
-		(select) => ({ _postTypes: select("core").getPostTypes({ per_page: -1 }) }),
-		[],
-	);
-	const [postTypes, setPostTypes] = useState([]);
-
-	const forbiddenPostTypes = ["attachment"];
-
-	useEffect(() => {
-		if (_postTypes) {
-			setPostTypes(
-				_postTypes
-					.filter(
-						(postType) =>
-							postType.viewable && !forbiddenPostTypes.includes(postType.slug),
-					)
-					.map((postType) => ({
-						label: postType.name,
-						value: postType.slug,
-					})),
-			);
-		}
-	}, [_postTypes]);
+	const { postTypes, loading: postTypeLoading } = usePostTypes();
 	// END: Post Types
 
 	// BEGIN: Per Page
-	const { _site } = useSelect(
-		(select) => ({ _site: select("core").getSite() }),
-		[],
-	);
-	const [_perPage, setPerPage] = useState(5);
-
+	const _sitePerPage = useSiteSetting("posts_per_page", 5);
 	useEffect(() => {
 		if (attributes.perPage) {
 			return;
 		}
-		if (_site?.posts_per_page) {
-			console.log(_site);
-			setPerPage(_site.posts_per_page);
-		}
-	}, [_site]);
+		setAttributes({ perPage: _sitePerPage });
+	}, [_sitePerPage]);
 	// END: Per Page
 
 	// BEGIN: Order
@@ -110,64 +97,68 @@ export default function Edit({ attributes, setAttributes }) {
 	// END: Order
 
 	// BEGIN: Taxonomies
-	const { taxonomies } = attributes;
 	const [taxonomyOptions, setTaxonomyOptions] = useState([]);
-	const { _taxonomies } = useSelect(
-		(select) => ({ _taxonomies: select("core").getTaxonomies() }),
-		[],
-	);
+
+	const { taxonomies: _taxonomies, loading: taxonomiesLoading } =
+		useTaxonomies(postType);
+
 	useEffect(() => {
 		if (_taxonomies) {
-			const filteredTaxonomies = _taxonomies
-				.filter((taxonomy) => taxonomy.types?.includes(postType))
-				.map((taxonomy) => ({
-					label: taxonomy.name,
-					value: taxonomy.slug,
-				}));
-			setTaxonomyOptions(filteredTaxonomies);
+			const filteredTaxonomies = _taxonomies.map((taxonomy) => ({
+				label: taxonomy.name,
+				value: taxonomy.slug,
+				id: taxonomy.slug,
+				hierarchical: taxonomy.hierarchical,
+			}));
+			setTaxonomyOptions(filteredTaxonomies ?? []);
 			const newStoredTaxonomies = taxonomies.filter((taxonomy) =>
 				filteredTaxonomies.map((t) => t.value).includes(taxonomy),
 			);
 			setAttributes({ taxonomies: newStoredTaxonomies });
+		} else {
+			setTaxonomyOptions([]);
 		}
-	}, [_taxonomies, postType]);
+	}, [_taxonomies]);
+
+	const filterTypesOptions = [
+		{ label: __("Checkbox", "jcore-dynamic-archive"), value: "checkbox" },
+		{ label: __("Radio", "jcore-dynamic-archive"), value: "radio" },
+		{ label: __("Dropdown", "jcore-dynamic-archive"), value: "dropdown" },
+	];
 
 	return (
 		<>
 			<InspectorControls>
-				<PanelBody title={__("Settings", "jcore-dynamic-archive")}>
-					<SelectControl
-						label={__("Post Type", "jcore-dynamic-archive")}
-						value={postType}
-						options={postTypes}
-						onChange={(value) => setAttributes({ postType: value })}
-					/>
-					{taxonomyOptions.length > 0 && <p>Taxonomies</p>}
-					{taxonomyOptions.map((taxonomy) => (
-						<CheckboxControl
-							label={__(taxonomy.label, "jcore-dynamic-archive")}
-							checked={taxonomies.includes(taxonomy.value)}
-							onChange={(_checked) =>
-								setAttributes({
-									taxonomies: taxonomies.includes(taxonomy.value)
-										? taxonomies.filter((t) => t !== taxonomy.value)
-										: [...taxonomies, taxonomy.value],
-								})
-							}
-						/>
-					))}
-					<ToggleControl
+				<PanelBody
+					title={__("Settings", "jcore-dynamic-archive")}
+					icon={postTypeLoading ? <Spinner size={5} /> : settings}
+				>
+					<Flex>
+						<FlexBlock>
+							<SelectControl
+								label={__("Post Type", "jcore-dynamic-archive")}
+								value={postType}
+								options={postTypes.map((postType) => ({
+									label: postType.name,
+									value: postType.slug,
+								}))}
+								onChange={(value) => setAttributes({ postType: value })}
+							/>
+						</FlexBlock>
+						<FlexItem>{postTypeLoading && <Spinner />}</FlexItem>
+					</Flex>
+					<ToggleWrapper
 						label={__("Show pagination", "jcore-dynamic-archive")}
 						checked={showPagination}
-						onChange={(checked) => setAttributes({ showPagination: checked })}
-					/>
-					{showPagination && (
+						setAttributes={setAttributes}
+						attributeName="showPagination"
+					>
 						<ToggleControl
 							label={__("Infinite scroll", "jcore-dynamic-archive")}
 							checked={infiniteScroll}
 							onChange={(checked) => setAttributes({ infiniteScroll: checked })}
 						/>
-					)}
+					</ToggleWrapper>
 					<SelectControl
 						label={__("Order", "jcore-dynamic-archive")}
 						value={order}
@@ -180,8 +171,26 @@ export default function Edit({ attributes, setAttributes }) {
 						options={orderByOptions}
 						onChange={(value) => setAttributes({ orderBy: value })}
 					/>
+					{postType === "post" && (
+						<SelectControl
+							label={__("Sticky post behavior", "jcore-dynamic-archive")}
+							options={[
+								{
+									label: __("Include", "jcore-dynamic-archive"),
+									value: "include",
+								},
+								{
+									label: __("Exclude", "jcore-dynamic-archive"),
+									value: "exclude",
+								},
+								{ label: __("Only", "jcore-dynamic-archive"), value: "only" },
+							]}
+							onChange={(value) => setAttributes({ sticky: value })}
+							value={sticky}
+						/>
+					)}
 				</PanelBody>
-				<PanelBody title={__("Layout", "jcore-dynamic-archive")}>
+				<PanelBody title={__("Layout", "jcore-dynamic-archive")} icon={layout}>
 					<ToggleControl
 						label={__("Masonry Grid", "jcore-dynamic-archive")}
 						checked={masonryGrid}
@@ -201,7 +210,7 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 					<TextControl
 						label={__("Posts per Page", "jcore-dynamic-archive")}
-						value={perPage || _perPage}
+						value={perPage || _sitePerPage}
 						onChange={(value) => {
 							if (isNaN(parseInt(value))) {
 								return;
@@ -213,11 +222,115 @@ export default function Edit({ attributes, setAttributes }) {
 						max={100}
 					/>
 				</PanelBody>
+				<PanelBody
+					title={__("Filters", "jcore-dynamic-archive")}
+					icon={taxonomiesLoading ? <Spinner size={5} /> : funnel}
+				>
+					{!taxonomiesLoading && (
+						<>
+							{taxonomyOptions.length > 0 && <p>Filters to show</p>}
+							{taxonomyOptions.length === 0 && (
+								<p>No filters available for selected post type</p>
+							)}
+							{taxonomyOptions.map((taxonomy) => (
+								<div key={taxonomy.id} className={"jcore-taxonomy-item"}>
+									<CheckboxControl
+										label={__(taxonomy.label, "jcore-dynamic-archive")}
+										checked={taxonomies.includes(taxonomy.value)}
+										onChange={(_checked) =>
+											setAttributes({
+												taxonomies: taxonomies.includes(taxonomy.value)
+													? taxonomies.filter((t) => t !== taxonomy.value)
+													: [...taxonomies, taxonomy.value],
+											})
+										}
+									/>
+									{taxonomies.includes(taxonomy.value) && (
+										<>
+											{taxonomy.hierarchical && (
+												<ToggleControl
+													label={__(
+														"Hierarchical filter",
+														"jcore-dynamic-archive",
+													)}
+													help={__(
+														"If enabled, child categories will be hidden until parent category is selected",
+														"jcore-dynamic-archive",
+													)}
+													checked={hierarchicalFilter[taxonomy.value] ?? false}
+													onChange={(value) =>
+														setAttributes({
+															hierarchicalFilter: {
+																...hierarchicalFilter,
+																[taxonomy.value]: value,
+															},
+														})
+													}
+												/>
+											)}
+											<SelectControl
+												label={
+													hierarchicalFilter[taxonomy.value]
+														? __(
+																"Filter type (Parent categories)",
+																"jcore-dynamic-archive",
+														  )
+														: __("Filter type", "jcore-dynamic-archive")
+												}
+												value={filterTypes[taxonomy.value]}
+												options={filterTypesOptions}
+												onChange={(value) => {
+													setAttributes({
+														filterTypes: {
+															...filterTypes,
+															[taxonomy.value]: value,
+														},
+													});
+												}}
+											/>
+											{hierarchicalFilter[taxonomy.value] && (
+												<SelectControl
+													label={__(
+														"Filter type (Child categories)",
+														"jcore-dynamic-archive",
+													)}
+													value={filterTypesChild[taxonomy.value]}
+													options={filterTypesOptions}
+													onChange={(value) => {
+														setAttributes({
+															filterTypesChild: {
+																...filterTypesChild,
+																[taxonomy.value]: value,
+															},
+														});
+													}}
+												/>
+											)}
+											<TaxonomyPicker
+												taxonomySlug={taxonomy.value}
+												onChange={(value) =>
+													setAttributes({
+														forcedCategories: {
+															...forcedCategories,
+															[taxonomy.value]: value,
+														},
+													})
+												}
+												value={forcedCategories[taxonomy.value]}
+											></TaxonomyPicker>
+										</>
+									)}
+								</div>
+							))}
+						</>
+					)}
+				</PanelBody>
 			</InspectorControls>
 			<div {...useBlockProps()}>
 				<ServerSideRender
 					block="jcore/dynamic-archive"
 					attributes={attributes}
+					httpMethod={"POST"}
 				/>
 			</div>
 		</>

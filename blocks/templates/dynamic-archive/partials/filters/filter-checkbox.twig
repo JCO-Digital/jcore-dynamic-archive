@@ -1,0 +1,25 @@
+<label
+	class="wp-block-jcore-dynamic-archive-filters__checkbox"
+	for="taxonomy-{{ instanceId }}-{{ term.type }}-{{ term.id }}"
+	data-wp-on-async--mouseover="actions.prefetchFilter"
+>
+	{{ term.name }}
+</label>
+<input
+	type="checkbox"
+	id="taxonomy-{{ instanceId }}-{{ term.type }}-{{ term.id }}"
+	name="{{ term.type }}"
+	value="{{ term.id }}"
+	data-wp-on-async--change="actions.filterChange"
+	{% if term.active %}
+		data-active
+	{% endif %}
+	data-taxonomy="{{ term.type }}"
+	data-filter-type="{{ term.filterType }}"
+	data-term="{{ term.id }}"
+	data-is-child="{{ term.isChild }}"
+	{% if term.active %}
+		checked="checked"
+	{% endif %}
+	class="wp-block-jcore-dynamic-archive-filters__checkbox__input"
+/>

@@ -5,12 +5,13 @@
   "version": "0.1.0",
   "title": "Dynamic Archive",
   "category": "widgets",
-  "icon": "smiley",
+  "icon": "grid-view",
   "description": "A dynamic archive block.",
   "example": {},
   "supports": {
     "html": false,
-    "align": true
+    "align": true,
+    "interactivity": true
   },
   "attributes": {
     "instanceId": {
@@ -24,6 +25,15 @@
     "search": {
       "type": "boolean",
       "default": false
+    },
+    "sticky": {
+      "type": "string",
+      "default": "include",
+      "enum": [
+        "include",
+        "exclude",
+        "only"
+      ]
     },
     "columns": {
       "type": "number",
@@ -62,6 +72,22 @@
     "taxonomies": {
       "type": "array",
       "default": []
+    },
+    "filterTypes": {
+      "type": "object",
+      "default": {}
+    },
+    "filterTypesChild": {
+      "type": "object",
+      "default": {}
+    },
+    "forcedCategories": {
+      "type": "object",
+      "default": {}
+    },
+    "hierarchicalFilter": {
+      "type": "object",
+      "default": {}
     }
   },
   "textdomain": "dynamic-archive",
@@ -69,10 +95,5 @@
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
   "render": "file:./render.php",
-  "viewScript": [
-    "dynamic-archive-htmx",
-    "dynamic-archive-htmx-alpine-morph-plugin",
-    "dynamic-archive-alpine",
-    "file:./view.js"
-  ]
+  "viewScriptModule": "file:./view.js"
 }

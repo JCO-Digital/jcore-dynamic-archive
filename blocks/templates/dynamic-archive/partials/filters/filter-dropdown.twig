@@ -1,0 +1,10 @@
+<option
+	data-taxonomy="{{ term.type }}"
+	data-term="{{ term.id }}"
+	value="{{ term.id }}"
+	{% if term.active %}
+		selected="selected"
+	{% endif %}
+>
+	{{ term.name }}
+</option>

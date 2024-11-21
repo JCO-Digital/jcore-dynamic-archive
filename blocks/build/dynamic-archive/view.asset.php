@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array(), 'version' => 'd3ffefb183424e84f51a');
+<?php return array('dependencies' => array('@wordpress/interactivity', array('id' => '@wordpress/interactivity-router', 'import' => 'dynamic')), 'version' => 'be1e85b8494b1cad2e6f', 'type' => 'module');

@@ -5,25 +5,44 @@
 	"author": "J&CO Digital <support@jco.fi>",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
+	"browserslist": [
+		"fully supports es6-module-dynamic-import"
+	],
 	"scripts": {
-		"build": "wp-scripts build --webpack-copy-php",
+		"build": "wp-scripts build --webpack-copy-php --experimental-modules --stats-error-details",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start --webpack-copy-php"
+		"start": "wp-scripts start --webpack-copy-php --experimental-modules --stats-error-details"
 	},
 	"devDependencies": {
-		"@wordpress/block-editor": "^14.3.0",
-		"@wordpress/blocks": "^13.8.0",
-		"@wordpress/components": "^28.8.0",
-		"@wordpress/compose": "^7.8.0",
-		"@wordpress/data": "^10.8.0",
-		"@wordpress/element": "^6.8.0",
-		"@wordpress/i18n": "^5.8.0",
-		"@wordpress/scripts": "^30.0.2",
-		"@wordpress/server-side-render": "^5.8.0"
+		"@wordpress/scripts": "^30.5.1",
+		"@wordpress/server-side-render": "*",
+		"@wordpress/block-editor": "*",
+		"@wordpress/blocks": "*",
+		"@wordpress/components": "*",
+		"@wordpress/compose": "*",
+		"@wordpress/core-data": "*",
+		"@wordpress/data": "*",
+		"@wordpress/dom": "*",
+		"@wordpress/element": "*",
+		"@wordpress/hooks": "*",
+		"@wordpress/i18n": "*",
+		"@wordpress/is-shallow-equal": "*",
+		"@wordpress/keycodes": "*",
+		"@wordpress/notices": "*"
 	},
-	"dependencies": {}
+	"files": [
+		"[^.]*"
+	],
+	"dependencies": {
+		"@wordpress/icons": "*",
+		"@wordpress/interactivity": "^6.12.0",
+		"@wordpress/interactivity-router": "^2.12.0",
+		"lodash": "^4.17.21",
+		"qs": "^6.13.0",
+		"debug": "^4.3.7"
+	}
 }

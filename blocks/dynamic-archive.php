@@ -27,51 +27,6 @@ function init_dynamic_archive_block(): void {
 }
 add_action( 'init', 'init_dynamic_archive_block' );
 
-// Register the htmx script.
-add_action(
-	'init',
-	static function () {
-		wp_register_script(
-			'dynamic-archive-htmx-alpine-morph-plugin',
-			DYNAMIC_ARCHIVE_URL . 'dist/htmx.alpine-morph.min.js',
-			array( 'dynamic-archive-htmx' ),
-			'2.0.2',
-			array(
-				'in_footer' => false,
-			)
-		);
-		wp_register_script(
-			'dynamic-archive-alpine-morph-plugin',
-			DYNAMIC_ARCHIVE_URL . 'dist/alpine.morph.min.js',
-			array(),
-			'3.14.1',
-			array(
-				'in_footer' => false,
-				'strategy'  => 'defer',
-			)
-		);
-		wp_register_script(
-			'dynamic-archive-htmx',
-			DYNAMIC_ARCHIVE_URL . 'dist/htmx.min.js',
-			array(),
-			'2.0.2',
-			array(
-				'in_footer' => false,
-			)
-		);
-		wp_register_script(
-			'dynamic-archive-alpine',
-			DYNAMIC_ARCHIVE_URL . 'dist/alpine.min.js',
-			array( 'dynamic-archive-alpine-morph-plugin' ),
-			'3.14.1',
-			array(
-				'in_footer' => false,
-				'strategy'  => 'defer',
-			)
-		);
-	}
-);
-
 add_filter(
 	'timber/twig/functions',
 	static function ( array $functions ): array {
