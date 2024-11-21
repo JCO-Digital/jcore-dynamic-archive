@@ -54,6 +54,7 @@ const parseAttributes = (event, ref, attributes) => {
 			getNestedValue(attributes, ["data-filter-type"], undefined),
 			taxonomyName,
 			value,
+			getNestedValue(attributes, ["data-is-child"], false),
 		];
 	}
 	const taxonomyName = getNestedValue(attributes, ["data-taxonomy"], undefined);
@@ -62,6 +63,7 @@ const parseAttributes = (event, ref, attributes) => {
 		getNestedValue(attributes, ["data-filter-type"], undefined),
 		taxonomyName,
 		value,
+		getNestedValue(attributes, ["data-is-child"], false),
 	];
 };
 
@@ -164,7 +166,9 @@ const setupFilter = (filters, taxonomyKey, taxonomyName) => {
  * @param {object} filters - The filters object
  * @param {string} taxonomyKey - The taxonomy key
  * @param {string} taxonomyName - The taxonomy name
- * @param {any} value
+ * @param {any} value - The value to filter by.
+ *
+ * @returns {void}
  */
 const handleToggle = (filters, taxonomyKey, taxonomyName, value) => {
 	if (filters[taxonomyKey][taxonomyName].includes(value)) {
@@ -184,23 +188,81 @@ const handleToggle = (filters, taxonomyKey, taxonomyName, value) => {
  * @param {object} filters - The filters object
  * @param {string} taxonomyKey - The taxonomy key
  * @param {string} taxonomyName - The taxonomy name
- * @param {any} value
+ * @param {any} value - The value to filter by.
+ *
+ * @returns {void}
  */
 const handleRadio = (filters, taxonomyKey, taxonomyName, value) => {
-	// Short circuit if the value is empty.
-	if (!value) {
-		filters[taxonomyKey][taxonomyName] = [];
-		return;
-	}
+	const currentChildren = state.children[taxonomyName] ?? [];
+	const isChild = currentChildren.includes(parseInt(value));
+	// If the value is already in the filters, remove it
 	if (filters[taxonomyKey][taxonomyName].includes(value)) {
+		// If the value is a child, then only remove the child (since we don't want to remove the parent)
+		if (isChild) {
+			filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][
+				taxonomyName
+			].filter((term) => term !== value);
+			return;
+		}
 		filters[taxonomyKey][taxonomyName] = [];
+	} else if (isChild) {
+		// If the value is a child term, then add it (don't overwrite the parent)
+		filters[taxonomyKey][taxonomyName] = [
+			...(filters[taxonomyKey][taxonomyName] || []),
+			value,
+		];
 	} else {
+		// If the value is a parent term, then overwrite the filters.
 		filters[taxonomyKey][taxonomyName] = [value];
 	}
 };
 
 const { state } = store("jcore/dynamic-archive", {
-	state: {},
+	state: {
+		get children() {
+			const context = getContext();
+			if (!context.terms) {
+				return {};
+			}
+			return Object.entries(context.terms).reduce(
+				(acc, [taxonomyName, taxonomy]) => {
+					if (!taxonomy.hierarchical) {
+						return acc;
+					}
+					const children = taxonomy.terms
+						.filter((term) => term.isChild)
+						.map((term) => term.id);
+					if (children.length > 0) {
+						acc[taxonomyName] = children;
+					}
+					return acc;
+				},
+				{},
+			);
+		},
+		get filterTypes() {
+			const context = getContext();
+			if (!context.terms) {
+				return {};
+			}
+			return Object.entries(context.terms).reduce(
+				(acc, [taxonomyName, taxonomy]) => {
+					let types = {
+						type: taxonomy.filterType,
+					};
+					if (taxonomy.hierarchical) {
+						types = {
+							...types,
+							childType: taxonomy.filterTypeChild,
+						};
+					}
+					acc[taxonomyName] = types;
+					return acc;
+				},
+				{},
+			);
+		},
+	},
 	actions: {
 		*filterChange(event) {
 			const element = getElement();
@@ -307,11 +369,13 @@ const { state } = store("jcore/dynamic-archive", {
 			// Handles updating the current page number from the server.
 			const context = getContext();
 			const serverContext = getServerContext();
-			if (!serverContext.currentPage) {
-				return;
+			if (serverContext.currentPage) {
+				if (!isNaN(parseInt(serverContext.currentPage))) {
+					context.currentPage = parseInt(serverContext.currentPage);
+				}
 			}
-			if (!isNaN(parseInt(serverContext.currentPage))) {
-				context.currentPage = parseInt(serverContext.currentPage);
+			if (serverContext.terms) {
+				context.terms = serverContext.terms;
 			}
 		},
 	},

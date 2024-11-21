@@ -42,13 +42,13 @@ $args           = array(
 );
 
 if ( isset( $attributes['sticky'] ) ) {
-	$args_to_add = match( $attributes['sticky'] ) {
+	$args_to_add = match ( $attributes['sticky'] ) {
 		'exclude' => array(
 			'post__not_in' => get_option( 'sticky_posts' ),
 		),
 		'only' => array(
-			'post__in' => get_option( 'sticky_posts' ),
-			'ignore_sticky_posts' => true, // This might seem redundant, but all it does is improve performance. See https://wordpress.stackexchange.com/questions/260941/why-ignore-sticky-posts-argument-is-in-sticky-post-query#:~:text=Explanation%20of%20the%20codex%20example%3A
+			'post__in'            => get_option( 'sticky_posts' ),
+			'ignore_sticky_posts' => true, // This might seem redundant, but all it does is improve performance. See https://wordpress.stackexchange.com/questions/260941/why-ignore-sticky-posts-argument-is-in-sticky-post-query#:~:text=Explanation%20of%20the%20codex%20example%3A for more information.
 		),
 		default => array(),
 	};
@@ -56,8 +56,15 @@ if ( isset( $attributes['sticky'] ) ) {
 }
 
 $args = handle_dynamic_args( $args, $attributes );
-$args = apply_filters( 'jcore_dynamic_archive_args', $args, $attributes );
-
+/**
+ * Filters the dynamic archive args for the dynamic archive block.
+ *
+ * @param array $args The dynamic archive args.
+ * @param array $attributes The attributes of the dynamic archive block.
+ *
+ * @hooked jcore_dynamic_archive_args
+ */
+$args         = apply_filters( 'jcore_dynamic_archive_args', $args, $attributes );
 $timber_posts = Timber::get_posts(
 	$args
 );
@@ -71,44 +78,54 @@ if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScro
 	$pagination = array();
 	for ( $i = 1; $i <= $total_pages; $i++ ) {
 		$pagination[] = array(
-			'number' => $i,
-			'title' => $i,
-			'current' => $i === absint($current_page),
-			'href' => build_pagination_url( $attributes, $i ),
+			'number'  => $i,
+			'title'   => $i,
+			'current' => $i === absint( $current_page ),
+			'href'    => build_pagination_url( $attributes, $i ),
 		);
 	}
-	$context['pagination'] = $pagination;
-	$context["first_page_link"] = build_pagination_url( $attributes, 1 );
-	$context["last_page_link"] = build_pagination_url( $attributes, $total_pages );
-	$context["previous_page_link"] = build_pagination_url( $attributes, ($current_page > 1) ? $current_page - 1 : 1 );
-	$context["next_page_link"] = build_pagination_url( $attributes, ($current_page < $total_pages) ? $current_page + 1 : $total_pages );
-	$context["total_pages"] = $total_pages;
+	$context['pagination']         = $pagination;
+	$context['first_page_link']    = build_pagination_url( $attributes, 1 );
+	$context['last_page_link']     = build_pagination_url( $attributes, $total_pages );
+	$context['previous_page_link'] = build_pagination_url( $attributes, ( $current_page > 1 ) ? $current_page - 1 : 1 );
+	$context['next_page_link']     = build_pagination_url( $attributes, ( $current_page < $total_pages ) ? $current_page + 1 : $total_pages );
+	$context['total_pages']        = $total_pages;
 }
-if ( ($attributes['showPagination'] ?? false) && ($attributes['infiniteScroll'] ?? false) ) {
-	$context['has_more']     = $current_page < $total_pages;
-	$context['next_page_link'] = build_pagination_url( $attributes, ($current_page < $total_pages) ? $current_page + 1 : $total_pages );
+if ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
+	$context['has_more']       = $current_page < $total_pages;
+	$context['next_page_link'] = build_pagination_url( $attributes, ( $current_page < $total_pages ) ? $current_page + 1 : $total_pages );
 }
 
-// If pagination is enabled and "load more", we need to slice the posts array to remove the last post, as we do not need to check for more posts.
-if ( ! is_null( $timber_posts ) && ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) && $has_more ) {
-	$final_posts = array_slice( $timber_posts->to_array(), 0, - 1 );
-}
 $context['posts'] = $final_posts ?? $timber_posts;
 
 $taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
 
 $interactivity_context = array(
-	'currentPage' => $current_page ?? 1,
+	'currentPage'      => $current_page ?? 1,
 	'isInfiniteScroll' => $attributes['infiniteScroll'] ?? false,
-	'filters'     => array(
+	'filters'          => array(
 		$taxonomy_key => get_parameter( $taxonomy_key, array() ),
 	),
-	'blockId'     => $attributes['instanceId'],
+	'terms'            => $context['taxonomies_filter'],
+	'blockId'          => $attributes['instanceId'],
 );
+/**
+ * Filters the interactivity context for the dynamic archive block.
+ *
+ * @param array $interactivity_context The interactivity context.
+ * @param array $attributes The attributes of the dynamic archive block.
+ *
+ * @hooked jcore_dynamic_archive_interactivity_context
+ */
+$interactivity_context = apply_filters( 'jcore_dynamic_archive_interactivity_context', $interactivity_context, $attributes );
 
+// Possibly set the Global state.
 wp_interactivity_state(
 	'jcore/dynamic-archive',
-	array()
+	apply_filters(
+		'jcore_dynamic_archive_interactivity_state',
+		array()
+	)
 );
 
 $context['interactivity_context_attribute'] = wp_interactivity_data_wp_context( $interactivity_context, 'jcore/dynamic-archive' );

@@ -6,6 +6,8 @@ import { useEffect, useState } from "@wordpress/element";
 import { useInstanceId } from "@wordpress/compose";
 import { useBlockProps } from "@wordpress/block-editor";
 import { settings, layout, funnel } from "@wordpress/icons";
+import _debug from "debug";
+const debug = _debug("dynamic-archive:Edit");
 
 /**
  * Components
@@ -53,6 +55,7 @@ export default function Edit({ attributes, setAttributes }) {
 		infiniteScroll,
 		sticky,
 		filterTypes,
+		filterTypesChild,
 		forcedCategories,
 		taxonomies,
 		hierarchicalFilter,
@@ -104,7 +107,8 @@ export default function Edit({ attributes, setAttributes }) {
 			const filteredTaxonomies = _taxonomies.map((taxonomy) => ({
 				label: taxonomy.name,
 				value: taxonomy.slug,
-				id: taxonomy.id,
+				id: taxonomy.slug,
+				hierarchical: taxonomy.hierarchical,
 			}));
 			setTaxonomyOptions(filteredTaxonomies ?? []);
 			const newStoredTaxonomies = taxonomies.filter((taxonomy) =>
@@ -243,27 +247,36 @@ export default function Edit({ attributes, setAttributes }) {
 									/>
 									{taxonomies.includes(taxonomy.value) && (
 										<>
-											<ToggleControl
-												label={__(
-													"Hierarchical filter",
-													"jcore-dynamic-archive",
-												)}
-												help={__(
-													"If enabled, child categories will be hidden until parent category is selected",
-													"jcore-dynamic-archive",
-												)}
-												checked={hierarchicalFilter[taxonomy.value]}
-												onChange={(value) =>
-													setAttributes({
-														hierarchicalFilter: {
-															...hierarchicalFilter,
-															[taxonomy.value]: value,
-														},
-													})
-												}
-											/>
+											{taxonomy.hierarchical && (
+												<ToggleControl
+													label={__(
+														"Hierarchical filter",
+														"jcore-dynamic-archive",
+													)}
+													help={__(
+														"If enabled, child categories will be hidden until parent category is selected",
+														"jcore-dynamic-archive",
+													)}
+													checked={hierarchicalFilter[taxonomy.value] ?? false}
+													onChange={(value) =>
+														setAttributes({
+															hierarchicalFilter: {
+																...hierarchicalFilter,
+																[taxonomy.value]: value,
+															},
+														})
+													}
+												/>
+											)}
 											<SelectControl
-												label={__("Filter type", "jcore-dynamic-archive")}
+												label={
+													hierarchicalFilter[taxonomy.value]
+														? __(
+																"Filter type (Parent categories)",
+																"jcore-dynamic-archive",
+														  )
+														: __("Filter type", "jcore-dynamic-archive")
+												}
 												value={filterTypes[taxonomy.value]}
 												options={filterTypesOptions}
 												onChange={(value) => {
@@ -275,7 +288,24 @@ export default function Edit({ attributes, setAttributes }) {
 													});
 												}}
 											/>
-
+											{hierarchicalFilter[taxonomy.value] && (
+												<SelectControl
+													label={__(
+														"Filter type (Child categories)",
+														"jcore-dynamic-archive",
+													)}
+													value={filterTypesChild[taxonomy.value]}
+													options={filterTypesOptions}
+													onChange={(value) => {
+														setAttributes({
+															filterTypesChild: {
+																...filterTypesChild,
+																[taxonomy.value]: value,
+															},
+														});
+													}}
+												/>
+											)}
 											<TaxonomyPicker
 												taxonomySlug={taxonomy.value}
 												onChange={(value) =>

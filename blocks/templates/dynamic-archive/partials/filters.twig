@@ -11,28 +11,21 @@
 						{{ taxonomy.label }}
 					</h3>
 				{% endif %}
-				{% if taxonomy.filterType == 'dropdown' %}
-					<select
-						aria-labelledby="taxonomy-{{ instanceId }}-{{ taxonomy.name }}-label"
-						class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__dropdown"
-						data-wp-on-async--change="actions.filterChange"
-						data-taxonomy="{{ taxonomy.name }}"
-						data-filter-type="{{ taxonomy.filterType }}"
-					>
-						<option
-							value=""
-							data-term=""
-							data-taxonomy="{{ taxonomy.name }}"
-							{% if taxonomy.terms|filter(term => term.active)|length == 0 %}
-								selected="selected"
-							{% endif %}
-						>{{ __( 'Select', 'dynamic-archive' ) }}</option>
-				{% endif %}
-				{% for term in taxonomy.terms %}
-					{% include ['dynamic-archive/partials/filters/filter-' ~ term.filterType ~ '.twig', 'partials/filters/filter-' ~ term.filterType ~ '.twig'] ignore missing with { term: term } %}
-				{% endfor %}
-				{% if taxonomy.filterType == 'dropdown' %}
-					</select>
+				{% if taxonomy.hierarchical %}
+					{# Parent categories #}
+					{% set parentTerms = taxonomy.terms|filter(term => term.isChild == false) %}
+					<div class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__parents">
+						{% include ['dynamic-archive/partials/filter-content.twig', 'partials/filter-content.twig'] with { taxonomy: taxonomy, terms: parentTerms, instanceId: instanceId, isChild: false } %}
+					</div>
+					{# Child categories #}
+					{% set childTerms = taxonomy.terms|filter(term => term.isChild == true and term.parentActive == true) %}
+					{% if childTerms|length > 0 %}
+						<div class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__children">
+							{% include ['dynamic-archive/partials/filter-content.twig', 'partials/filter-content.twig'] with { taxonomy: taxonomy, terms: childTerms, instanceId: instanceId, isChild: true } %}
+						</div>
+					{% endif %}
+				{% else %}
+					{% include ['dynamic-archive/partials/filter-content.twig', 'partials/filter-content.twig'] with { taxonomy: taxonomy, terms: taxonomy.terms, instanceId: instanceId, isChild: false } %}
 				{% endif %}
 			</div>
 		{% endfor %}

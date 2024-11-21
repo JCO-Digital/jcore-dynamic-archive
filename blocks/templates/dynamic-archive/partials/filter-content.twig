@@ -1,0 +1,24 @@
+{% if (isChild == true and taxonomy.filterTypeChild == 'dropdown') or (isChild == false and taxonomy.filterType == 'dropdown') %}
+	<select
+		aria-labelledby="taxonomy-{{ instanceId }}-{{ taxonomy.name }}-label"
+		class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__dropdown"
+		data-wp-on-async--change="actions.filterChange"
+		data-taxonomy="{{ taxonomy.name }}"
+		data-filter-type="{{ taxonomy.filterType }}"
+		data-is-child="{{ isChild }}"
+	>
+		<option
+			value="{{ (terms|filter(term => term.active)|first).id ?? '' }}"
+			data-term="{{ (terms|filter(term => term.active)|first).id ?? '' }}"
+			data-taxonomy="{{ taxonomy.name }}"
+			{% if taxonomy.terms|filter(term => term.active)|length == 0 %}
+				selected="selected"
+			{% endif %}
+		>{{ __( 'Select', 'dynamic-archive' ) }}</option>
+{% endif %}
+{% for term in terms %}
+	{% include ['dynamic-archive/partials/filters/filter-' ~ term.filterType ~ '.twig', 'partials/filters/filter-' ~ term.filterType ~ '.twig'] ignore missing with { term: term, taxonomy: taxonomy } %}
+{% endfor %}
+{% if (isChild and taxonomy.filterTypeChild == 'dropdown') or (not isChild and taxonomy.filterType == 'dropdown') %}
+	</select>
+{% endif %}

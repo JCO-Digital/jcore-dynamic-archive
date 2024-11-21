@@ -36,6 +36,7 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 				<FormTokenField
 					__experimentalExpandOnFocus
 					__next40pxDefaultSize
+					__nextHasNoMarginBottom
 					suggestions={taxonomyList}
 					value={value}
 					onChange={onChange}

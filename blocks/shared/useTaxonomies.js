@@ -1,5 +1,4 @@
 import { useEntityRecords } from "@wordpress/core-data";
-import { useEffect, useState } from "@wordpress/element";
 
 export default function useTaxonomies(postType) {
 	const queryArgs = {
