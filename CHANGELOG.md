@@ -1,3 +1,12 @@
+## [0.7.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.7.1...v0.7.2) (2024-11-22)
+
+
+### Bug Fixes
+
+* minor changes and fixes for different setting combinations :bug: ([f8fa13a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f8fa13a1f85e1dd5a6ec1449164271d6ea51d93b))
+
+
+
 ## [0.7.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.7.0...v0.7.1) (2024-11-21)
 
 
@@ -42,15 +51,6 @@
 ### Bug Fixes
 
 * **gutenberg:** fix an issue fetching CPTs :bug: ([4751d23](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4751d23831486d14a3f83413d1f25ae4cc63ce19))
-
-
-
-## [0.6.4](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.3...v0.6.4) (2024-09-25)
-
-
-### Bug Fixes
-
-* **pagination:** Fixed issues when pagination is disabled and pagination + filtering not working together 🐛 ([ad715c0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ad715c0066aff8d457084c0376ea23b79cb0001c))
 
 
 
