@@ -1,1 +1,1 @@
-{"version":3,"file":"dynamic-archive/index.css","mappings":";;;AAAA;CACC,oBAAoB;AACrB","sources":["webpack://dynamic-archive/./src/dynamic-archive/editor.css"],"sourcesContent":[".jcore-taxonomy-item {\r\n\tpadding-bottom: 1rem;\r\n}\r\n"],"names":[],"sourceRoot":""}
+{"version":3,"file":"dynamic-archive/index.css","mappings":";;;AAAA;CACC,iBAAiB;CACjB,oBAAoB;AACrB","sources":["webpack://dynamic-archive/./src/dynamic-archive/editor.css"],"sourcesContent":[".jcore-toggle-component {\n\tpadding-top: 16px;\n\tpadding-bottom: 16px;\n}\n"],"names":[],"sourceRoot":""}

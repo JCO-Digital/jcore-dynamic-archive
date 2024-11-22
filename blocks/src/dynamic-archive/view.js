@@ -276,15 +276,7 @@ const { state } = store("jcore/dynamic-archive", {
 			}
 			const context = getContext();
 			const { filters, blockId, isInfiniteScroll, currentPage } = context;
-			debug({
-				blockId,
-				type,
-				filters,
-				taxonomyName,
-				value,
-				isInfiniteScroll,
-				currentPage,
-			});
+			// TODO: Figure out if we need this, or we can use the exported context in the functions.
 			const newUrl = buildFilterUrl({
 				blockId,
 				type,
@@ -351,7 +343,7 @@ const { state } = store("jcore/dynamic-archive", {
 			const { actions } = yield import("@wordpress/interactivity-router");
 			yield actions.navigate(ref.href);
 			context.isLoading = false;
-			if (parentEl) {
+			if (!context.isInfiniteScroll && parentEl) {
 				parentEl.scrollIntoView({
 					behavior: "smooth",
 				});

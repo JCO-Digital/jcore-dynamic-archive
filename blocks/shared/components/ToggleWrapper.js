@@ -13,6 +13,7 @@ export default function ToggleWrapper({
 				checked={checked}
 				onChange={(checked) => setAttributes({ [attributeName]: checked })}
 				label={label}
+				__nextHasNoMarginBottom
 			/>
 			{checked && children}
 		</div>
