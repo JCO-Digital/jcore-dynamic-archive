@@ -265,8 +265,8 @@ function build_taxonomies_filter( array $attributes ): array {
 			)
 		);
 		$taxonomies[ $taxonomy ] = array(
-			'name'            => $taxonomy,
-			'label'           => apply_filters( 'jcore_dynamic_archive_taxonomy_label', $taxonomy, $attributes ),
+			'name'            => $tax_object->name,
+			'label'           => $tax_object->label,
 			'filterType'      => get_nested_value( $attributes, array( 'filterTypes', $taxonomy ), 'checkbox' ),
 			'filterTypeChild' => get_nested_value( $attributes, array( 'filterTypesChild', $taxonomy ), 'checkbox' ),
 			'hierarchical'    => $tax_object->hierarchical ? get_nested_value( $attributes, array( 'hierarchicalFilter', $taxonomy ), false ) : false,

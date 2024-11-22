@@ -28,7 +28,6 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 		if (taxonomyRecords) {
 			const mappedRecords = taxonomyRecords.map((record) => record.id);
 			const mappedVisibleRecord = {};
-			console.log(taxonomyRecords);
 			taxonomyRecords.forEach((term) => {
 				mappedVisibleRecord[term.id] = {
 					slug: term.slug,
