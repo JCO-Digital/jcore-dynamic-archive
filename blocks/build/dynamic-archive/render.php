@@ -20,6 +20,10 @@ use function Jcore\DynamicArchive\Helpers\is_post_type;
 $context          = Timber::context();
 $context['block'] = $block;
 
+if ( is_admin() ) {
+	print( '<div class="jcore-dynamic-archive-block-editor"></div>' );
+}
+
 $current_url = URLHelper::get_current_url();
 $parsed_url  = wp_parse_url( $current_url, PHP_URL_PATH );
 if ( $parsed_url === false ) {
@@ -70,10 +74,10 @@ $timber_posts = Timber::get_posts(
 	$args
 );
 
-$current_page            = get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 );
+$current_page            = absint( get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 ) );
 $context['current_page'] = $current_page;
 
-$total_pages = ceil( $timber_posts->found_posts / $block_per_page );
+$total_pages = absint( ceil( $timber_posts->found_posts / $block_per_page ) );
 // If pagination is enabled and not "load more", we need to subtract 1 from the posts per page, as we do not need to check for more posts.
 if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
 	$pagination = array();
@@ -81,9 +85,46 @@ if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScro
 		$pagination[] = array(
 			'number'  => $i,
 			'title'   => $i,
-			'current' => $i === absint( $current_page ),
+			'current' => $i === $current_page,
 			'href'    => build_pagination_url( $attributes, $i ),
 		);
+	}
+	$dots = array(
+		'title' => '...',
+		'type'  => 'dots',
+	);
+	if ( count( $pagination ) > 6 ) {
+		// We cut so we get the first page, the current +- 2 and the last.
+		$old_pagination = $pagination;
+		if ( $current_page > 3 ) {
+			// We are now in the middle/end of the pagination.
+			// First we add the first page.
+			$pagination = array( ...array_slice( $old_pagination, 0, 1 ) );
+			if ( $current_page < $total_pages - 2 ) {
+				// We are not at the end of the pagination.
+				// We add the previously added first page, the current pages (+/- 2) and the last page.
+				$pagination = array(
+					...$pagination,
+					$dots,
+					...array_slice( $old_pagination, $current_page - 2, 3 ),
+					$dots,
+					...array_slice( $old_pagination, -1, 1 ),
+				);
+			} else {
+				// We are at the end of the pagination.
+				$pagination = array(
+					...$pagination,
+					$dots,
+					...array_slice( $old_pagination, $total_pages - ( $current_page === ( $total_pages - 2 ) ? 4 : 3 ), 4 ),
+				);
+			}
+		} else {
+			$pagination = array(
+				...array_slice( $old_pagination, 0, $current_page > 2 ? 4 : 3 ),
+				$dots,
+				...array_slice( $old_pagination, -1, 1 ),
+			);
+		}
 	}
 	$context['pagination']         = $pagination;
 	$context['first_page_link']    = build_pagination_url( $attributes, 1 );
