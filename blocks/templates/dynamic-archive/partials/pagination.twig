@@ -26,19 +26,25 @@
 		</span>
 		</a>
 		{% for page in pagination %}
-			<a
-				href="{{ page.href }}"
-				data-wp-on--click="actions.pageChange"
-				data-wp-on-async--mouseover="actions.prefetchPage"
-				data-page="{{ page.number }}"
-				class="wp-block-jcore-dynamic-archive__pagination__link {{ page.current ? 'is-current' : '' }}"
-				{% if page.current %}
-					data-current
-					aria-current="page"
-				{% endif %}
-			>
-				{{ page.title }}
-			</a>
+			{% if page.type == 'dots' %}
+				<span class="wp-block-jcore-dynamic-archive__pagination__link wp-block-jcore-dynamic-archive__pagination__link-dots">
+					{{ page.title }}
+				</span>
+			{% else %}
+				<a
+					href="{{ page.href }}"
+					data-wp-on--click="actions.pageChange"
+					data-wp-on-async--mouseover="actions.prefetchPage"
+					data-page="{{ page.number }}"
+					class="wp-block-jcore-dynamic-archive__pagination__link {{ page.current ? 'is-current' : '' }}"
+					{% if page.current %}
+						data-current
+						aria-current="page"
+					{% endif %}
+				>
+					{{ page.title }}
+				</a>
+			{% endif %}
 		{% endfor %}
 		<a
 			href="{{ next_page_link }}"
