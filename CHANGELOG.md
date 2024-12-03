@@ -1,3 +1,12 @@
+# [0.9.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.8.0...v0.9.0) (2024-12-03)
+
+
+### Features
+
+* **archive:** Added ability to hide children for hierarchical post types :sparkles: ([0a6df60](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/0a6df60bb0f540e77f3487d4e13ec3d750ec2614))
+
+
+
 # [0.8.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.7.2...v0.8.0) (2024-12-02)
 
 
@@ -42,15 +51,6 @@
 * package updates + installed needed packages ([503d082](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/503d0824881664d1686da23d20de28b842f5bac2))
 * Started working on new filter settings ✨ ([d5965aa](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d5965aa3625aa852b2c902a831d2a7ca21681d5b))
 * very many stuff ([7562b6e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7562b6e3a39220cddbc577bda53152f3c74871ac))
-
-
-
-## [0.6.6](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.5...v0.6.6) (2024-09-30)
-
-
-### Bug Fixes
-
-* use block attributes + add support for alignment ([ff1a723](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ff1a723abc24ea70d3586f9f92f70026c92fbe44))
 
 
 
