@@ -3,6 +3,14 @@
 	padding-bottom: 16px;
 }
 
+.jcore__dynamic-archive-post-type {
+	.components-h-stack {
+		.components-base-control {
+			width: 100%;
+		}
+	}
+}
+
 .wp-block-jcore-dynamic-archive a {
 	cursor: not-allowed;
 	pointer-events: none;

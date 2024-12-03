@@ -24,6 +24,7 @@ import {
 	Flex,
 	FlexItem,
 	__experimentalVStack as VStack,
+	__experimentalHStack as HStack,
 	Spinner,
 	FlexBlock,
 } from "@wordpress/components";
@@ -48,6 +49,7 @@ import TaxonomyPicker from "@/shared/components/TaxonomyPicker";
  */
 export default function Edit({ attributes, setAttributes }) {
 	const {
+		hideChildren,
 		postType,
 		perPage,
 		columns,
@@ -66,6 +68,12 @@ export default function Edit({ attributes, setAttributes }) {
 
 	// BEGIN: Post Types
 	const { postTypes, loading: postTypeLoading } = usePostTypes();
+
+	const isPostTypeHierarchical = postTypes
+		.filter((p) => p.slug === postType)
+		.some((p) => {
+			return p.hierarchical;
+		});
 
 	const handlePostTypeChange = (value) => {
 		setAttributes({
@@ -145,8 +153,8 @@ export default function Edit({ attributes, setAttributes }) {
 					title={__("Settings", "jcore-dynamic-archive")}
 					icon={postTypeLoading ? <Spinner size={5} /> : settings}
 				>
-					<Flex>
-						<FlexBlock>
+					<VStack spacing={4} className={"jcore__dynamic-archive-post-type"}>
+						<HStack spacing={2}>
 							<SelectControl
 								label={__("Post Type", "jcore-dynamic-archive")}
 								value={postType}
@@ -158,9 +166,16 @@ export default function Edit({ attributes, setAttributes }) {
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
 							/>
-						</FlexBlock>
-						<FlexItem>{postTypeLoading && <Spinner />}</FlexItem>
-					</Flex>
+							{postTypeLoading && <Spinner />}
+						</HStack>
+						{isPostTypeHierarchical && (
+							<ToggleControl
+								label={__("Hide children", "jcore-dynamic-archive")}
+								checked={hideChildren}
+								onChange={(checked) => setAttributes({ hideChildren: checked })}
+							/>
+						)}
+					</VStack>
 					<ToggleWrapper
 						label={__("Show pagination", "jcore-dynamic-archive")}
 						checked={showPagination}

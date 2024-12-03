@@ -20,10 +20,6 @@ use function Jcore\DynamicArchive\Helpers\is_post_type;
 $context          = Timber::context();
 $context['block'] = $block;
 
-if ( is_admin() ) {
-	print( '<div class="jcore-dynamic-archive-block-editor"></div>' );
-}
-
 $current_url = URLHelper::get_current_url();
 $parsed_url  = wp_parse_url( $current_url, PHP_URL_PATH );
 if ( $parsed_url === false ) {
@@ -45,6 +41,11 @@ $args           = array(
 	'post__not_in'   => array( get_the_ID() ),
 	'posts_per_page' => $block_per_page,
 );
+
+$selected_post_type = get_post_type_object( $attributes['postType'] );
+if ( $selected_post_type->hierarchical && $attributes['hideChildren'] === true ) {
+	$args['post_parent'] = 0;
+}
 
 if ( isset( $attributes['sticky'] ) ) {
 	$args_to_add = match ( $attributes['sticky'] ) {
