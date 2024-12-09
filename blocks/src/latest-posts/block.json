@@ -1,0 +1,74 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jcore/latest-posts",
+	"version": "0.1.0",
+	"title": "Latest posts",
+	"category": "widgets",
+	"icon": "editor-ul",
+	"description": "Show latest posts",
+	"example": {},
+	"attributes": {
+		"postTypes": {
+			"type": "array",
+			"default": []
+		},
+		"automatic": {
+			"type": "boolean",
+			"default": true
+		},
+		"postsPerPage": {
+			"type": "number",
+			"default": 6
+		},
+		"taxonomies": {
+			"type": "array",
+			"default": []
+		},
+		"sticky": {
+			"type": "string",
+			"default": "include",
+			"enum": [
+				"include",
+				"exclude",
+				"only"
+			]
+		},
+		"orderBy": {
+			"type": "string",
+			"default": "date",
+			"enum": [
+				"date",
+				"title"
+			]
+		},
+		"order": {
+			"type": "string",
+			"default": "desc",
+			"enum": [
+				"asc",
+				"desc"
+			]
+		},
+		"columns": {
+			"type": "number",
+			"default": 3,
+			"enum": [
+				1,
+				2,
+				3,
+				4,
+				5
+			]
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": true
+	},
+	"textdomain": "dynamic-archive",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
