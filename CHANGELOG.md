@@ -1,3 +1,13 @@
+## [0.10.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.0...v0.10.1) (2024-12-10)
+
+
+### Bug Fixes
+
+* Added i18n and fixed some broken domains ([c8bfd4c](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c8bfd4cc7d10a778c11b02ccda79273032faabdc))
+* do not make pot when building. ([e7f4fb1](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e7f4fb12349c4f4eaf1f280148866e54e754002d))
+
+
+
 # [0.10.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.9.0...v0.10.0) (2024-12-10)
 
 
@@ -32,15 +42,6 @@
 ### Bug Fixes
 
 * minor changes and fixes for different setting combinations :bug: ([f8fa13a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f8fa13a1f85e1dd5a6ec1449164271d6ea51d93b))
-
-
-
-## [0.7.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.7.0...v0.7.1) (2024-11-21)
-
-
-### Bug Fixes
-
-* When terms have been set, and then unset, Gberg leaves an "empty" array, which triggered filtering. 🐛 ([aecc57f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/aecc57f9f42c3a7800c47dd9aed8bd689a58a398))
 
 
 
