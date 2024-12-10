@@ -21,9 +21,9 @@
       "type": "number",
       "default": 6
     },
-    "taxonomies": {
-      "type": "array",
-      "default": []
+    "selectedTaxonomies": {
+      "type": "object",
+      "default": {}
     },
     "sticky": {
       "type": "string",
@@ -60,6 +60,10 @@
         4,
         5
       ]
+    },
+    "expanded": {
+      "type": "boolean",
+      "default": true
     }
   },
   "supports": {

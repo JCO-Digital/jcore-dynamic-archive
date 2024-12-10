@@ -1,5 +1,2 @@
-import { __, sprintf } from "@wordpress/i18n";
-
-const variations = [];
-
+const variations = []
 export default variations;
