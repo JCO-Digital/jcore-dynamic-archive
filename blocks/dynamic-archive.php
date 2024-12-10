@@ -17,7 +17,7 @@ register_timber_location( trailingslashit( __DIR__ ) . 'templates/', 1 );
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function init_dynamic_archive_block(): void {
-	$blocks = array( 'dynamic-archive' );
+	$blocks = array( 'dynamic-archive', 'latest-posts' );
 	foreach ( $blocks as $block ) {
 		$success[] = register_block_type( __DIR__ . '/build/' . $block );
 	}

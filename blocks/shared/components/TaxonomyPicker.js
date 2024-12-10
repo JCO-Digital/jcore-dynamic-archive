@@ -10,17 +10,23 @@ import {
 import { sprintf, _x } from "@wordpress/i18n";
 import useTaxonomy from "../useTaxonomy";
 
+/**
+ * TaxonomyPicker
+ * @param {string} taxonomySlug The slug of the taxonomy to use.
+ * @param {(value: string[]) => void} onChange The function to call when the value changes.
+ * @param {string[]} value The current value of the taxonomy.
+ * @returns {ReactElement}
+ * @constructor
+ */
 export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 	const [taxonomyList, setTaxonomyList] = useState([]);
 	const [visibleTaxonomyList, setVisibleTaxonomyList] = useState({});
-	const [currentPage, setCurrentPage] = useState(1); // For future if need arises.
 
 	const { taxonomy, loading: loadingTaxonomy } = useTaxonomy(taxonomySlug);
 	const { taxonomyRecords, loading: loadingRecords } = useTaxonomyRecords(
 		taxonomySlug,
 		{
-			per_page: 100,
-			page: currentPage,
+			per_page: -1,
 		},
 	);
 
