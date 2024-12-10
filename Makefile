@@ -5,7 +5,7 @@ all: install build
 install: composer-install blocks-install
 
 .PHONY: build
-build: blocks-build make-pot
+build: blocks-build
 
 .PHONY: watch
 watch: blocks-watch
