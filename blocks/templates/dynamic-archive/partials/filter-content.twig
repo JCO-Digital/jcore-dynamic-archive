@@ -14,7 +14,7 @@
 			{% if taxonomy.terms|filter(term => term.active)|length == 0 %}
 				selected="selected"
 			{% endif %}
-		>{{ __( 'Select', 'dynamic-archive' ) }}</option>
+		>{{ __( 'Select', 'jcore-dynamic-archive' ) }}</option>
 {% endif %}
 {% for term in terms %}
 	{% include ['dynamic-archive/partials/filters/filter-' ~ term.filterType ~ '.twig', 'partials/filters/filter-' ~ term.filterType ~ '.twig'] ignore missing with { term: term, taxonomy: taxonomy } %}

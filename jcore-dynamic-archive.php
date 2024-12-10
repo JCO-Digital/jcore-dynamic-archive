@@ -23,3 +23,10 @@ require_once __DIR__ . '/includes/helpers.php';
 require_once __DIR__ . '/blocks/dynamic-archive.php';
 
 DynamicArchive\Bootstrap::init();
+
+add_action(
+	'init',
+	static function () {
+		load_plugin_textdomain( 'jcore-dynamic-archive', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+	}
+);

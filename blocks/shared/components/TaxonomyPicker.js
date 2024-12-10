@@ -65,6 +65,7 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 					value={value}
 					onChange={onChange}
 					label={`${sprintf(
+						// translators: The label of the taxonomy.
 						_x(
 							"Show only items with selected: %s",
 							"Taxonomy",

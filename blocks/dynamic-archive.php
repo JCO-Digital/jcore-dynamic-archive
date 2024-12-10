@@ -24,6 +24,16 @@ function init_dynamic_archive_block(): void {
 	if ( in_array( false, $success, true ) && wp_get_environment_type() !== 'production' ) {
 		wp_admin_notice( 'Dynamic Archive blocks could not be registered.' );
 	}
+	foreach ( $success as $block ) {
+		if ( ! is_a( $block, WP_Block_Type::class, true ) ) {
+			continue;
+		}
+		if ( is_array( $block->editor_script_handles ) ) {
+			foreach ( $block->editor_script_handles as $handle ) {
+				wp_set_script_translations( $handle, 'jcore-dynamic-archive', untrailingslashit( DYNAMIC_ARCHIVE_PATH ) . '/languages/' );
+			}
+		}
+	}
 }
 add_action( 'init', 'init_dynamic_archive_block' );
 

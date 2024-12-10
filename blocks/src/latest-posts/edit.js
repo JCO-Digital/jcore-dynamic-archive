@@ -143,7 +143,7 @@ export default function Edit({ attributes, setAttributes }) {
 							{taxonomiesLoading && (
 								<HStack alignment={"left"}>
 									<Spinner />
-									<Text>{__("Loading taxonomies...", "dynamic-archive")}</Text>
+									<Text>{__("Loading taxonomies...", "jcore-dynamic-archive")}</Text>
 								</HStack>
 							)}
 							{!taxonomiesLoading && (
@@ -191,7 +191,7 @@ export default function Edit({ attributes, setAttributes }) {
 					initialOpen={expanded}
 				>
 					<RangeControl
-						label={__("Columns", "dynamic-archive")}
+						label={__("Columns", "jcore-dynamic-archive")}
 						value={columns || 3}
 						onChange={(value) => {
 							if (isNaN(parseInt(value))) {
