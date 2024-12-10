@@ -1,3 +1,13 @@
+# [0.10.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.9.0...v0.10.0) (2024-12-10)
+
+
+### Features
+
+* finalized the first version of the latest posts block ✨ ([6c3a01a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/6c3a01ab254dc85c4ee769c41ce48a030bebd560))
+* started working on latest-posts block :sparkles: ([05db418](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/05db41859786b26bfe508da6416fde315fc2e00a))
+
+
+
 # [0.9.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.8.0...v0.9.0) (2024-12-03)
 
 
@@ -31,26 +41,6 @@
 ### Bug Fixes
 
 * When terms have been set, and then unset, Gberg leaves an "empty" array, which triggered filtering. 🐛 ([aecc57f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/aecc57f9f42c3a7800c47dd9aed8bd689a58a398))
-
-
-
-# [0.7.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.6.6...v0.7.0) (2024-11-21)
-
-
-### Bug Fixes
-
-* disable building for now ([5dd227f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/5dd227f4851609689646f05ba4c92f4e46c11332))
-
-
-### Features
-
-* **blocks/archive:** Added hierarchical filtering. ✨ ([8b00697](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/8b0069752b5495af22cb40b180c356b2e60fc4f2))
-* finalized settings view and new settings ✨ ([42efadf](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/42efadf8bfd01434f66c262c3e01916ea92b7fcb))
-* Forced categories now work ✨ ([fbc4895](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fbc4895495d825f97271564980155cfdf6d11f5d))
-* multiple blocks preserve state on a page. ✨ ([a881a27](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a881a27b5abdb9dc365cf5e50609c9ff080c5da7))
-* package updates + installed needed packages ([503d082](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/503d0824881664d1686da23d20de28b842f5bac2))
-* Started working on new filter settings ✨ ([d5965aa](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d5965aa3625aa852b2c902a831d2a7ca21681d5b))
-* very many stuff ([7562b6e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7562b6e3a39220cddbc577bda53152f3c74871ac))
 
 
 
