@@ -1,6 +1,6 @@
 {% if total_pages > 1 %}
 	<nav
-		aria-label="{{ __( 'Pagination', 'dynamic-archive' ) }}"
+		aria-label="{{ __( 'Pagination', 'jcore-dynamic-archive' ) }}"
 		class="wp-block-jcore-dynamic-archive__pagination{{ total_pages == 1 ? ' is-single-page' : '' }}{{ current_page == 1 ? ' is-first-page' : '' }}{{ current_page > 1 ? ' has-previous-page' : '' }}{{ current_page < total_pages ? ' has-next-page' : '' }}{{ current_page == total_pages ? ' is-last-page' : '' }}"
 	>
 		<a
@@ -11,7 +11,7 @@
 		>
 			<span class="wp-block-jcore-dynamic-archive__pagination__link__icon"></span>
 			<span class="wp-block-jcore-dynamic-archive__pagination__link__text">
-			{{ __( 'First page', 'dynamic-archive' ) }}
+			{{ __( 'First page', 'jcore-dynamic-archive' ) }}
 		</span>
 		</a>
 		<a
@@ -22,7 +22,7 @@
 		>
 			<span class="wp-block-jcore-dynamic-archive__pagination__link__icon"></span>
 			<span class="wp-block-jcore-dynamic-archive__pagination__link__text">
-			{{ __( 'Previous page', 'dynamic-archive' ) }}
+			{{ __( 'Previous page', 'jcore-dynamic-archive' ) }}
 		</span>
 		</a>
 		{% for page in pagination %}

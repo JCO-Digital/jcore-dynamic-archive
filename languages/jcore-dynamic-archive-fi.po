@@ -1,0 +1,85 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: JCORE Dynamic Archive 0.1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dynamic-archive\n"
+"Last-Translator: Maxemilian Grönblom\n"
+"Language-Team: Finnish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-12-10T14:57:02+00:00\n"
+"PO-Revision-Date: 2024-12-10 15:11+0000\n"
+"Language: fi\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Domain: jcore-dynamic-archive\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.6.14; wp-6.7.1\n"
+
+#. Plugin Name of the plugin
+#: jcore-dynamic-archive.php
+msgid "JCORE Dynamic Archive"
+msgstr "JCORE Dynaaminen arkisto"
+
+#. Plugin URI of the plugin
+#: jcore-dynamic-archive.php
+msgid "https://github.com/jco-digital/jcore-dynamic-archive"
+msgstr "https://github.com/jco-digital/jcore-dynamic-archive"
+
+#. Description of the plugin
+#: jcore-dynamic-archive.php
+msgid "JCORE Dynamic Archive module."
+msgstr "JCORE Dynamic Archive -moduuli."
+
+#. Author of the plugin
+#: jcore-dynamic-archive.php
+msgid "JCO Digital"
+msgstr "JCO Digital"
+
+#. Author URI of the plugin
+#: jcore-dynamic-archive.php
+msgid "https://jco.fi"
+msgstr "https://jco.fi"
+
+#: blocks/src/dynamic-archive/block.json
+msgctxt "block title"
+msgid "Dynamic Archive"
+msgstr "Dynaaminen arkisto"
+
+#: blocks/src/dynamic-archive/block.json
+msgctxt "block description"
+msgid "A dynamic archive block."
+msgstr "Dynaaminen arkisto."
+
+#: blocks/src/latest-posts/block.json
+msgctxt "block title"
+msgid "Latest posts"
+msgstr "Viimeisimmät artikkelit"
+
+#: blocks/src/latest-posts/block.json
+msgctxt "block description"
+msgid "Show latest posts"
+msgstr "Näytä uusimmat viestit"
+
+#: blocks/templates/dynamic-archive/archive.twig:21
+msgid "No posts found"
+msgstr "Artikkeleita ei löytynyt"
+
+#: blocks/templates/dynamic-archive/partials/filter-content.twig:17
+msgid "Select"
+msgstr "Valitse"
+
+#: blocks/templates/dynamic-archive/partials/load-more.twig:9
+msgid "Load more"
+msgstr "Lataa lisää"
+
+#: blocks/templates/dynamic-archive/partials/pagination.twig:3
+msgid "Pagination"
+msgstr "Sivumerkinnät"
+
+#: blocks/templates/dynamic-archive/partials/pagination.twig:14
+msgid "First page"
+msgstr "Ensimmäinen sivu"
+
+#: blocks/templates/dynamic-archive/partials/pagination.twig:25
+msgid "Previous page"
+msgstr "Edellinen sivu"
