@@ -1,3 +1,12 @@
+## [0.10.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.1...v0.10.2) (2024-12-17)
+
+
+### Bug Fixes
+
+* **TaxonomyPicker:** Fixed an issue that caused a crash if the taxonomy picker is used to search for values. 🐛 ([f51c137](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f51c13778a5a6efa519e525243264f2cc080f12b))
+
+
+
 ## [0.10.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.0...v0.10.1) (2024-12-10)
 
 
@@ -33,15 +42,6 @@
 ### Features
 
 * pagination now has dots when pages are over 6 ([a739dcf](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a739dcfe4dba16e2549bd800f151309a7f352c17))
-
-
-
-## [0.7.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.7.1...v0.7.2) (2024-11-22)
-
-
-### Bug Fixes
-
-* minor changes and fixes for different setting combinations :bug: ([f8fa13a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f8fa13a1f85e1dd5a6ec1449164271d6ea51d93b))
 
 
 
