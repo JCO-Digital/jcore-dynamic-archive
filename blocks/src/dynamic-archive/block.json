@@ -1,103 +1,96 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "jcore/dynamic-archive",
-	"version": "0.1.0",
-	"title": "Dynamic Archive",
-	"category": "widgets",
-	"icon": "grid-view",
-	"description": "A dynamic archive block.",
-	"example": {},
-	"supports": {
-		"html": false,
-		"align": true,
-		"interactivity": true
-	},
-	"attributes": {
-		"instanceId": {
-			"type": "string",
-			"default": ""
-		},
-		"postType": {
-			"type": "string",
-			"default": "post"
-		},
-		"hideChildren": {
-			"type": "boolean",
-			"default": false
-		},
-		"search": {
-			"type": "boolean",
-			"default": false
-		},
-		"sticky": {
-			"type": "string",
-			"default": "include",
-			"enum": [
-				"include",
-				"exclude",
-				"only"
-			]
-		},
-		"columns": {
-			"type": "number",
-			"default": 3
-		},
-		"perPage": {
-			"type": "number"
-		},
-		"masonryGrid": {
-			"type": "boolean"
-		},
-		"showPagination": {
-			"type": "boolean",
-			"default": true
-		},
-		"infiniteScroll": {
-			"type": "boolean",
-			"default": true
-		},
-		"order": {
-			"type": "string",
-			"default": "DESC"
-		},
-		"orderBy": {
-			"type": "string",
-			"default": "date",
-			"enum": [
-				"date",
-				"title",
-				"modified",
-				"author",
-				"ID",
-				"menu_order"
-			]
-		},
-		"taxonomies": {
-			"type": "array",
-			"default": []
-		},
-		"filterTypes": {
-			"type": "object",
-			"default": {}
-		},
-		"filterTypesChild": {
-			"type": "object",
-			"default": {}
-		},
-		"forcedCategories": {
-			"type": "object",
-			"default": {}
-		},
-		"hierarchicalFilter": {
-			"type": "object",
-			"default": {}
-		}
-	},
-	"textdomain": "jcore-dynamic-archive",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScriptModule": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "jcore/dynamic-archive",
+  "version": "0.1.0",
+  "title": "Dynamic Archive",
+  "category": "widgets",
+  "icon": "grid-view",
+  "description": "A dynamic archive block.",
+  "example": {},
+  "supports": {
+    "html": false,
+    "align": true,
+    "interactivity": true
+  },
+  "attributes": {
+    "instanceId": {
+      "type": "string",
+      "default": ""
+    },
+    "postType": {
+      "type": "string",
+      "default": "post"
+    },
+    "hideChildren": {
+      "type": "boolean",
+      "default": false
+    },
+    "search": {
+      "type": "boolean",
+      "default": false
+    },
+    "sticky": {
+      "type": "string",
+      "default": "include",
+      "enum": ["include", "exclude", "only"]
+    },
+    "columns": {
+      "type": "number",
+      "default": 3
+    },
+    "perPage": {
+      "type": "number"
+    },
+    "masonryGrid": {
+      "type": "boolean"
+    },
+    "showPagination": {
+      "type": "boolean",
+      "default": true
+    },
+    "showAllLanguages": {
+      "type": "boolean",
+      "default": false
+    },
+    "infiniteScroll": {
+      "type": "boolean",
+      "default": true
+    },
+    "order": {
+      "type": "string",
+      "default": "DESC"
+    },
+    "orderBy": {
+      "type": "string",
+      "default": "date",
+      "enum": ["date", "post_title", "modified", "author", "ID", "menu_order"]
+    },
+    "taxonomies": {
+      "type": "array",
+      "default": []
+    },
+    "filterTypes": {
+      "type": "object",
+      "default": {}
+    },
+    "filterTypesChild": {
+      "type": "object",
+      "default": {}
+    },
+    "forcedCategories": {
+      "type": "object",
+      "default": {}
+    },
+    "hierarchicalFilter": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "textdomain": "jcore-dynamic-archive",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScriptModule": "file:./view.js"
 }
