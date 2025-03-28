@@ -12,7 +12,6 @@ use Timber\URLHelper;
 use function Jcore\DynamicArchive\Helpers\build_pagination_url;
 use function Jcore\DynamicArchive\Helpers\build_param_name;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
-use function Jcore\DynamicArchive\Helpers\get_nested_value;
 use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
 use function Jcore\DynamicArchive\Helpers\is_post_type;
@@ -146,6 +145,7 @@ $taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
 $interactivity_context = array(
 	'currentPage'      => $current_page ?? 1,
 	'isInfiniteScroll' => $attributes['infiniteScroll'] ?? false,
+	'showAllLanguages' => $attributes['showAllLanguages'] ?? false,
 	'filters'          => array(
 		$taxonomy_key => get_parameter( $taxonomy_key, array() ),
 	),
