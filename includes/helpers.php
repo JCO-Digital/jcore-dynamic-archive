@@ -43,7 +43,12 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 		default => 'desc',
 	};
 	$args['order']   = strtoupper( $order );
-	$args['orderby'] = get_parameter( build_param_name( 'orderby', $instance_id ), $attributes['sortBy'] ?? 'date' );
+	$args['orderby'] = get_parameter( build_param_name( 'orderby', $instance_id ), $attributes['orderBy'] ?? 'date' );
+
+	// Load all posts regardless of language.
+	if ( $attributes['showAllLanguages'] ) {
+		$args['lang'] = '';
+	}
 
 	return handle_taxonomies_filter( $args, $attributes );
 }
@@ -59,6 +64,7 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 function handle_taxonomies_filter( array $args, array $attributes ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
 	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id ), array() );
+
 	foreach ( $attributes['taxonomies'] ?? array() as $taxonomy ) {
 		$active_filters = get_nested_value( $all_filters, array( $taxonomy ), array() );
 		if ( empty( $active_filters ) ) {
@@ -75,15 +81,31 @@ function handle_taxonomies_filter( array $args, array $attributes ): array {
 				return $term->parent > 0;
 			}
 		);
-		$tax_query        = array(
+
+		if ( $attributes['showAllLanguages'] && function_exists( 'pll_get_term_translations' ) ) {
+			$new_filters = array();
+			foreach ( $active_filters as $term_id ) {
+				$translations = pll_get_term_translations( $term_id );
+				if ( is_array( $translations ) ) {
+					foreach ( $translations as $translation ) {
+						$new_filters[] = $translation;
+					}
+				}
+			}
+			$active_filters = array_unique( array_merge( $active_filters, $new_filters ) );
+		}
+
+		$tax_query = array(
 			'taxonomy'         => $taxonomy,
 			'field'            => 'id',
 			'terms'            => $active_filters,
 			'include_children' => count( $has_active_child ) === 0,
 		);
+
 		if ( count( $active_filters ) > 1 ) {
-			$tax_query['operator'] = 'AND';
+			$tax_query['operator'] = 'IN';
 		}
+
 		$args['tax_query'][] = $tax_query;
 	}
 	if ( empty( $args['tax_query'] ) ) {
@@ -242,7 +264,9 @@ function build_taxonomies_filter( array $attributes ): array {
 	$taxonomies  = array();
 	$instance_id = $attributes['instanceId'] ?? '';
 	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id ), array() );
+
 	foreach ( $attributes['taxonomies'] ?? array() as $taxonomy ) {
+		// Get taxonomy object.
 		$tax_object   = get_taxonomy( $taxonomy );
 		$forced_terms = get_nested_value( $attributes, array( 'forcedCategories', $taxonomy ), array() );
 		if ( ! is_array( $forced_terms ) ) {
@@ -261,7 +285,7 @@ function build_taxonomies_filter( array $attributes ): array {
 		$terms                   = get_terms(
 			array(
 				'taxonomy'   => $taxonomy,
-				'hide_empty' => true,
+				'hide_empty' => ! $attributes['showAllLanguages'], // Show empty if all languages are shown.
 			)
 		);
 		$taxonomies[ $taxonomy ] = array(
