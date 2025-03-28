@@ -1,3 +1,12 @@
+# [0.11.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.2...v0.11.0) (2025-03-28)
+
+
+### Features
+
+* Added option to show items of all languages. ([4daafee](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4daafee522d01a70f5267d2c03259470aa888517))
+
+
+
 ## [0.10.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.1...v0.10.2) (2024-12-17)
 
 
@@ -33,15 +42,6 @@
 ### Features
 
 * **archive:** Added ability to hide children for hierarchical post types :sparkles: ([0a6df60](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/0a6df60bb0f540e77f3487d4e13ec3d750ec2614))
-
-
-
-# [0.8.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.7.2...v0.8.0) (2024-12-02)
-
-
-### Features
-
-* pagination now has dots when pages are over 6 ([a739dcf](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a739dcfe4dba16e2549bd800f151309a7f352c17))
 
 
 
