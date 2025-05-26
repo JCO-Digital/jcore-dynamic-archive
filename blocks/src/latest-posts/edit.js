@@ -25,6 +25,7 @@ import {
 	RangeControl,
 	QueryControls,
 	SelectControl,
+	Disabled,
 } from '@wordpress/components';
 import { settings, layout, funnel } from '@wordpress/icons';
 
@@ -38,7 +39,6 @@ const debug = _debug('latest-posts:Edit');
  * Styles
  */
 import './editor.css';
-import useTaxonomies from '@/shared/useTaxonomies';
 import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
 
 /**
@@ -281,11 +281,13 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 			<div {...useBlockProps()}>
-				<ServerSideRender
-					block="jcore/latest-posts"
-					attributes={attributes}
-					httpMethod={'POST'}
-				/>
+				<Disabled isDisabled={true}>
+					<ServerSideRender
+						block="jcore/latest-posts"
+						attributes={attributes}
+						httpMethod={'POST'}
+					/>
+				</Disabled>
 			</div>
 		</>
 	);
