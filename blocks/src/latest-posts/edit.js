@@ -1,19 +1,19 @@
 /**
  * Hooks
  */
-import { useBlockProps } from "@wordpress/block-editor";
-import { __ } from "@wordpress/i18n";
-import usePostTypes from "@/shared/usePostTypes";
-import { applyFilters } from "@wordpress/hooks";
-import { useState } from "@wordpress/element";
-import { useSelect } from "@wordpress/data";
-import { store as coreDataStore } from "@wordpress/core-data";
+import { useBlockProps } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import usePostTypes from '@/shared/usePostTypes';
+import { applyFilters } from '@wordpress/hooks';
+import { useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import { store as coreDataStore } from '@wordpress/core-data';
 
 /**
  * Components
  */
-import ServerSideRender from "@wordpress/server-side-render";
-import { InspectorControls } from "@wordpress/block-editor";
+import ServerSideRender from '@wordpress/server-side-render';
+import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	Spinner,
@@ -23,22 +23,23 @@ import {
 	__experimentalHStack as HStack,
 	__experimentalSpacer as Spacer,
 	RangeControl,
-	QueryControls, SelectControl,
-} from "@wordpress/components";
-import { settings, layout, funnel } from "@wordpress/icons";
+	QueryControls,
+	SelectControl,
+} from '@wordpress/components';
+import { settings, layout, funnel } from '@wordpress/icons';
 
 /**
  * Dependencies
  */
-import _debug from "debug";
-const debug = _debug("latest-posts:Edit");
+import _debug from 'debug';
+const debug = _debug('latest-posts:Edit');
 
 /**
  * Styles
  */
-import "./editor.css";
-import useTaxonomies from "@/shared/useTaxonomies";
-import TaxonomyPicker from "@/shared/components/TaxonomyPicker";
+import './editor.css';
+import useTaxonomies from '@/shared/useTaxonomies';
+import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -49,14 +50,23 @@ import TaxonomyPicker from "@/shared/components/TaxonomyPicker";
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes }) {
-	const { postTypes, automatic, columns, postsPerPage, order, orderBy, selectedTaxonomies, sticky, expanded } =
-		attributes;
+	const {
+		postTypes,
+		automatic,
+		columns,
+		postsPerPage,
+		order,
+		orderBy,
+		selectedTaxonomies,
+		sticky,
+		expanded,
+	} = attributes;
 
 	const { postTypes: _postTypes, loading: postTypeLoading } = usePostTypes();
 
 	const postTypesToShow = applyFilters(
-		"jcore.latestPosts.showPostTypes",
-		_postTypes,
+		'jcore.latestPosts.showPostTypes',
+		_postTypes
 	);
 
 	const [taxonomiesLoading, setTaxonomyLoading] = useState(false);
@@ -83,12 +93,16 @@ export default function Edit({ attributes, setAttributes }) {
 				return [];
 			}
 			setTaxonomyLoading(false);
-			return applyFilters( "jcore.latestPosts.taxonomies", allTaxonomies, postTypes );
+			return applyFilters(
+				'jcore.latestPosts.taxonomies',
+				allTaxonomies,
+				postTypes
+			);
 		},
-		[postTypes],
+		[postTypes]
 	);
 
-	const maxSelected = applyFilters("jcore.latestPosts.maxSelected", -1);
+	const maxSelected = applyFilters('jcore.latestPosts.maxSelected', -1);
 
 	const handlePostTypesChange = (postType) => {
 		const postTypeIndex = postTypes.indexOf(postType);
@@ -105,7 +119,7 @@ export default function Edit({ attributes, setAttributes }) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={__("Settings", "jcore-dynamic-archive")}
+					title={__('Settings', 'jcore-dynamic-archive')}
 					icon={postTypeLoading ? <Spinner size={5} /> : settings}
 					initialOpen={expanded}
 				>
@@ -121,7 +135,9 @@ export default function Edit({ attributes, setAttributes }) {
 									key={postType.slug}
 									label={postType.name}
 									checked={postTypes.includes(postType.slug)}
-									onChange={() => handlePostTypesChange(postType.slug)}
+									onChange={() =>
+										handlePostTypesChange(postType.slug)
+									}
 									__nextHasNoMarginBottom
 								/>
 							))}
@@ -129,10 +145,10 @@ export default function Edit({ attributes, setAttributes }) {
 								<Text>
 									{sprintf(
 										__(
-											"You have selected the maximum amount of post types. (%s)",
-											"jcore",
+											'You have selected the maximum amount of post types. (%s)',
+											'jcore'
 										),
-										maxSelected,
+										maxSelected
 									)}
 								</Text>
 							)}
@@ -141,9 +157,14 @@ export default function Edit({ attributes, setAttributes }) {
 					<Spacer marginBottom={6}>
 						<VStack>
 							{taxonomiesLoading && (
-								<HStack alignment={"left"}>
+								<HStack alignment={'left'}>
 									<Spinner />
-									<Text>{__("Loading taxonomies...", "jcore-dynamic-archive")}</Text>
+									<Text>
+										{__(
+											'Loading taxonomies...',
+											'jcore-dynamic-archive'
+										)}
+									</Text>
 								</HStack>
 							)}
 							{!taxonomiesLoading && (
@@ -152,31 +173,56 @@ export default function Edit({ attributes, setAttributes }) {
 									onNumberOfItemsChange={(value) =>
 										setAttributes({ postsPerPage: value })
 									}
-									maxItems={applyFilters("jcore.latestPosts.maxItems", 25)}
+									maxItems={applyFilters(
+										'jcore.latestPosts.maxItems',
+										25
+									)}
 									minItems={1}
 									order={order}
 									orderBy={orderBy}
-									onOrderChange={(value) => setAttributes({ order: value })}
-									onOrderByChange={(value) => setAttributes({ orderBy: value })}
+									onOrderChange={(value) =>
+										setAttributes({ order: value })
+									}
+									onOrderByChange={(value) =>
+										setAttributes({ orderBy: value })
+									}
 									onCategoryChange={(value) =>
 										setAttributes({ category: value.id })
 									}
-								/>)}
-							{postTypes && postTypes.includes("post") && (
+								/>
+							)}
+							{postTypes && postTypes.includes('post') && (
 								<SelectControl
-									label={__("Sticky post behavior", "jcore-dynamic-archive")}
+									label={__(
+										'Sticky post behavior',
+										'jcore-dynamic-archive'
+									)}
 									options={[
 										{
-											label: __("Include", "jcore-dynamic-archive"),
-											value: "include",
+											label: __(
+												'Include',
+												'jcore-dynamic-archive'
+											),
+											value: 'include',
 										},
 										{
-											label: __("Exclude", "jcore-dynamic-archive"),
-											value: "exclude",
+											label: __(
+												'Exclude',
+												'jcore-dynamic-archive'
+											),
+											value: 'exclude',
 										},
-										{ label: __("Only", "jcore-dynamic-archive"), value: "only" },
+										{
+											label: __(
+												'Only',
+												'jcore-dynamic-archive'
+											),
+											value: 'only',
+										},
 									]}
-									onChange={(value) => setAttributes({ sticky: value })}
+									onChange={(value) =>
+										setAttributes({ sticky: value })
+									}
 									value={sticky}
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
@@ -186,12 +232,12 @@ export default function Edit({ attributes, setAttributes }) {
 					</Spacer>
 				</PanelBody>
 				<PanelBody
-					title={__("Layout", "jcore")}
+					title={__('Layout', 'jcore')}
 					icon={layout}
 					initialOpen={expanded}
 				>
 					<RangeControl
-						label={__("Columns", "jcore-dynamic-archive")}
+						label={__('Columns', 'jcore-dynamic-archive')}
 						value={columns || 3}
 						onChange={(value) => {
 							if (isNaN(parseInt(value))) {
@@ -206,25 +252,30 @@ export default function Edit({ attributes, setAttributes }) {
 					/>
 				</PanelBody>
 				<PanelBody
-					title={__("Filters", "jcore-dynamic-archive")}
+					title={__('Filters', 'jcore-dynamic-archive')}
 					icon={funnel}
 					initialOpen={expanded}
 				>
 					<Spacer marginBottom={6}>
 						<VStack>
-							{!taxonomiesLoading && taxonomies.map((taxonomy) => (
-								<TaxonomyPicker
-									taxonomySlug={taxonomy.slug}
-									onChange={(value) => setAttributes({
-											selectedTaxonomies: {
-												...selectedTaxonomies,
-												[taxonomy.slug]: value,
-											},
-										})
-									}
-									value={selectedTaxonomies[taxonomy.slug] ?? []}
-								/>
-							))}
+							{!taxonomiesLoading &&
+								taxonomies.map((taxonomy) => (
+									<TaxonomyPicker
+										taxonomySlug={taxonomy.slug}
+										onChange={(value) =>
+											setAttributes({
+												selectedTaxonomies: {
+													...selectedTaxonomies,
+													[taxonomy.slug]: value,
+												},
+											})
+										}
+										value={
+											selectedTaxonomies[taxonomy.slug] ??
+											[]
+										}
+									/>
+								))}
 						</VStack>
 					</Spacer>
 				</PanelBody>
@@ -233,7 +284,7 @@ export default function Edit({ attributes, setAttributes }) {
 				<ServerSideRender
 					block="jcore/latest-posts"
 					attributes={attributes}
-					httpMethod={"POST"}
+					httpMethod={'POST'}
 				/>
 			</div>
 		</>

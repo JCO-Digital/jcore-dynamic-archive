@@ -1,5 +1,5 @@
-import { useEntityRecords } from "@wordpress/core-data";
-import { parseArgs } from "./utils";
+import { useEntityRecords } from '@wordpress/core-data';
+import { parseArgs } from './utils';
 
 export default function useTaxonomyRecords(taxonomyName, queryArgs = {}) {
 	const defaultQueryArgs = {
@@ -9,9 +9,9 @@ export default function useTaxonomyRecords(taxonomyName, queryArgs = {}) {
 	const parsed = parseArgs(defaultQueryArgs, queryArgs);
 
 	const { records, isResolving } = useEntityRecords(
-		"taxonomy",
+		'taxonomy',
 		taxonomyName,
-		parsed,
+		parsed
 	);
 
 	return {

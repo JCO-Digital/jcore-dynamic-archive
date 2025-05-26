@@ -17,9 +17,14 @@
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start --webpack-copy-php --experimental-modules --stats-error-details"
 	},
+	"pnpm": {
+		"onlyBuiltDependencies": [
+			"@parcel/watcher",
+			"core-js",
+			"core-js-pure"
+		]
+	},
 	"devDependencies": {
-		"@wordpress/scripts": "^30.5.1",
-		"@wordpress/server-side-render": "*",
 		"@wordpress/block-editor": "*",
 		"@wordpress/blocks": "*",
 		"@wordpress/components": "*",
@@ -32,7 +37,9 @@
 		"@wordpress/i18n": "*",
 		"@wordpress/is-shallow-equal": "*",
 		"@wordpress/keycodes": "*",
-		"@wordpress/notices": "*"
+		"@wordpress/notices": "*",
+		"@wordpress/scripts": "^30.5.1",
+		"@wordpress/server-side-render": "*"
 	},
 	"files": [
 		"[^.]*"
@@ -41,8 +48,9 @@
 		"@wordpress/icons": "*",
 		"@wordpress/interactivity": "^6.12.0",
 		"@wordpress/interactivity-router": "^2.12.0",
+		"debug": "^4.3.7",
+		"es-toolkit": "^1.38.0",
 		"lodash": "^4.17.21",
-		"qs": "^6.13.0",
-		"debug": "^4.3.7"
+		"qs": "^6.13.0"
 	}
 }
