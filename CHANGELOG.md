@@ -1,3 +1,12 @@
+## [0.13.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.13.0...v0.13.1) (2025-05-26)
+
+
+### Bug Fixes
+
+* **latest-posts:** conditionally render filters panel based on related posts state 🐛 ([a24ba9f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a24ba9f8e3a2d11d1ebf7d75e15a13ba408fbe1f))
+
+
+
 # [0.13.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.2...v0.13.0) (2025-05-26)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * change to pnpm + add new preCommit hook to deploy ([4794a52](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4794a52de45d4a63fe6d32cf16d99f35f5f5760d))
-
-
-
-# [0.11.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.2...v0.11.0) (2025-03-28)
-
-
-### Features
-
-* Added option to show items of all languages. ([4daafee](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4daafee522d01a70f5267d2c03259470aa888517))
 
 
 
