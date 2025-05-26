@@ -258,34 +258,37 @@ export default function Edit({ attributes, setAttributes }) {
 						__next40pxDefaultSize
 					/>
 				</PanelBody>
-				<PanelBody
-					title={__('Filters', 'jcore-dynamic-archive')}
-					icon={funnel}
-					initialOpen={expanded}
-				>
-					<Spacer marginBottom={6}>
-						<VStack>
-							{!taxonomiesLoading &&
-								taxonomies.map((taxonomy) => (
-									<TaxonomyPicker
-										taxonomySlug={taxonomy.slug}
-										onChange={(value) =>
-											setAttributes({
-												selectedTaxonomies: {
-													...selectedTaxonomies,
-													[taxonomy.slug]: value,
-												},
-											})
-										}
-										value={
-											selectedTaxonomies[taxonomy.slug] ??
-											[]
-										}
-									/>
-								))}
-						</VStack>
-					</Spacer>
-				</PanelBody>
+				{!related && (
+					<PanelBody
+						title={__('Filters', 'jcore-dynamic-archive')}
+						icon={funnel}
+						initialOpen={expanded}
+					>
+						<Spacer marginBottom={6}>
+							<VStack>
+								{!taxonomiesLoading &&
+									taxonomies.map((taxonomy) => (
+										<TaxonomyPicker
+											taxonomySlug={taxonomy.slug}
+											onChange={(value) =>
+												setAttributes({
+													selectedTaxonomies: {
+														...selectedTaxonomies,
+														[taxonomy.slug]: value,
+													},
+												})
+											}
+											value={
+												selectedTaxonomies[
+													taxonomy.slug
+												] ?? []
+											}
+										/>
+									))}
+							</VStack>
+						</Spacer>
+					</PanelBody>
+				)}
 			</InspectorControls>
 			<div {...useBlockProps()}>
 				<Disabled isDisabled={true}>
