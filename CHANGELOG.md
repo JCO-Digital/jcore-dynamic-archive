@@ -1,3 +1,12 @@
+# [0.13.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.2...v0.13.0) (2025-05-26)
+
+
+### Features
+
+* **latest-posts:** added related posts variation. ✨ ([fb6946a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb6946aa1068cb2c01e5df2b72917b7d2ae0dd64))
+
+
+
 ## [0.12.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.1...v0.12.2) (2025-05-26)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Added option to show items of all languages. ([4daafee](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4daafee522d01a70f5267d2c03259470aa888517))
-
-
-
-## [0.10.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.1...v0.10.2) (2024-12-17)
-
-
-### Bug Fixes
-
-* **TaxonomyPicker:** Fixed an issue that caused a crash if the taxonomy picker is used to search for values. 🐛 ([f51c137](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f51c13778a5a6efa519e525243264f2cc080f12b))
 
 
 
