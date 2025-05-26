@@ -14,15 +14,26 @@ $context               = Timber::context();
 $context['block']      = $block;
 $context['attributes'] = $attributes;
 
-$args = array(
-	'post_type'      => get_nested_value( $attributes, array( 'postTypes' ), array() ),
-	'posts_per_page' => get_nested_value( $attributes, array( 'postsPerPage' ), 6 ),
-	'order'          => get_nested_value( $attributes, array( 'order' ), 'desc' ),
-	'orderby'        => get_nested_value( $attributes, array( 'orderBy' ), 'date' ),
-);
+if ( $attributes['related'] ) {
+	$args = array(
+		'post_type'      => get_post_type( get_the_ID() ),
+		'posts_per_page' => get_nested_value( $attributes, array( 'postsPerPage' ), 6 ),
+		'order'          => get_nested_value( $attributes, array( 'order' ), 'desc' ),
+		'orderby'        => get_nested_value( $attributes, array( 'orderBy' ), 'date' ),
+		'post__not_in'   => array( get_the_ID() ),
+	);
+} else {
+	$args = array(
+		'post_type'      => get_nested_value( $attributes, array( 'postTypes' ), array() ),
+		'posts_per_page' => get_nested_value( $attributes, array( 'postsPerPage' ), 6 ),
+		'order'          => get_nested_value( $attributes, array( 'order' ), 'desc' ),
+		'orderby'        => get_nested_value( $attributes, array( 'orderBy' ), 'date' ),
+	);
+}
+
 
 $taxonomies_filter = get_nested_value( $attributes, array( 'selectedTaxonomies' ), array() );
-if ( ! empty( $taxonomies_filter ) ) {
+if ( ! empty( $taxonomies_filter ) && ! $attributes['related'] ) {
 	$args['tax_query'] = array();
 	foreach ( $taxonomies_filter as $slug => $terms ) {
 		if ( empty( $terms ) ) {
@@ -38,6 +49,26 @@ if ( ! empty( $taxonomies_filter ) ) {
 	if ( empty( $args['tax_query'] ) ) {
 		unset( $args['tax_query'] );
 	}
+} elseif ( $attributes['related'] ) {
+	$existing_taxonomies = get_object_taxonomies( get_post_type( get_the_ID() ), 'objects' );
+	foreach ( $existing_taxonomies as $taxo ) {
+		if ( ! $taxo->public || ! $taxo->publicly_queryable ) {
+			continue;
+		}
+		$current_terms = get_the_terms( get_the_ID(), $taxo->name );
+		if ( empty( $current_terms ) || is_wp_error( $current_terms ) ) {
+			continue;
+		}
+		if ( ! isset( $args['tax_query'] ) ) {
+			$args['tax_query'] = array();
+		}
+		$args['tax_query'][] = array(
+			'taxonomy'         => $taxo->name,
+			'field'            => 'id',
+			'terms'            => wp_list_pluck( $current_terms, 'term_id' ),
+			'include_children' => true,
+		);
+	}
 }
 
 if ( isset( $attributes['sticky'] ) ) {
@@ -52,6 +83,9 @@ if ( isset( $attributes['sticky'] ) ) {
 		default => array(),
 	};
 	$args = array_merge( $args, $args_to_add );
+	if ( $attributes['related'] && isset( $args_to_add['post__not_in'] ) ) {
+		$args['post__not_in'] = array_merge( $args['post__not_in'], $args_to_add['post__not_in'] );
+	}
 }
 
 $context['posts']                    = Timber::get_posts( $args );
