@@ -28,38 +28,22 @@
 		"sticky": {
 			"type": "string",
 			"default": "include",
-			"enum": [
-				"include",
-				"exclude",
-				"only"
-			]
+			"enum": ["include", "exclude", "only"]
 		},
 		"orderBy": {
 			"type": "string",
 			"default": "date",
-			"enum": [
-				"date",
-				"title"
-			]
+			"enum": ["date", "title"]
 		},
 		"order": {
 			"type": "string",
 			"default": "desc",
-			"enum": [
-				"asc",
-				"desc"
-			]
+			"enum": ["asc", "desc"]
 		},
 		"columns": {
 			"type": "number",
 			"default": 3,
-			"enum": [
-				1,
-				2,
-				3,
-				4,
-				5
-			]
+			"enum": [1, 2, 3, 4, 5]
 		},
 		"expanded": {
 			"type": "boolean",

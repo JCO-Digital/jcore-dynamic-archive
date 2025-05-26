@@ -1,4 +1,4 @@
-import { ToggleControl } from "@wordpress/components";
+import { ToggleControl } from '@wordpress/components';
 
 export default function ToggleWrapper({
 	attributeName,
@@ -8,10 +8,12 @@ export default function ToggleWrapper({
 	label,
 }) {
 	return (
-		<div className={"jcore-toggle-component"}>
+		<div className={'jcore-toggle-component'}>
 			<ToggleControl
 				checked={checked}
-				onChange={(checked) => setAttributes({ [attributeName]: checked })}
+				onChange={(checked) =>
+					setAttributes({ [attributeName]: checked })
+				}
 				label={label}
 				__nextHasNoMarginBottom
 			/>

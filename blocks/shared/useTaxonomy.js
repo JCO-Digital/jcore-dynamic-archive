@@ -1,10 +1,10 @@
-import { useEntityRecord } from "@wordpress/core-data";
+import { useEntityRecord } from '@wordpress/core-data';
 
 export default function useTaxonomy(taxonomyName) {
 	const { record, isResolving } = useEntityRecord(
-		"root",
-		"taxonomy",
-		taxonomyName,
+		'root',
+		'taxonomy',
+		taxonomyName
 	);
 	return {
 		taxonomy: record,

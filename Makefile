@@ -17,17 +17,17 @@ composer-install:
 .PHONY: blocks-install
 blocks-install:
 	corepack enable
-	cd blocks && npm install
+	cd blocks && pnpm install
 
 .PHONY: blocks-build
 blocks-build:
 	corepack enable
-	cd blocks && npm run build
+	cd blocks && pnpm run build
 
 .PHONY: blocks-watch
 blocks-watch:
 	corepack enable
-	cd blocks && npm run start
+	cd blocks && pnpm run start
 
 .PHONY: make-pot
 make-pot:

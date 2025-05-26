@@ -3,7 +3,7 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-import { registerBlockType } from "@wordpress/blocks";
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
@@ -12,14 +12,14 @@ import { registerBlockType } from "@wordpress/blocks";
  *
  * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
  */
-import "./style.css";
+import './style.css';
 
 /**
  * Internal dependencies
  */
-import Edit from "./edit";
-import variations from "./variations";
-import metadata from "./block.json";
+import Edit from './edit';
+import variations from './variations';
+import metadata from './block.json';
 
 /**
  * Every block starts by registering a new block type definition.

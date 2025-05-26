@@ -1,10 +1,10 @@
-import { useEffect, useState } from "@wordpress/element";
-import { useEntityProp } from "@wordpress/core-data";
+import { useEffect, useState } from '@wordpress/element';
+import { useEntityProp } from '@wordpress/core-data';
 
 export default function useSiteSetting(settingName, initialValue) {
 	const [setting, setSetting] = useState(initialValue);
 
-	const [settingValue] = useEntityProp("root", "site", settingName);
+	const [settingValue] = useEntityProp('root', 'site', settingName);
 
 	useEffect(() => {
 		if (settingValue !== undefined) {

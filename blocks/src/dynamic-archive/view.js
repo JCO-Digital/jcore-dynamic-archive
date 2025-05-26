@@ -4,11 +4,11 @@ import {
 	getServerContext,
 	splitTask,
 	store,
-} from "@wordpress/interactivity";
-import qs from "qs";
-import cloneDeep from "lodash/cloneDeep";
-import _debug from "debug";
-const debug = _debug("dynamic-archive:frontend");
+} from '@wordpress/interactivity';
+import qs from 'qs';
+import { cloneDeep } from 'es-toolkit/object';
+import _debug from 'debug';
+const debug = _debug('dynamic-archive:frontend');
 
 /** @typedef {string} TaxonomyName */
 /** @typedef {string} FilterName */
@@ -24,7 +24,7 @@ const isValidLink = (ref) =>
 	ref &&
 	ref instanceof window.HTMLAnchorElement &&
 	ref.href &&
-	(!ref.target || ref.target === "_self") &&
+	(!ref.target || ref.target === '_self') &&
 	ref.origin === window.location.origin;
 
 const isValidEvent = (event) =>
@@ -44,28 +44,33 @@ const isValidEvent = (event) =>
  */
 const parseAttributes = (event, ref, attributes) => {
 	if (
-		getNestedValue(attributes, ["data-filter-type"], undefined) === "dropdown"
+		getNestedValue(attributes, ['data-filter-type'], undefined) ===
+		'dropdown'
 	) {
 		const taxonomyName = getNestedValue(
 			attributes,
-			["data-taxonomy"],
-			undefined,
+			['data-taxonomy'],
+			undefined
 		);
-		const value = getNestedValue(event, ["target", "value"], undefined);
+		const value = getNestedValue(event, ['target', 'value'], undefined);
 		return [
-			getNestedValue(attributes, ["data-filter-type"], undefined),
+			getNestedValue(attributes, ['data-filter-type'], undefined),
 			taxonomyName,
 			value,
-			getNestedValue(attributes, ["data-is-child"], false),
+			getNestedValue(attributes, ['data-is-child'], false),
 		];
 	}
-	const taxonomyName = getNestedValue(attributes, ["data-taxonomy"], undefined);
-	const value = getNestedValue(attributes, ["data-term"], undefined);
+	const taxonomyName = getNestedValue(
+		attributes,
+		['data-taxonomy'],
+		undefined
+	);
+	const value = getNestedValue(attributes, ['data-term'], undefined);
 	return [
-		getNestedValue(attributes, ["data-filter-type"], undefined),
+		getNestedValue(attributes, ['data-filter-type'], undefined),
 		taxonomyName,
 		value,
-		getNestedValue(attributes, ["data-is-child"], false),
+		getNestedValue(attributes, ['data-is-child'], false),
 	];
 };
 
@@ -90,16 +95,16 @@ const buildFilterUrl = ({
 	taxonomyName,
 	value,
 }) => {
-	const taxonomyKey = buildParamName(blockId, "taxonomy");
+	const taxonomyKey = buildParamName(blockId, 'taxonomy');
 	setupFilter(filterState, taxonomyKey, taxonomyName);
 	switch (type) {
-		case "checkbox":
+		case 'checkbox':
 			handleToggle(filterState, taxonomyKey, taxonomyName, value);
 			break;
-		case "radio":
+		case 'radio':
 			handleRadio(filterState, taxonomyKey, taxonomyName, value);
 			break;
-		case "dropdown":
+		case 'dropdown':
 			handleRadio(filterState, taxonomyKey, taxonomyName, value);
 			break;
 		default:
@@ -107,16 +112,16 @@ const buildFilterUrl = ({
 	}
 
 	const url = new URL(window.location.href);
-	const parsedUrl = qs.parse(url.search.replaceAll("?", ""));
+	const parsedUrl = qs.parse(url.search.replaceAll('?', ''));
 	let urlState = {
 		...parsedUrl,
 		...filterState,
 	};
 	const parsedPage = parseInt(currentPage);
 	if (isInfiniteScroll && !isNaN(parsedPage) && parsedPage > 1) {
-		urlState[buildParamName(blockId, "paged")] = currentPage;
+		urlState[buildParamName(blockId, 'paged')] = currentPage;
 	} else {
-		delete urlState[buildParamName(blockId, "paged")];
+		delete urlState[buildParamName(blockId, 'paged')];
 	}
 	url.search = qs.stringify(urlState, {
 		encode: false,
@@ -215,7 +220,7 @@ const handleRadio = (filters, taxonomyKey, taxonomyName, value) => {
 	}
 };
 
-const { state } = store("jcore/dynamic-archive", {
+const { state } = store('jcore/dynamic-archive', {
 	state: {
 		get children() {
 			const context = getContext();
@@ -235,7 +240,7 @@ const { state } = store("jcore/dynamic-archive", {
 					}
 					return acc;
 				},
-				{},
+				{}
 			);
 		},
 		get filterTypes() {
@@ -257,7 +262,7 @@ const { state } = store("jcore/dynamic-archive", {
 					acc[taxonomyName] = types;
 					return acc;
 				},
-				{},
+				{}
 			);
 		},
 	},
@@ -268,7 +273,7 @@ const { state } = store("jcore/dynamic-archive", {
 			const [type, taxonomyName, value] = parseAttributes(
 				event,
 				element.ref,
-				attributes,
+				attributes
 			);
 			// Bail early if we don't have a taxonomy name.
 			if (!taxonomyName) {
@@ -287,7 +292,7 @@ const { state } = store("jcore/dynamic-archive", {
 				currentPage,
 			});
 			context.isLoading = true;
-			const { actions } = yield import("@wordpress/interactivity-router");
+			const { actions } = yield import('@wordpress/interactivity-router');
 			yield actions.navigate(newUrl);
 			context.isLoading = false;
 		},
@@ -295,7 +300,7 @@ const { state } = store("jcore/dynamic-archive", {
 			const element = getElement();
 			/** @type {HTMLLabelElement} */
 			const ref = element.ref;
-			if (ref.tagName !== "LABEL") {
+			if (ref.tagName !== 'LABEL') {
 				return;
 			}
 			const labelTarget = ref.htmlFor;
@@ -303,9 +308,9 @@ const { state } = store("jcore/dynamic-archive", {
 			if (!target) {
 				return;
 			}
-			const taxonomyName = target.getAttribute("data-taxonomy");
-			const value = target.getAttribute("data-term");
-			const type = target.getAttribute("data-filter-type");
+			const taxonomyName = target.getAttribute('data-taxonomy');
+			const value = target.getAttribute('data-term');
+			const type = target.getAttribute('data-filter-type');
 			if (!taxonomyName || !value || !type) {
 				return;
 			}
@@ -322,7 +327,7 @@ const { state } = store("jcore/dynamic-archive", {
 				currentPage,
 			});
 			context.isPrefetching = true;
-			const { actions } = yield import("@wordpress/interactivity-router");
+			const { actions } = yield import('@wordpress/interactivity-router');
 			yield actions.prefetch(newUrl);
 			context.isPrefetching = false;
 		},
@@ -332,7 +337,7 @@ const { state } = store("jcore/dynamic-archive", {
 			/** @type {HTMLAnchorElement} */
 			const ref = element.ref;
 			const parentEl = ref.closest(
-				'[data-wp-interactive="jcore/dynamic-archive"]',
+				'[data-wp-interactive="jcore/dynamic-archive"]'
 			);
 			if (!isValidLink(ref) || !isValidEvent(event)) {
 				return;
@@ -340,12 +345,12 @@ const { state } = store("jcore/dynamic-archive", {
 			event.preventDefault();
 			yield splitTask();
 			context.isLoading = true;
-			const { actions } = yield import("@wordpress/interactivity-router");
+			const { actions } = yield import('@wordpress/interactivity-router');
 			yield actions.navigate(ref.href);
 			context.isLoading = false;
 			if (!context.isInfiniteScroll && parentEl) {
 				parentEl.scrollIntoView({
-					behavior: "smooth",
+					behavior: 'smooth',
 				});
 			}
 		},
@@ -358,7 +363,7 @@ const { state } = store("jcore/dynamic-archive", {
 				return;
 			}
 			context.isPrefetching = true;
-			const { actions } = yield import("@wordpress/interactivity-router");
+			const { actions } = yield import('@wordpress/interactivity-router');
 			yield actions.prefetch(ref.href);
 			context.isPrefetching = false;
 		},

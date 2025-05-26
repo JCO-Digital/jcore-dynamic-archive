@@ -1,4 +1,4 @@
-import { useEntityRecords } from "@wordpress/core-data";
+import { useEntityRecords } from '@wordpress/core-data';
 
 export default function useTaxonomies(postType) {
 	const queryArgs = {
@@ -9,9 +9,9 @@ export default function useTaxonomies(postType) {
 		queryArgs.type = postType;
 	}
 	const { records: taxonomies, isResolving } = useEntityRecords(
-		"root",
-		"taxonomy",
-		queryArgs,
+		'root',
+		'taxonomy',
+		queryArgs
 	);
 
 	return {

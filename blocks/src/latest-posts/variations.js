@@ -1,2 +1,2 @@
-const variations = []
+const variations = [];
 export default variations;

@@ -1,14 +1,14 @@
-import { useEffect, useState } from "@wordpress/element";
-import useTaxonomyRecords from "../useTaxonomyRecords";
+import { useEffect, useState } from '@wordpress/element';
+import useTaxonomyRecords from '../useTaxonomyRecords';
 import {
 	Flex,
 	FlexBlock,
 	FlexItem,
 	FormTokenField,
 	Spinner,
-} from "@wordpress/components";
-import { sprintf, _x } from "@wordpress/i18n";
-import useTaxonomy from "../useTaxonomy";
+} from '@wordpress/components';
+import { sprintf, _x } from '@wordpress/i18n';
+import useTaxonomy from '../useTaxonomy';
 
 /**
  * TaxonomyPicker
@@ -26,10 +26,12 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 	useEffect(() => {
 		// Here we go through the currently selected IDs and map them to the "string" value id###name
 		if (value && Object.keys(visibleTaxonomyList).length > 0) {
-			const mappedValues = value.map((v) => {
-				const found = visibleTaxonomyList[v];
-				return found ? `${v}###${found.name}` : undefined;
-			}).filter((v) => v !== undefined);
+			const mappedValues = value
+				.map((v) => {
+					const found = visibleTaxonomyList[v];
+					return found ? `${v}###${found.name}` : undefined;
+				})
+				.filter((v) => v !== undefined);
 			setInternalValue(mappedValues);
 		}
 	}, [value, visibleTaxonomyList]);
@@ -39,12 +41,14 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 		taxonomySlug,
 		{
 			per_page: -1,
-		},
+		}
 	);
 
 	useEffect(() => {
 		if (taxonomyRecords) {
-			const mappedRecords = taxonomyRecords.map((record) => `${record.id}###${record.name}`);
+			const mappedRecords = taxonomyRecords.map(
+				(record) => `${record.id}###${record.name}`
+			);
 			const mappedVisibleRecord = {};
 			taxonomyRecords.forEach((term) => {
 				mappedVisibleRecord[term.id.toString()] = {
@@ -62,10 +66,21 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 
 	// Converts the selected values (id###name) to just the id. (filters out "empty" values)
 	const handleChange = (values) => {
-		const mappedValues = values.map((value) => value.split("###")[0]).filter((value) => value !== "" && value !== undefined && value !== null && value !== false && value !== 'undefined');
-		const mappedRecords = mappedValues.map((value) => value ?? undefined).filter((value) => value !== undefined);
+		const mappedValues = values
+			.map((value) => value.split('###')[0])
+			.filter(
+				(value) =>
+					value !== '' &&
+					value !== undefined &&
+					value !== null &&
+					value !== false &&
+					value !== 'undefined'
+			);
+		const mappedRecords = mappedValues
+			.map((value) => value ?? undefined)
+			.filter((value) => value !== undefined);
 		onChange(mappedRecords);
-	}
+	};
 
 	return (
 		<Flex>
@@ -75,8 +90,8 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 					__next40pxDefaultSize
 					__nextHasNoMarginBottom
 					displayTransform={(token) => {
-						const [_id, name] = token.split("###");
-						return name ?? "";
+						const [_id, name] = token.split('###');
+						return name ?? '';
 					}}
 					suggestions={taxonomyList}
 					value={internalValue}
@@ -84,11 +99,11 @@ export default function TaxonomyPicker({ taxonomySlug, onChange, value }) {
 					label={`${sprintf(
 						// translators: The label of the taxonomy.
 						_x(
-							"Show only items with selected: %s",
-							"Taxonomy",
-							"jcore-dynamic-archive",
+							'Show only items with selected: %s',
+							'Taxonomy',
+							'jcore-dynamic-archive'
 						),
-						taxonomy.name,
+						taxonomy.name
 					)}`}
 				/>
 			</FlexBlock>
