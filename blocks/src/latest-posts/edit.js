@@ -52,7 +52,7 @@ import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
 export default function Edit({ attributes, setAttributes }) {
 	const {
 		postTypes,
-		automatic,
+		related,
 		columns,
 		postsPerPage,
 		order,
@@ -123,37 +123,44 @@ export default function Edit({ attributes, setAttributes }) {
 					icon={postTypeLoading ? <Spinner size={5} /> : settings}
 					initialOpen={expanded}
 				>
-					<Spacer marginBottom={6}>
-						<VStack>
-							{postTypesToShow.map((postType) => (
-								<CheckboxControl
-									disabled={
-										!postTypes.includes(postType.slug) &&
-										maxSelected > 0 &&
-										postTypes.length >= maxSelected
-									}
-									key={postType.slug}
-									label={postType.name}
-									checked={postTypes.includes(postType.slug)}
-									onChange={() =>
-										handlePostTypesChange(postType.slug)
-									}
-									__nextHasNoMarginBottom
-								/>
-							))}
-							{postTypes.length >= maxSelected && (
-								<Text>
-									{sprintf(
-										__(
-											'You have selected the maximum amount of post types. (%s)',
-											'jcore'
-										),
-										maxSelected
+					{!related && (
+						<Spacer marginBottom={6}>
+							<VStack>
+								{postTypesToShow.map((postType) => (
+									<CheckboxControl
+										disabled={
+											!postTypes.includes(
+												postType.slug
+											) &&
+											maxSelected > 0 &&
+											postTypes.length >= maxSelected
+										}
+										key={postType.slug}
+										label={postType.name}
+										checked={postTypes.includes(
+											postType.slug
+										)}
+										onChange={() =>
+											handlePostTypesChange(postType.slug)
+										}
+										__nextHasNoMarginBottom
+									/>
+								))}
+								{maxSelected > 0 &&
+									postTypes.length >= maxSelected && (
+										<Text>
+											{sprintf(
+												__(
+													'You have selected the maximum amount of post types. (%s)',
+													'jcore'
+												),
+												maxSelected
+											)}
+										</Text>
 									)}
-								</Text>
-							)}
-						</VStack>
-					</Spacer>
+							</VStack>
+						</Spacer>
+					)}
 					<Spacer marginBottom={6}>
 						<VStack>
 							{taxonomiesLoading && (

@@ -3,7 +3,7 @@
 	"apiVersion": 3,
 	"name": "jcore/latest-posts",
 	"version": "0.1.0",
-	"title": "Latest posts",
+	"title": "Latest posts (JCORE)",
 	"category": "widgets",
 	"icon": "editor-ul",
 	"description": "Show latest posts",
@@ -13,9 +13,9 @@
 			"type": "array",
 			"default": []
 		},
-		"automatic": {
+		"related": {
 			"type": "boolean",
-			"default": true
+			"default": false
 		},
 		"postsPerPage": {
 			"type": "number",
