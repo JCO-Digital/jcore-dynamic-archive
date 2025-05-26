@@ -27,6 +27,7 @@ import {
 	__experimentalHStack as HStack,
 	Spinner,
 	FlexBlock,
+	Disabled,
 } from '@wordpress/components';
 
 /**
@@ -344,11 +345,11 @@ export default function Edit({ attributes, setAttributes }) {
 																	(t) =>
 																		t !==
 																		taxonomy.value
-																)
+															  )
 															: [
 																	...taxonomies,
 																	taxonomy.value,
-																],
+															  ],
 												})
 											}
 											__nextHasNoMarginBottom
@@ -393,11 +394,11 @@ export default function Edit({ attributes, setAttributes }) {
 															? __(
 																	'Filter type (Parent categories)',
 																	'jcore-dynamic-archive'
-																)
+															  )
 															: __(
 																	'Filter type',
 																	'jcore-dynamic-archive'
-																)
+															  )
 													}
 													value={
 														filterTypes[
@@ -476,11 +477,13 @@ export default function Edit({ attributes, setAttributes }) {
 				</PanelBody>
 			</InspectorControls>
 			<div {...useBlockProps()}>
-				<ServerSideRender
-					block="jcore/dynamic-archive"
-					attributes={attributes}
-					httpMethod={'POST'}
-				/>
+				<Disabled isDisabled={true}>
+					<ServerSideRender
+						block="jcore/dynamic-archive"
+						attributes={attributes}
+						httpMethod={'POST'}
+					/>
+				</Disabled>
 			</div>
 		</>
 	);
