@@ -1,3 +1,12 @@
+## [0.12.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.1...v0.12.2) (2025-05-26)
+
+
+### Bug Fixes
+
+* **blocks:** add Disabled wrapper to blocks to disable interaction in the editor. ([5731efe](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/5731efee6371027b5c7f619c3d1d926b46bf1151))
+
+
+
 ## [0.12.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.0...v0.12.1) (2025-05-26)
 
 
@@ -31,16 +40,6 @@
 ### Bug Fixes
 
 * **TaxonomyPicker:** Fixed an issue that caused a crash if the taxonomy picker is used to search for values. 🐛 ([f51c137](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f51c13778a5a6efa519e525243264f2cc080f12b))
-
-
-
-## [0.10.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.10.0...v0.10.1) (2024-12-10)
-
-
-### Bug Fixes
-
-* Added i18n and fixed some broken domains ([c8bfd4c](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c8bfd4cc7d10a778c11b02ccda79273032faabdc))
-* do not make pot when building. ([e7f4fb1](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e7f4fb12349c4f4eaf1f280148866e54e754002d))
 
 
 
