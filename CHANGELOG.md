@@ -1,3 +1,12 @@
+## [0.12.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.0...v0.12.1) (2025-05-26)
+
+
+### Bug Fixes
+
+* **workflow:** update cache key to use pnpm-lock.yaml ([0c60a4e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/0c60a4e52bc00ef69c3741fc1994c7a803a30d6a))
+
+
+
 # [0.12.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.11.0...v0.12.0) (2025-05-26)
 
 
@@ -32,16 +41,6 @@
 
 * Added i18n and fixed some broken domains ([c8bfd4c](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c8bfd4cc7d10a778c11b02ccda79273032faabdc))
 * do not make pot when building. ([e7f4fb1](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e7f4fb12349c4f4eaf1f280148866e54e754002d))
-
-
-
-# [0.10.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.9.0...v0.10.0) (2024-12-10)
-
-
-### Features
-
-* finalized the first version of the latest posts block ✨ ([6c3a01a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/6c3a01ab254dc85c4ee769c41ce48a030bebd560))
-* started working on latest-posts block :sparkles: ([05db418](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/05db41859786b26bfe508da6416fde315fc2e00a))
 
 
 
