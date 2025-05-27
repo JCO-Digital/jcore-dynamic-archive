@@ -66,12 +66,11 @@ export default function Edit({ attributes, setAttributes, context }) {
 		hierarchicalFilter,
 		inherit,
 	} = attributes;
-	const { isSingular, templateType } = useQueryContextFromTemplate(
-		context.templateSlug
-	);
+	const { isSingular } = useQueryContextFromTemplate(context.templateSlug);
 
-	debug('isSingular', isSingular);
-	debug('templateType', templateType);
+	if (isSingular === true) {
+		setAttributes({ inherit: false });
+	}
 
 	const instanceId = useInstanceId(Edit);
 	setAttributes({ instanceId: instanceId.toString() });

@@ -586,11 +586,13 @@ function Edit({
     inherit
   } = attributes;
   const {
-    isSingular,
-    templateType
+    isSingular
   } = (0,_shared_useQueryContextFromTemplate__WEBPACK_IMPORTED_MODULE_8__["default"])(context.templateSlug);
-  debug('isSingular', isSingular);
-  debug('templateType', templateType);
+  if (isSingular === true) {
+    setAttributes({
+      inherit: false
+    });
+  }
   const instanceId = (0,_wordpress_compose__WEBPACK_IMPORTED_MODULE_3__.useInstanceId)(Edit);
   setAttributes({
     instanceId: instanceId.toString()
