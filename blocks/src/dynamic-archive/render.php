@@ -7,6 +7,7 @@
  * @package JCORE\DynamicArchive
  */
 
+use Timber\Timber;
 use Timber\FunctionWrapper;
 use Timber\URLHelper;
 use function Jcore\DynamicArchive\Helpers\build_pagination_url;
@@ -31,7 +32,6 @@ if ( ! is_post_type( $attributes['postType'] ?? '' ) ) {
 }
 
 $context['block_wrapper_attributes'] = new FunctionWrapper( 'get_block_wrapper_attributes' );
-$context['attributes']               = $attributes;
 $context['taxonomies_filter']        = build_taxonomies_filter( $attributes );
 
 $block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 );
@@ -41,12 +41,28 @@ $args           = array(
 	'posts_per_page' => $block_per_page,
 );
 
-$selected_post_type = get_post_type_object( $attributes['postType'] );
+// If inherit is true, we need to override the arguments with the current query.
+if ( $attributes['inherit'] ) {
+	$current_post_type = get_queried_object();
+	if ( $current_post_type instanceof WP_Post_Type ) {
+		$selected_post_type = $current_post_type;
+		$args['post_type']  = $current_post_type->name;
+	} elseif ( is_home() ) {
+		$selected_post_type = get_post_type_object( 'post' );
+		$args['post_type']  = 'post';
+	} else {
+		$selected_post_type = get_post_type_object( $attributes['postType'] );
+	}
+	$attributes['postType'] = $selected_post_type->name;
+} else {
+	$selected_post_type = get_post_type_object( $attributes['postType'] );
+}
+
+
 if ( $selected_post_type->hierarchical && $attributes['hideChildren'] === true ) {
 	$args['post_parent'] = 0;
 }
-
-if ( isset( $attributes['sticky'] ) ) {
+if ( isset( $attributes['sticky'] ) || ( $attributes['inherit'] && apply_filters( 'jcore_dynamic_archive_inherit_sticky', false ) ) ) {
 	$args_to_add = match ( $attributes['sticky'] ) {
 		'exclude' => array(
 			'post__not_in' => get_option( 'sticky_posts' ),
@@ -172,6 +188,8 @@ wp_interactivity_state(
 );
 
 $context['interactivity_context_attribute'] = wp_interactivity_data_wp_context( $interactivity_context, 'jcore/dynamic-archive' );
+
+$context['attributes'] = $attributes;
 
 $rendered = Timber::compile( 'dynamic-archive/archive.twig', $context );
 

@@ -65,7 +65,9 @@ function handle_taxonomies_filter( array $args, array $attributes ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
 	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id ), array() );
 
-	foreach ( $attributes['taxonomies'] ?? array() as $taxonomy ) {
+	[$taxonomy_filters] = extract_taxonomy_filter_attributes( $attributes );
+
+	foreach ( $taxonomy_filters ?? array() as $taxonomy ) {
 		$active_filters = get_nested_value( $all_filters, array( $taxonomy ), array() );
 		if ( empty( $active_filters ) ) {
 			continue;
@@ -110,7 +112,7 @@ function handle_taxonomies_filter( array $args, array $attributes ): array {
 	}
 	if ( empty( $args['tax_query'] ) ) {
 		$forced_terms = get_nested_value( $attributes, array( 'forcedCategories' ), array() );
-		if ( ! is_array( $forced_terms ) ) {
+		if ( ! is_array( $forced_terms ) || $attributes['inherit'] ) {
 			$forced_terms = array();
 		}
 		if ( ! empty( $forced_terms ) ) {
@@ -252,6 +254,57 @@ function set_nested_value( array &$arr, array $keys, mixed $value ): void {
 	set_nested_value( $arr[ $key ], $keys, $value );
 }
 
+/**
+ * Extracts taxonomy filter attributes from the given attributes array, applying overrides if 'inherit' is set.
+ *
+ * @param array $attributes The attributes of the dynamic archive block.
+ *
+ * @return array An array containing taxonomy_filters, filter_types, filter_types_child, hierarchical_filter.
+ */
+function extract_taxonomy_filter_attributes( array $attributes ): array {
+	$taxonomy_filters    = get_nested_value( $attributes, array( 'taxonomies' ), array() );
+	$filter_types        = get_nested_value( $attributes, array( 'filterTypes' ), array() );
+	$filter_types_child  = get_nested_value( $attributes, array( 'filterTypesChild' ), array() );
+	$hierarchical_filter = get_nested_value( $attributes, array( 'hierarchicalFilter' ), array() );
+
+	if ( $attributes['inherit'] ) {
+		// Override the taxonomy filters with developer defined filters.
+		/**
+		 * Filters the taxonomy filters for the dynamic archive block.
+		 *
+		 * @param array $attributes The attributes of the dynamic archive block.
+		 *
+		 * @hooked jcore_dynamic_archive_taxonomies_inherit
+		 *
+		 * The return value should be in this form:
+		 *
+		 * array(
+		 *  'taxonomies' => array(
+		 *   'taxonomy_name'
+		 *  ),
+		 *  'filterTypes' => array(
+		 *   'taxonomy_name' => 'filter_type',
+		 *  ),
+		 *  'filterTypesChild' => array(
+		 *   'taxonomy_name' => 'filter_type',
+		 *  ),
+		 *  'hierarchicalFilter' => array(
+		 *   'taxonomy_name' => true|false
+		 *  ),
+		 * );
+		 */
+		$overrides = apply_filters( 'jcore_dynamic_archive_taxonomies_inherit', array(), $attributes );
+		if ( ! is_array( $overrides ) ) {
+			$overrides = array();
+		}
+		$taxonomy_filters    = get_nested_value( $overrides, array( 'taxonomies' ), array() );
+		$filter_types        = get_nested_value( $overrides, array( 'filterTypes' ), array() );
+		$filter_types_child  = get_nested_value( $overrides, array( 'filterTypesChild' ), array() );
+		$hierarchical_filter = get_nested_value( $overrides, array( 'hierarchicalFilter' ), array() );
+	}
+
+	return array( $taxonomy_filters, $filter_types, $filter_types_child, $hierarchical_filter );
+}
 
 /**
  * Handles constructing the taxonomies filter for the dynamic archive block.
@@ -261,15 +314,18 @@ function set_nested_value( array &$arr, array $keys, mixed $value ): void {
  * @return array
  */
 function build_taxonomies_filter( array $attributes ): array {
+	// Extract the taxonomy filters, filter types, filter types child, and hierarchical filter from the attributes.
+	[$taxonomy_filters, $filter_types, $filter_types_child, $hierarchical_filter] = extract_taxonomy_filter_attributes( $attributes );
+
 	$taxonomies  = array();
 	$instance_id = $attributes['instanceId'] ?? '';
 	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id ), array() );
 
-	foreach ( $attributes['taxonomies'] ?? array() as $taxonomy ) {
+	foreach ( $taxonomy_filters as $taxonomy ) {
 		// Get taxonomy object.
 		$tax_object   = get_taxonomy( $taxonomy );
 		$forced_terms = get_nested_value( $attributes, array( 'forcedCategories', $taxonomy ), array() );
-		if ( ! is_array( $forced_terms ) ) {
+		if ( ! is_array( $forced_terms ) || $attributes['inherit'] ) {
 			$forced_terms = array();
 		}
 		$forced_terms = array_map( 'absint', $forced_terms );
@@ -291,9 +347,9 @@ function build_taxonomies_filter( array $attributes ): array {
 		$taxonomies[ $taxonomy ] = array(
 			'name'            => $tax_object->name,
 			'label'           => $tax_object->label,
-			'filterType'      => get_nested_value( $attributes, array( 'filterTypes', $taxonomy ), 'checkbox' ),
-			'filterTypeChild' => get_nested_value( $attributes, array( 'filterTypesChild', $taxonomy ), 'checkbox' ),
-			'hierarchical'    => $tax_object->hierarchical ? get_nested_value( $attributes, array( 'hierarchicalFilter', $taxonomy ), false ) : false,
+			'filterType'      => get_nested_value( $filter_types, array( $taxonomy ), 'checkbox' ),
+			'filterTypeChild' => get_nested_value( $filter_types_child, array( $taxonomy ), 'checkbox' ),
+			'hierarchical'    => $tax_object->hierarchical ? get_nested_value( $hierarchical_filter, array( $taxonomy ), false ) : false,
 			'forcedTerms'     => $forced_terms,
 			'terms'           => array(),
 		);

@@ -13,7 +13,12 @@
 		"align": true,
 		"interactivity": true
 	},
+	"usesContext": ["templateSlug"],
 	"attributes": {
+		"inherit": {
+			"type": "boolean",
+			"default": false
+		},
 		"instanceId": {
 			"type": "string",
 			"default": ""
