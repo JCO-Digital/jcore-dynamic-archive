@@ -7,8 +7,8 @@ install: composer-install blocks-install
 .PHONY: build
 build: blocks-build
 
-.PHONY: watch
-watch: blocks-watch
+.PHONY: dev
+dev: blocks-dev
 
 .PHONY: composer-install
 composer-install:
@@ -24,8 +24,8 @@ blocks-build:
 	corepack enable
 	cd blocks && pnpm run build
 
-.PHONY: blocks-watch
-blocks-watch:
+.PHONY: blocks-dev
+blocks-dev:
 	corepack enable
 	cd blocks && pnpm run start
 
