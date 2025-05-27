@@ -1,3 +1,17 @@
+# [0.14.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.13.1...v0.14.0) (2025-05-27)
+
+
+### Bug Fixes
+
+* **dynamic-archive:** handle inherit if block is inserted into singular ([0d3f37e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/0d3f37e0d59e29d24c2fb71648649c188ef4c058))
+
+
+### Features
+
+* **dynamic-archive:** add inherit attribute for dynamic archive, allowing for reading the post type from the current archive page. ([7d77ada](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7d77ada7621dc6f1320e798f5061a7044ac1b730))
+
+
+
 ## [0.13.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.13.0...v0.13.1) (2025-05-26)
 
 
@@ -31,15 +45,6 @@
 ### Bug Fixes
 
 * **workflow:** update cache key to use pnpm-lock.yaml ([0c60a4e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/0c60a4e52bc00ef69c3741fc1994c7a803a30d6a))
-
-
-
-# [0.12.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.11.0...v0.12.0) (2025-05-26)
-
-
-### Features
-
-* change to pnpm + add new preCommit hook to deploy ([4794a52](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4794a52de45d4a63fe6d32cf16d99f35f5f5760d))
 
 
 
