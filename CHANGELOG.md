@@ -1,3 +1,12 @@
+# [0.15.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.14.0...v0.15.0) (2025-06-03)
+
+
+### Features
+
+* Remove all CSS styles from latest-posts block. 🔥 ([e9bccc0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e9bccc0587b2e631cfc3ca6e32157eb48e1f49cd))
+
+
+
 # [0.14.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.13.1...v0.14.0) (2025-05-27)
 
 
@@ -36,15 +45,6 @@
 ### Bug Fixes
 
 * **blocks:** add Disabled wrapper to blocks to disable interaction in the editor. ([5731efe](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/5731efee6371027b5c7f619c3d1d926b46bf1151))
-
-
-
-## [0.12.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.0...v0.12.1) (2025-05-26)
-
-
-### Bug Fixes
-
-* **workflow:** update cache key to use pnpm-lock.yaml ([0c60a4e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/0c60a4e52bc00ef69c3741fc1994c7a803a30d6a))
 
 
 
