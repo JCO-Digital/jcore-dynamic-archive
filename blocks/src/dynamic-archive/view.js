@@ -367,6 +367,25 @@ const { state } = store('jcore/dynamic-archive', {
 			yield actions.prefetch(ref.href);
 			context.isPrefetching = false;
 		},
+		*labelKeyDown(event) {
+			const element = getElement();
+			const context = getContext();
+			/** @type {HTMLLabelElement} */
+			const ref = element.ref;
+			if (ref.tagName !== 'LABEL') {
+				return;
+			}
+			const target = ref.htmlFor;
+			const input = document.getElementById(target);
+			if (!input) {
+				return;
+			}
+			if (event.keyCode === 13 || event.keyCode === 32) {
+				input.click();
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		},
 	},
 	callbacks: {
 		updateServerContext() {
