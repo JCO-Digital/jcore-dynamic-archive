@@ -1,3 +1,12 @@
+## [0.15.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.15.0...v0.15.1) (2025-06-11)
+
+
+### Bug Fixes
+
+* labels now also recieves an is-active class + some accessibility improvements. 🐛 ([8b1a6f0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/8b1a6f0c27c74af70943473331eff23c247012ca))
+
+
+
 # [0.15.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.14.0...v0.15.0) (2025-06-03)
 
 
@@ -36,15 +45,6 @@
 ### Features
 
 * **latest-posts:** added related posts variation. ✨ ([fb6946a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb6946aa1068cb2c01e5df2b72917b7d2ae0dd64))
-
-
-
-## [0.12.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.1...v0.12.2) (2025-05-26)
-
-
-### Bug Fixes
-
-* **blocks:** add Disabled wrapper to blocks to disable interaction in the editor. ([5731efe](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/5731efee6371027b5c7f619c3d1d926b46bf1151))
 
 
 
