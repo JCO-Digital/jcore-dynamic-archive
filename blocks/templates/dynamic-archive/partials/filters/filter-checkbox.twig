@@ -1,7 +1,9 @@
 <label
-	class="wp-block-jcore-dynamic-archive-filters__checkbox"
+	class="wp-block-jcore-dynamic-archive-filters__checkbox {{ term.active ? 'is-active' : '' }}"
 	for="taxonomy-{{ instanceId }}-{{ term.type }}-{{ term.id }}"
 	data-wp-on-async--mouseover="actions.prefetchFilter"
+	tabindex="0"
+	data-wp-on-async--keydown="actions.labelKeyDown"
 >
 	{{ term.name }}
 </label>
