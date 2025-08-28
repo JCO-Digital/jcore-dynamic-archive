@@ -1,0 +1,25 @@
+<label
+	class="wp-block-jcore-dynamic-archive-filters__radio {{ taxonomy.terms|filter(term => term.active)|length == 0 ? 'is-active' : '' }}"
+	for="taxonomy-{{ instanceId }}-{{ taxonomy.name }}-{{ term.id }}{{ term.isChild ? '-child' : '' }}"
+	data-wp-on-async--mouseover="actions.prefetchFilter"
+>
+	{{ __( 'Show all', 'jcore-dynamic-archive' ) }}
+</label>
+<input
+	type="radio"
+	id="taxonomy-{{ instanceId }}-{{ taxonomy.name }}-{{ term.id }}{{ term.isChild ? '-child' : '' }}"
+	name="taxonomy-{{ instanceId }}-{{ taxonomy.name }}{{ term.isChild ? '-child' : '' }}"
+	value="{{ term.id }}"
+	data-wp-on-async--change="actions.filterChange"
+	{% if term.active %}
+		data-active
+	{% endif %}
+	data-taxonomy="{{ taxonomy.name }}"
+	data-filter-type="{{ taxonomy.filterType }}"
+	data-term=""
+	data-is-child="{{ taxonomy.isChild }}"
+	{% if taxonomy.terms|filter(term => term.active)|length == 0 %}
+		checked="checked"
+	{% endif %}
+	class="wp-block-jcore-dynamic-archive-filters__radio__input"
+/>

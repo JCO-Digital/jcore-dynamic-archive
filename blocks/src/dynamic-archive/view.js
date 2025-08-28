@@ -196,6 +196,11 @@ const handleToggle = (filters, taxonomyKey, taxonomyName, value) => {
  * @returns {void}
  */
 const handleRadio = (filters, taxonomyKey, taxonomyName, value) => {
+	// If value is empty, clear the filter.
+	if (!value) {
+		filters[taxonomyKey][taxonomyName] = [];
+		return;
+	}
 	const currentChildren = state.children[taxonomyName] ?? [];
 	const isChild = currentChildren.includes(parseInt(value));
 	// If the value is already in the filters, remove it
