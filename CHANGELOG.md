@@ -1,3 +1,12 @@
+# [0.16.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.15.1...v0.16.0) (2025-09-12)
+
+
+### Features
+
+* Add "Show all" option for radio filters and update translations. ✨ 🌐 ([f726025](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f7260252e0221230eac28fdb2ddb3c2de759e04d))
+
+
+
 ## [0.15.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.15.0...v0.15.1) (2025-06-11)
 
 
@@ -36,15 +45,6 @@
 ### Bug Fixes
 
 * **latest-posts:** conditionally render filters panel based on related posts state 🐛 ([a24ba9f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a24ba9f8e3a2d11d1ebf7d75e15a13ba408fbe1f))
-
-
-
-# [0.13.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.12.2...v0.13.0) (2025-05-26)
-
-
-### Features
-
-* **latest-posts:** added related posts variation. ✨ ([fb6946a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb6946aa1068cb2c01e5df2b72917b7d2ae0dd64))
 
 
 
