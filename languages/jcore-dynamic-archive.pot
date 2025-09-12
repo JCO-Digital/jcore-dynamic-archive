@@ -1,5 +1,6 @@
 # Copyright (C) 2024 JCO Digital
 # This file is distributed under the same license as the JCORE Dynamic Archive plugin.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: JCORE Dynamic Archive 0.1.0\n"
@@ -9,10 +10,13 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-12-10T15:30:18+00:00\n"
+"POT-Creation-Date: 2025-08-28 12:56+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: Loco https://localise.biz/\n"
 "X-Domain: jcore-dynamic-archive\n"
+"\n"
+"Language: \n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
 
 #. Plugin Name of the plugin
 #: jcore-dynamic-archive.php
@@ -40,8 +44,7 @@ msgid "https://jco.fi"
 msgstr ""
 
 #. translators: The label of the taxonomy.
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
 #: blocks/shared/components/TaxonomyPicker.js:69
 #: blocks/build/dynamic-archive/index.js:112
 #: blocks/build/latest-posts/index.js:112
@@ -115,10 +118,8 @@ msgstr ""
 msgid "Dropdown"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:153
-#: blocks/src/latest-posts/edit.js:108
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
+#: blocks/src/dynamic-archive/edit.js:153 blocks/src/latest-posts/edit.js:108
 #: blocks/build/dynamic-archive/index.js:428
 #: blocks/build/latest-posts/index.js:344
 msgid "Settings"
@@ -160,37 +161,29 @@ msgstr ""
 msgid "Order by"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:210
-#: blocks/src/latest-posts/edit.js:167
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
+#: blocks/src/dynamic-archive/edit.js:210 blocks/src/latest-posts/edit.js:167
 #: blocks/build/dynamic-archive/index.js:485
 #: blocks/build/latest-posts/index.js:403
 msgid "Sticky post behavior"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:213
-#: blocks/src/latest-posts/edit.js:170
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
+#: blocks/src/dynamic-archive/edit.js:213 blocks/src/latest-posts/edit.js:170
 #: blocks/build/dynamic-archive/index.js:488
 #: blocks/build/latest-posts/index.js:406
 msgid "Include"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:217
-#: blocks/src/latest-posts/edit.js:174
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
+#: blocks/src/dynamic-archive/edit.js:217 blocks/src/latest-posts/edit.js:174
 #: blocks/build/dynamic-archive/index.js:492
 #: blocks/build/latest-posts/index.js:410
 msgid "Exclude"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:220
-#: blocks/src/latest-posts/edit.js:177
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
+#: blocks/src/dynamic-archive/edit.js:220 blocks/src/latest-posts/edit.js:177
 #: blocks/build/dynamic-archive/index.js:495
 #: blocks/build/latest-posts/index.js:413
 msgid "Only"
@@ -208,10 +201,8 @@ msgstr ""
 msgid "Masonry Grid"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:237
-#: blocks/src/latest-posts/edit.js:194
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
+#: blocks/src/dynamic-archive/edit.js:237 blocks/src/latest-posts/edit.js:194
 #: blocks/build/dynamic-archive/index.js:512
 msgid "Columns"
 msgstr ""
@@ -222,10 +213,8 @@ msgstr ""
 msgid "Posts per Page"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:267
-#: blocks/src/latest-posts/edit.js:209
+#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
+#: blocks/src/dynamic-archive/edit.js:267 blocks/src/latest-posts/edit.js:209
 #: blocks/build/dynamic-archive/index.js:542
 #: blocks/build/latest-posts/index.js:445
 msgid "Filters"
@@ -240,7 +229,8 @@ msgstr ""
 #: blocks/build/dynamic-archive/index.js:1
 #: blocks/src/dynamic-archive/edit.js:299
 #: blocks/build/dynamic-archive/index.js:574
-msgid "If enabled, child categories will be hidden until parent category is selected"
+msgid ""
+"If enabled, child categories will be hidden until parent category is selected"
 msgstr ""
 
 #: blocks/build/dynamic-archive/index.js:1
@@ -261,8 +251,7 @@ msgstr ""
 msgid "Filter type (Child categories)"
 msgstr ""
 
-#: blocks/build/latest-posts/index.js:1
-#: blocks/src/latest-posts/edit.js:146
+#: blocks/build/latest-posts/index.js:1 blocks/src/latest-posts/edit.js:146
 msgid "Loading taxonomies..."
 msgstr ""
 
@@ -278,14 +267,12 @@ msgctxt "block description"
 msgid "A dynamic archive block."
 msgstr ""
 
-#: blocks/build/latest-posts/block.json
-#: blocks/src/latest-posts/block.json
+#: blocks/build/latest-posts/block.json blocks/src/latest-posts/block.json
 msgctxt "block title"
 msgid "Latest posts"
 msgstr ""
 
-#: blocks/build/latest-posts/block.json
-#: blocks/src/latest-posts/block.json
+#: blocks/build/latest-posts/block.json blocks/src/latest-posts/block.json
 msgctxt "block description"
 msgid "Show latest posts"
 msgstr ""
@@ -312,4 +299,13 @@ msgstr ""
 
 #: blocks/templates/dynamic-archive/partials/pagination.twig:25
 msgid "Previous page"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "Last page"
+msgstr ""
+
+msgid "Show all"
 msgstr ""

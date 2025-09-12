@@ -1,5 +1,5 @@
 <label
-	class="wp-block-jcore-dynamic-archive-filters__radio"
+	class="wp-block-jcore-dynamic-archive-filters__radio {{ term.active ? 'is-active' : '' }}"
 	for="taxonomy-{{ instanceId }}-{{ term.type }}-{{ term.id }}{{ term.isChild ? '-child' : '' }}"
 	data-wp-on-async--mouseover="actions.prefetchFilter"
 >

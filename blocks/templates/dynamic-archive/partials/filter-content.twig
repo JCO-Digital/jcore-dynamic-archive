@@ -16,6 +16,10 @@
 			{% endif %}
 		>{{ __( 'Select', 'jcore-dynamic-archive' ) }}</option>
 {% endif %}
+
+{% if (isChild == false and taxonomy.filterType == 'radio') %}
+	{% include ['dynamic-archive/partials/filters/filter-radio-all.twig', 'partials/filters/filter-radio-all.twig'] ignore missing with { term: '', taxonomy: taxonomy } %}
+{% endif %}
 {% for term in terms %}
 	{% include ['dynamic-archive/partials/filters/filter-' ~ term.filterType ~ '.twig', 'partials/filters/filter-' ~ term.filterType ~ '.twig'] ignore missing with { term: term, taxonomy: taxonomy } %}
 {% endfor %}
