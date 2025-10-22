@@ -20,7 +20,7 @@ if ( is_file( __DIR__ . '/vendor/autoload.php' ) ) {
 
 require_once __DIR__ . '/consts.php';
 require_once __DIR__ . '/includes/helpers.php';
-require_once __DIR__ . '/blocks/dynamic-archive.php';
+require_once __DIR__ . '/dynamic-archive.php';
 
 DynamicArchive\Bootstrap::init();
 
