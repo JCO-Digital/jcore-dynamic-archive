@@ -1,3 +1,12 @@
+## [0.16.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.0...v0.16.1) (2025-10-31)
+
+
+### Bug Fixes
+
+* Update tax query relation to use a filter for improved flexibility ([21613c4](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/21613c481ff3f0f219245449f8976c68afdf30f6))
+
+
+
 # [0.16.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.15.1...v0.16.0) (2025-09-12)
 
 
@@ -36,15 +45,6 @@
 ### Features
 
 * **dynamic-archive:** add inherit attribute for dynamic archive, allowing for reading the post type from the current archive page. ([7d77ada](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7d77ada7621dc6f1320e798f5061a7044ac1b730))
-
-
-
-## [0.13.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.13.0...v0.13.1) (2025-05-26)
-
-
-### Bug Fixes
-
-* **latest-posts:** conditionally render filters panel based on related posts state 🐛 ([a24ba9f](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a24ba9f8e3a2d11d1ebf7d75e15a13ba408fbe1f))
 
 
 

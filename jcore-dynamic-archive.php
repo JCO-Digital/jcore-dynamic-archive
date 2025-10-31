@@ -3,7 +3,7 @@
  * Plugin Name: JCORE Dynamic Archive
  * Plugin URI: https://github.com/jco-digital/jcore-dynamic-archive
  * Description: JCORE Dynamic Archive module.
- * Version: 0.16.0
+ * Version: 0.16.1
  * Author: JCO Digital
  * Author URI: https://jco.fi
  * Text Domain: jcore-dynamic-archive
