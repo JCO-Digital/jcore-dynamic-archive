@@ -129,7 +129,7 @@ function handle_taxonomies_filter( array $args, array $attributes ): array {
 					'include_children' => true,
 				);
 			}
-			$args['tax_query']['relation'] = 'OR';
+			$args['tax_query']['relation'] = apply_filters( 'jcore_dynamic_archive_tax_query_relation', 'OR', $args, $attributes, $all_filters );
 		}
 	}
 	/**
