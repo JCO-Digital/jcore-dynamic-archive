@@ -88,6 +88,16 @@ if ( isset( $attributes['sticky'] ) ) {
 	}
 }
 
+
+/**
+ * Filters the latest posts args for the latest posts block.
+ *
+ * @param array $args The latest posts args.
+ * @param array $attributes The attributes of the latest posts block.
+ *
+ * @hooked jcore_latest_posts_args
+ */
+$args                                = apply_filters( 'jcore_latest_posts_args', $args, $attributes );
 $context['posts']                    = Timber::get_posts( $args );
 $context['block_wrapper_attributes'] = new FunctionWrapper( 'get_block_wrapper_attributes' );
 
