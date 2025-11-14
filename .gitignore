@@ -1,4 +1,5 @@
 # Composer dependencies
 vendor/
+node_modules/
 # Log files
 *.log
