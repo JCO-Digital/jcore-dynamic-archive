@@ -1,3 +1,12 @@
+## [0.16.3](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.2...v0.16.3) (2025-11-14)
+
+
+### Bug Fixes
+
+* require v3 or v4 of ydin ([7b29371](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7b29371d69f5a75c6a47bd84397455a5751023be))
+
+
+
 ## [0.16.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.1...v0.16.2) (2025-11-03)
 
 
@@ -31,15 +40,6 @@
 ### Bug Fixes
 
 * labels now also recieves an is-active class + some accessibility improvements. 🐛 ([8b1a6f0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/8b1a6f0c27c74af70943473331eff23c247012ca))
-
-
-
-# [0.15.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.14.0...v0.15.0) (2025-06-03)
-
-
-### Features
-
-* Remove all CSS styles from latest-posts block. 🔥 ([e9bccc0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e9bccc0587b2e631cfc3ca6e32157eb48e1f49cd))
 
 
 
