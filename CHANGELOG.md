@@ -1,3 +1,12 @@
+## [0.16.4](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.3...v0.16.4) (2025-11-19)
+
+
+### Bug Fixes
+
+* added composer installers. ([d87e8b7](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d87e8b7825fdbdcb658e9aaf0002c5a493c917b5))
+
+
+
 ## [0.16.3](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.2...v0.16.3) (2025-11-14)
 
 
@@ -31,15 +40,6 @@
 ### Features
 
 * Add "Show all" option for radio filters and update translations. ✨ 🌐 ([f726025](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f7260252e0221230eac28fdb2ddb3c2de759e04d))
-
-
-
-## [0.15.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.15.0...v0.15.1) (2025-06-11)
-
-
-### Bug Fixes
-
-* labels now also recieves an is-active class + some accessibility improvements. 🐛 ([8b1a6f0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/8b1a6f0c27c74af70943473331eff23c247012ca))
 
 
 
