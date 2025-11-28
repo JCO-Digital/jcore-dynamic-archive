@@ -4,9 +4,11 @@ import {
 	getServerContext,
 	splitTask,
 	store,
+	withScope,
 } from '@wordpress/interactivity';
 import qs from 'qs';
 import { cloneDeep } from 'es-toolkit/object';
+import { debounce } from 'es-toolkit/function';
 import _debug from 'debug';
 const debug = _debug('dynamic-archive:frontend');
 
@@ -43,15 +45,8 @@ const isValidEvent = (event) =>
  * @returns {[*,*]}
  */
 const parseAttributes = (event, ref, attributes) => {
-	if (
-		getNestedValue(attributes, ['data-filter-type'], undefined) ===
-		'dropdown'
-	) {
-		const taxonomyName = getNestedValue(
-			attributes,
-			['data-taxonomy'],
-			undefined
-		);
+	if (getNestedValue(attributes, ['data-filter-type'], undefined) === 'dropdown') {
+		const taxonomyName = getNestedValue(attributes, ['data-taxonomy'], undefined);
 		const value = getNestedValue(event, ['target', 'value'], undefined);
 		return [
 			getNestedValue(attributes, ['data-filter-type'], undefined),
@@ -60,11 +55,7 @@ const parseAttributes = (event, ref, attributes) => {
 			getNestedValue(attributes, ['data-is-child'], false),
 		];
 	}
-	const taxonomyName = getNestedValue(
-		attributes,
-		['data-taxonomy'],
-		undefined
-	);
+	const taxonomyName = getNestedValue(attributes, ['data-taxonomy'], undefined);
 	const value = getNestedValue(attributes, ['data-term'], undefined);
 	return [
 		getNestedValue(attributes, ['data-filter-type'], undefined),
@@ -92,11 +83,15 @@ const buildFilterUrl = ({
 	currentPage,
 	type,
 	filterState,
-	taxonomyName,
+	taxonomyName = '',
 	value,
+	skipSetup = false,
+	paramName = 'taxonomy',
 }) => {
-	const taxonomyKey = buildParamName(blockId, 'taxonomy');
-	setupFilter(filterState, taxonomyKey, taxonomyName);
+	const taxonomyKey = buildParamName(blockId, paramName);
+
+	if (!skipSetup) setupFilter(filterState, taxonomyKey, taxonomyName);
+
 	switch (type) {
 		case 'checkbox':
 			handleToggle(filterState, taxonomyKey, taxonomyName, value);
@@ -107,6 +102,8 @@ const buildFilterUrl = ({
 		case 'dropdown':
 			handleRadio(filterState, taxonomyKey, taxonomyName, value);
 			break;
+		case 'text':
+			handleText(filterState, taxonomyKey, value);
 		default:
 			break;
 	}
@@ -175,14 +172,11 @@ const setupFilter = (filters, taxonomyKey, taxonomyName) => {
  */
 const handleToggle = (filters, taxonomyKey, taxonomyName, value) => {
 	if (filters[taxonomyKey][taxonomyName].includes(value)) {
-		filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][
-			taxonomyName
-		].filter((item) => item !== value);
+		filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][taxonomyName].filter(
+			(item) => item !== value
+		);
 	} else {
-		filters[taxonomyKey][taxonomyName] = [
-			...(filters[taxonomyKey][taxonomyName] || []),
-			value,
-		];
+		filters[taxonomyKey][taxonomyName] = [...(filters[taxonomyKey][taxonomyName] || []), value];
 	}
 };
 
@@ -207,22 +201,27 @@ const handleRadio = (filters, taxonomyKey, taxonomyName, value) => {
 	if (filters[taxonomyKey][taxonomyName].includes(value)) {
 		// If the value is a child, then only remove the child (since we don't want to remove the parent)
 		if (isChild) {
-			filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][
-				taxonomyName
-			].filter((term) => term !== value);
+			filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][taxonomyName].filter(
+				(term) => term !== value
+			);
 			return;
 		}
 		filters[taxonomyKey][taxonomyName] = [];
 	} else if (isChild) {
 		// If the value is a child term, then add it (don't overwrite the parent)
-		filters[taxonomyKey][taxonomyName] = [
-			...(filters[taxonomyKey][taxonomyName] || []),
-			value,
-		];
+		filters[taxonomyKey][taxonomyName] = [...(filters[taxonomyKey][taxonomyName] || []), value];
 	} else {
 		// If the value is a parent term, then overwrite the filters.
 		filters[taxonomyKey][taxonomyName] = [value];
 	}
+};
+
+const handleText = (filters, taxonomyKey, value) => {
+	if (!value) {
+		filters[taxonomyKey] = [];
+		return;
+	}
+	filters[taxonomyKey] = value;
 };
 
 const { state } = store('jcore/dynamic-archive', {
@@ -232,54 +231,44 @@ const { state } = store('jcore/dynamic-archive', {
 			if (!context.terms) {
 				return {};
 			}
-			return Object.entries(context.terms).reduce(
-				(acc, [taxonomyName, taxonomy]) => {
-					if (!taxonomy.hierarchical) {
-						return acc;
-					}
-					const children = taxonomy.terms
-						.filter((term) => term.isChild)
-						.map((term) => term.id);
-					if (children.length > 0) {
-						acc[taxonomyName] = children;
-					}
+			return Object.entries(context.terms).reduce((acc, [taxonomyName, taxonomy]) => {
+				if (!taxonomy.hierarchical) {
 					return acc;
-				},
-				{}
-			);
+				}
+				const children = taxonomy.terms
+					.filter((term) => term.isChild)
+					.map((term) => term.id);
+				if (children.length > 0) {
+					acc[taxonomyName] = children;
+				}
+				return acc;
+			}, {});
 		},
 		get filterTypes() {
 			const context = getContext();
 			if (!context.terms) {
 				return {};
 			}
-			return Object.entries(context.terms).reduce(
-				(acc, [taxonomyName, taxonomy]) => {
-					let types = {
-						type: taxonomy.filterType,
+			return Object.entries(context.terms).reduce((acc, [taxonomyName, taxonomy]) => {
+				let types = {
+					type: taxonomy.filterType,
+				};
+				if (taxonomy.hierarchical) {
+					types = {
+						...types,
+						childType: taxonomy.filterTypeChild,
 					};
-					if (taxonomy.hierarchical) {
-						types = {
-							...types,
-							childType: taxonomy.filterTypeChild,
-						};
-					}
-					acc[taxonomyName] = types;
-					return acc;
-				},
-				{}
-			);
+				}
+				acc[taxonomyName] = types;
+				return acc;
+			}, {});
 		},
 	},
 	actions: {
 		*filterChange(event) {
 			const element = getElement();
 			const { attributes } = element;
-			const [type, taxonomyName, value] = parseAttributes(
-				event,
-				element.ref,
-				attributes
-			);
+			const [type, taxonomyName, value] = parseAttributes(event, element.ref, attributes);
 			// Bail early if we don't have a taxonomy name.
 			if (!taxonomyName) {
 				return;
@@ -300,6 +289,33 @@ const { state } = store('jcore/dynamic-archive', {
 			const { actions } = yield import('@wordpress/interactivity-router');
 			yield actions.navigate(newUrl);
 			context.isLoading = false;
+		},
+		*searchInputChange(event) {
+			const debouncedSearch = debounce(
+				withScope(async (event) => {
+					const value = event.target.value;
+					const context = getContext();
+
+					const { filters, blockId, isInfiniteScroll, currentPage } = context;
+					const newUrl = buildFilterUrl({
+						blockId,
+						type: 'text',
+						filterState: filters,
+						value,
+						isInfiniteScroll,
+						currentPage,
+						skipSetup: true,
+						paramName: 'search',
+					});
+					context.searchTerm = value;
+					context.isLoading = true;
+					const { actions } = await import('@wordpress/interactivity-router');
+					await actions.navigate(newUrl);
+					context.isLoading = false;
+				}),
+				500
+			); // 200ms debounce
+			debouncedSearch(event);
 		},
 		*prefetchFilter(event) {
 			const element = getElement();
@@ -341,9 +357,7 @@ const { state } = store('jcore/dynamic-archive', {
 			const context = getContext();
 			/** @type {HTMLAnchorElement} */
 			const ref = element.ref;
-			const parentEl = ref.closest(
-				'[data-wp-interactive="jcore/dynamic-archive"]'
-			);
+			const parentEl = ref.closest('[data-wp-interactive="jcore/dynamic-archive"]');
 			if (!isValidLink(ref) || !isValidEvent(event)) {
 				return;
 			}

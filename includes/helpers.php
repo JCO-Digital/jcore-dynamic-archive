@@ -50,6 +50,13 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 		$args['lang'] = '';
 	}
 
+	if ( $attributes['search'] ) {
+		$search = get_parameter( build_param_name( 'search', $instance_id ), false );
+		if ( $search ) {
+			$args['s'] = sanitize_text_field( $search );
+		}
+	}
+
 	return handle_taxonomies_filter( $args, $attributes );
 }
 

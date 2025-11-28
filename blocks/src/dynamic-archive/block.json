@@ -35,6 +35,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"searchLabel": {
+			"type": "string",
+			"default": "Free text search"
+		},
 		"sticky": {
 			"type": "string",
 			"default": "include",
@@ -69,14 +73,7 @@
 		"orderBy": {
 			"type": "string",
 			"default": "date",
-			"enum": [
-				"date",
-				"post_title",
-				"modified",
-				"author",
-				"ID",
-				"menu_order"
-			]
+			"enum": ["date", "post_title", "modified", "author", "ID", "menu_order"]
 		},
 		"taxonomies": {
 			"type": "array",
