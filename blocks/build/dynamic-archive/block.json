@@ -37,6 +37,10 @@
       "type": "boolean",
       "default": false
     },
+    "searchLabel": {
+      "type": "string",
+      "default": "Free text search"
+    },
     "sticky": {
       "type": "string",
       "default": "include",

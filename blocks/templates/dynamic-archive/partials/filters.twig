@@ -1,37 +1,96 @@
-{% if taxonomies_filter|length > 0 %}
+{% if (taxonomies_filter|length) > 0 %}
 	<div class="wp-block-jcore-dynamic-archive__filters__taxonomies">
 		{% for taxonomy in taxonomies_filter %}
-			{% if taxonomy.forcedTerms|length == 0 or taxonomy.forcedTerms|length > 1 %}
+			{% if (taxonomy.forcedTerms|length) == 0 or (taxonomy.forcedTerms|length) > 1 %}
 				<div
-					class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}">
+					class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{
+					' taxonomy-type-'
+						~ taxonomy.name
+					}}"
+				>
 					{% if taxonomy.label %}
 						<h3
-							class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__label"
+							class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{
+							' taxonomy-type-'
+								~ taxonomy.name
+							}}__label"
 							id="taxonomy-{{ attributes.instanceId }}-{{ taxonomy.name }}-label"
 						>
 							{{ taxonomy.label }}
 						</h3>
 					{% endif %}
-						{% if taxonomy.hierarchical %}
-							{# Parent categories #}
-							{% set parentTerms = taxonomy.terms|filter(term => term.isChild == false) %}
-							{% if parentTerms|length > 0 %}
-								<div class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__parents">
-									{% include ['dynamic-archive/partials/filter-content.twig', 'partials/filter-content.twig'] with { taxonomy: taxonomy, terms: parentTerms, instanceId: attributes.instanceId, isChild: false } %}
-								</div>
-							{% endif %}
-							{# Child categories #}
-							{% set childTerms = taxonomy.terms|filter(term => term.isChild == true and term.parentActive == true) %}
-							{% if childTerms|length > 0 %}
-								<div class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__children">
-									{% include ['dynamic-archive/partials/filter-content.twig', 'partials/filter-content.twig'] with { taxonomy: taxonomy, terms: childTerms, instanceId: attributes.instanceId, isChild: true } %}
-								</div>
-							{% endif %}
-						{% else %}
-							{% include ['dynamic-archive/partials/filter-content.twig', 'partials/filter-content.twig'] with { taxonomy: taxonomy, terms: taxonomy.terms, instanceId: attributes.instanceId, isChild: false } %}
+					{% if taxonomy.hierarchical %}
+						{# Parent categories #}
+						{% set parentTerms = taxonomy.terms|filter(term => term.isChild == false) %}
+						{% if (parentTerms|length) > 0 %}
+							<div
+								class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{
+								' taxonomy-type-'
+									~ taxonomy.name
+								}}__parents"
+							>
+								{% include [
+									'dynamic-archive/partials/filter-content.twig',
+									'partials/filter-content.twig'
+								] with {
+									taxonomy: taxonomy,
+									terms: parentTerms,
+									instanceId: attributes.instanceId,
+									isChild: false
+								} %}
+							</div>
 						{% endif %}
+						{# Child categories #}
+						{% set childTerms =
+							taxonomy.terms|filter(
+								term => term.isChild == true and term.parentActive == true
+							)
+						%}
+						{% if (childTerms|length) > 0 %}
+							<div
+								class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{
+								' taxonomy-type-'
+									~ taxonomy.name
+								}}__children"
+							>
+								{% include [
+									'dynamic-archive/partials/filter-content.twig',
+									'partials/filter-content.twig'
+								] with {
+									taxonomy: taxonomy,
+									terms: childTerms,
+									instanceId: attributes.instanceId,
+									isChild: true
+								} %}
+							</div>
+						{% endif %}
+					{% else %}
+						{% include [
+							'dynamic-archive/partials/filter-content.twig',
+							'partials/filter-content.twig'
+						] with {
+							taxonomy: taxonomy,
+							terms: taxonomy.terms,
+							instanceId: attributes.instanceId,
+							isChild: false
+						} %}
+					{% endif %}
 				</div>
 			{% endif %}
 		{% endfor %}
+	</div>
+{% endif %}
+
+{% if attributes.search %}
+	<div class="wp-block-jcore-dynamic-archive__filters__search">
+		<h3>{{ attributes.searchLabel }}</h3>
+		<input
+			type="text"
+			aria-labelledby="dynamic-archive-{{ attributes.instanceId }}-search-label"
+			class="wp-block-jcore-dynamic-archive__filters__search__input"
+			placeholder="{{ __('Search...', 'jcore-dynamic-archive') }}"
+			data-wp-on-async--input="actions.searchInputChange"
+			data-wp-bind--value="context.searchTerm"
+		/>
 	</div>
 {% endif %}

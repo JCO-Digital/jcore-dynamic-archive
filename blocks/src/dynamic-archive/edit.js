@@ -65,6 +65,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		taxonomies,
 		hierarchicalFilter,
 		inherit,
+		search,
 	} = attributes;
 	const { isSingular } = useQueryContextFromTemplate(context.templateSlug);
 
@@ -128,8 +129,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 	// BEGIN: Taxonomies
 	const [taxonomyOptions, setTaxonomyOptions] = useState([]);
 
-	const { taxonomies: _taxonomies, loading: taxonomiesLoading } =
-		useTaxonomies(postType);
+	const { taxonomies: _taxonomies, loading: taxonomiesLoading } = useTaxonomies(postType);
 
 	useEffect(() => {
 		if (_taxonomies) {
@@ -164,27 +164,16 @@ export default function Edit({ attributes, setAttributes, context }) {
 				>
 					{!isSingular && (
 						<ToggleControl
-							label={__(
-								'Inherit settings from query',
-								'jcore-dynamic-archive'
-							)}
+							label={__('Inherit settings from query', 'jcore-dynamic-archive')}
 							checked={inherit}
-							onChange={(checked) =>
-								setAttributes({ inherit: checked })
-							}
+							onChange={(checked) => setAttributes({ inherit: checked })}
 						/>
 					)}
-					<VStack
-						spacing={4}
-						className={'jcore__dynamic-archive-post-type'}
-					>
+					<VStack spacing={4} className={'jcore__dynamic-archive-post-type'}>
 						<HStack spacing={2}>
 							{!inherit && (
 								<SelectControl
-									label={__(
-										'Post Type',
-										'jcore-dynamic-archive'
-									)}
+									label={__('Post Type', 'jcore-dynamic-archive')}
 									value={postType}
 									options={postTypes.map((postType) => ({
 										label: postType.name,
@@ -199,25 +188,15 @@ export default function Edit({ attributes, setAttributes, context }) {
 						</HStack>
 						{!inherit && isPostTypeHierarchical && (
 							<ToggleControl
-								label={__(
-									'Hide children',
-									'jcore-dynamic-archive'
-								)}
+								label={__('Hide children', 'jcore-dynamic-archive')}
 								checked={hideChildren}
-								onChange={(checked) =>
-									setAttributes({ hideChildren: checked })
-								}
+								onChange={(checked) => setAttributes({ hideChildren: checked })}
 							/>
 						)}
 						<ToggleControl
-							label={__(
-								'Show all languages',
-								'jcore-dynamic-archive'
-							)}
+							label={__('Show all languages', 'jcore-dynamic-archive')}
 							checked={showAllLanguages}
-							onChange={(checked) =>
-								setAttributes({ showAllLanguages: checked })
-							}
+							onChange={(checked) => setAttributes({ showAllLanguages: checked })}
 						/>
 					</VStack>
 					<ToggleWrapper
@@ -227,14 +206,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 						attributeName="showPagination"
 					>
 						<ToggleControl
-							label={__(
-								'Infinite scroll',
-								'jcore-dynamic-archive'
-							)}
+							label={__('Infinite scroll', 'jcore-dynamic-archive')}
 							checked={infiniteScroll}
-							onChange={(checked) =>
-								setAttributes({ infiniteScroll: checked })
-							}
+							onChange={(checked) => setAttributes({ infiniteScroll: checked })}
 							__nextHasNoMarginBottom
 						/>
 					</ToggleWrapper>
@@ -244,9 +218,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 								label={__('Order', 'jcore-dynamic-archive')}
 								value={order}
 								options={orderOptions}
-								onChange={(value) =>
-									setAttributes({ order: value })
-								}
+								onChange={(value) => setAttributes({ order: value })}
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
 							/>
@@ -254,44 +226,28 @@ export default function Edit({ attributes, setAttributes, context }) {
 								label={__('Order by', 'jcore-dynamic-archive')}
 								value={orderBy}
 								options={orderByOptions}
-								onChange={(value) =>
-									setAttributes({ orderBy: value })
-								}
+								onChange={(value) => setAttributes({ orderBy: value })}
 								__nextHasNoMarginBottom
 								__next40pxDefaultSize
 							/>
 							{postType === 'post' && (
 								<SelectControl
-									label={__(
-										'Sticky post behavior',
-										'jcore-dynamic-archive'
-									)}
+									label={__('Sticky post behavior', 'jcore-dynamic-archive')}
 									options={[
 										{
-											label: __(
-												'Include',
-												'jcore-dynamic-archive'
-											),
+											label: __('Include', 'jcore-dynamic-archive'),
 											value: 'include',
 										},
 										{
-											label: __(
-												'Exclude',
-												'jcore-dynamic-archive'
-											),
+											label: __('Exclude', 'jcore-dynamic-archive'),
 											value: 'exclude',
 										},
 										{
-											label: __(
-												'Only',
-												'jcore-dynamic-archive'
-											),
+											label: __('Only', 'jcore-dynamic-archive'),
 											value: 'only',
 										},
 									]}
-									onChange={(value) =>
-										setAttributes({ sticky: value })
-									}
+									onChange={(value) => setAttributes({ sticky: value })}
 									value={sticky}
 									__nextHasNoMarginBottom
 									__next40pxDefaultSize
@@ -300,16 +256,11 @@ export default function Edit({ attributes, setAttributes, context }) {
 						</>
 					)}
 				</PanelBody>
-				<PanelBody
-					title={__('Layout', 'jcore-dynamic-archive')}
-					icon={layout}
-				>
+				<PanelBody title={__('Layout', 'jcore-dynamic-archive')} icon={layout}>
 					<ToggleControl
 						label={__('Masonry Grid', 'jcore-dynamic-archive')}
 						checked={masonryGrid}
-						onChange={(checked) =>
-							setAttributes({ masonryGrid: checked })
-						}
+						onChange={(checked) => setAttributes({ masonryGrid: checked })}
 						__nextHasNoMarginBottom
 					/>
 					<RangeControl
@@ -347,16 +298,25 @@ export default function Edit({ attributes, setAttributes, context }) {
 						title={__('Filters', 'jcore-dynamic-archive')}
 						icon={taxonomiesLoading ? <Spinner size={5} /> : funnel}
 					>
+						<ToggleWrapper
+							label={__('Text search', 'jcore-dynamic-archive')}
+							checked={search}
+							setAttributes={setAttributes}
+							attributeName="search"
+						>
+							<TextControl
+								label={__('Text search label', 'jcore-dynamic-archive')}
+								value={attributes.searchLabel}
+								onChange={(value) => setAttributes({ searchLabel: value })}
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							/>
+						</ToggleWrapper>
 						{!taxonomiesLoading && (
 							<>
-								{taxonomyOptions.length > 0 && (
-									<p>Filters to show</p>
-								)}
+								{taxonomyOptions.length > 0 && <p>Filters to show</p>}
 								{taxonomyOptions.length === 0 && (
-									<p>
-										No filters available for selected post
-										type
-									</p>
+									<p>No filters available for selected post type</p>
 								)}
 								<VStack>
 									{taxonomyOptions.map((taxonomy) => (
@@ -365,35 +325,22 @@ export default function Edit({ attributes, setAttributes, context }) {
 											className={'jcore-taxonomy-item'}
 										>
 											<CheckboxControl
-												label={__(
-													taxonomy.label,
-													'jcore-dynamic-archive'
-												)}
-												checked={taxonomies.includes(
-													taxonomy.value
-												)}
+												label={__(taxonomy.label, 'jcore-dynamic-archive')}
+												checked={taxonomies.includes(taxonomy.value)}
 												onChange={(_checked) =>
 													setAttributes({
-														taxonomies:
-															taxonomies.includes(
-																taxonomy.value
-															)
-																? taxonomies.filter(
-																		(t) =>
-																			t !==
-																			taxonomy.value
-																  )
-																: [
-																		...taxonomies,
-																		taxonomy.value,
-																  ],
+														taxonomies: taxonomies.includes(
+															taxonomy.value
+														)
+															? taxonomies.filter(
+																	(t) => t !== taxonomy.value
+																)
+															: [...taxonomies, taxonomy.value],
 													})
 												}
 												__nextHasNoMarginBottom
 											/>
-											{taxonomies.includes(
-												taxonomy.value
-											) && (
+											{taxonomies.includes(taxonomy.value) && (
 												<>
 													{taxonomy.hierarchical && (
 														<ToggleControl
@@ -407,18 +354,15 @@ export default function Edit({ attributes, setAttributes, context }) {
 															)}
 															checked={
 																hierarchicalFilter[
-																	taxonomy
-																		.value
+																	taxonomy.value
 																] ?? false
 															}
 															onChange={(value) =>
 																setAttributes({
-																	hierarchicalFilter:
-																		{
-																			...hierarchicalFilter,
-																			[taxonomy.value]:
-																				value,
-																		},
+																	hierarchicalFilter: {
+																		...hierarchicalFilter,
+																		[taxonomy.value]: value,
+																	},
 																})
 															}
 															__nextHasNoMarginBottom
@@ -426,65 +370,43 @@ export default function Edit({ attributes, setAttributes, context }) {
 													)}
 													<SelectControl
 														label={
-															hierarchicalFilter[
-																taxonomy.value
-															]
+															hierarchicalFilter[taxonomy.value]
 																? __(
 																		'Filter type (Parent categories)',
 																		'jcore-dynamic-archive'
-																  )
+																	)
 																: __(
 																		'Filter type',
 																		'jcore-dynamic-archive'
-																  )
+																	)
 														}
-														value={
-															filterTypes[
-																taxonomy.value
-															]
-														}
-														options={
-															filterTypesOptions
-														}
+														value={filterTypes[taxonomy.value]}
+														options={filterTypesOptions}
 														onChange={(value) => {
 															setAttributes({
 																filterTypes: {
 																	...filterTypes,
-																	[taxonomy.value]:
-																		value,
+																	[taxonomy.value]: value,
 																},
 															});
 														}}
 														__nextHasNoMarginBottom
 														__next40pxDefaultSize
 													/>
-													{hierarchicalFilter[
-														taxonomy.value
-													] && (
+													{hierarchicalFilter[taxonomy.value] && (
 														<SelectControl
 															label={__(
 																'Filter type (Child categories)',
 																'jcore-dynamic-archive'
 															)}
-															value={
-																filterTypesChild[
-																	taxonomy
-																		.value
-																]
-															}
-															options={
-																filterTypesOptions
-															}
-															onChange={(
-																value
-															) => {
+															value={filterTypesChild[taxonomy.value]}
+															options={filterTypesOptions}
+															onChange={(value) => {
 																setAttributes({
-																	filterTypesChild:
-																		{
-																			...filterTypesChild,
-																			[taxonomy.value]:
-																				value,
-																		},
+																	filterTypesChild: {
+																		...filterTypesChild,
+																		[taxonomy.value]: value,
+																	},
 																});
 															}}
 															__nextHasNoMarginBottom
@@ -492,24 +414,16 @@ export default function Edit({ attributes, setAttributes, context }) {
 														/>
 													)}
 													<TaxonomyPicker
-														taxonomySlug={
-															taxonomy.value
-														}
+														taxonomySlug={taxonomy.value}
 														onChange={(value) =>
 															setAttributes({
-																forcedCategories:
-																	{
-																		...forcedCategories,
-																		[taxonomy.value]:
-																			value,
-																	},
+																forcedCategories: {
+																	...forcedCategories,
+																	[taxonomy.value]: value,
+																},
 															})
 														}
-														value={
-															forcedCategories[
-																taxonomy.value
-															]
-														}
+														value={forcedCategories[taxonomy.value]}
 													></TaxonomyPicker>
 												</>
 											)}

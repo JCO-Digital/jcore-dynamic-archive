@@ -167,6 +167,7 @@ $interactivity_context = array(
 	),
 	'terms'            => $context['taxonomies_filter'],
 	'blockId'          => $attributes['instanceId'],
+	'searchTerm'       => get_parameter( build_param_name( 'search', $attributes['instanceId'] ?? '' ), '' ),
 );
 /**
  * Filters the interactivity context for the dynamic archive block.
