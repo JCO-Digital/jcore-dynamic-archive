@@ -1,3 +1,12 @@
+# [0.18.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.17.0...v0.18.0) (2025-12-01)
+
+
+### Features
+
+* Add support for relevanssi. ([19d9d4a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/19d9d4a6bf0a71eae5b42f35c4442e11f5bfab47))
+
+
+
 # [0.17.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.4...v0.17.0) (2025-12-01)
 
 
@@ -32,15 +41,6 @@
 ### Bug Fixes
 
 * **latest-posts:** add similar filter as with dynamic-archive for the post query args ([554fdb0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/554fdb00e50de997b108a38afac4d8bacbf567b5))
-
-
-
-## [0.16.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.0...v0.16.1) (2025-10-31)
-
-
-### Bug Fixes
-
-* Update tax query relation to use a filter for improved flexibility ([21613c4](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/21613c481ff3f0f219245449f8976c68afdf30f6))
 
 
 
