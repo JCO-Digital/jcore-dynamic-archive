@@ -1,3 +1,13 @@
+# [0.17.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.4...v0.17.0) (2025-12-01)
+
+
+### Features
+
+* Add "Search..." translation to Finnish and Swedish files. ([899fcb6](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/899fcb648c59a756d21867e54c2eb2ebd884f96c))
+* Add free text search option to filters. ([2c27896](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/2c27896c7a947ce1240ac773976469ceefb60d54))
+
+
+
 ## [0.16.4](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.3...v0.16.4) (2025-11-19)
 
 
@@ -31,15 +41,6 @@
 ### Bug Fixes
 
 * Update tax query relation to use a filter for improved flexibility ([21613c4](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/21613c481ff3f0f219245449f8976c68afdf30f6))
-
-
-
-# [0.16.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.15.1...v0.16.0) (2025-09-12)
-
-
-### Features
-
-* Add "Show all" option for radio filters and update translations. ✨ 🌐 ([f726025](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f7260252e0221230eac28fdb2ddb3c2de759e04d))
 
 
 
