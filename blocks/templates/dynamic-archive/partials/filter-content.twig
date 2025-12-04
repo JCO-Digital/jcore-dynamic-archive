@@ -7,9 +7,10 @@
 		data-filter-type="{{ taxonomy.filterType }}"
 		data-is-child="{{ isChild }}"
 	>
+		{% set fieldType = attribute((terms|filter(term => term.active)|first), taxonomy_field_type) ?? '' %}
 		<option
-			value="{{ (terms|filter(term => term.active)|first).id ?? '' }}"
-			data-term="{{ (terms|filter(term => term.active)|first).id ?? '' }}"
+			value="{{ fieldType }}"
+			data-term="{{ fieldType }}"
 			data-taxonomy="{{ taxonomy.name }}"
 			{% if taxonomy.terms|filter(term => term.active)|length == 0 %}
 				selected="selected"
