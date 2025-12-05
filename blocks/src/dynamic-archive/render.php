@@ -16,6 +16,7 @@ use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
 use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
 use function Jcore\DynamicArchive\Helpers\is_post_type;
+use function Jcore\DynamicArchive\Helpers\get_taxonomy_param_field_type;
 
 $context          = Timber::context();
 $context['block'] = $block;
@@ -90,7 +91,7 @@ $timber_posts = Timber::get_posts(
 	$args
 );
 
-$current_page            = absint( get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 ) );
+$current_page            = absint( get_parameter( build_param_name( 'archive-paged', $attributes['instanceId'] ?? '', $attributes ), 1 ) );
 $context['current_page'] = $current_page;
 
 $total_pages = absint( ceil( $timber_posts->found_posts / $block_per_page ) );
@@ -156,7 +157,7 @@ if ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll
 
 $context['posts'] = $final_posts ?? $timber_posts;
 
-$taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
+$taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '', $attributes );
 
 $interactivity_context = array(
 	'currentPage'      => $current_page ?? 1,
@@ -167,7 +168,7 @@ $interactivity_context = array(
 	),
 	'terms'            => $context['taxonomies_filter'],
 	'blockId'          => $attributes['instanceId'],
-	'searchTerm'       => get_parameter( build_param_name( 'search', $attributes['instanceId'] ?? '' ), '' ),
+	'searchTerm'       => get_parameter( build_param_name( 'search', $attributes['instanceId'] ?? '', $attributes ), '' ),
 );
 /**
  * Filters the interactivity context for the dynamic archive block.
@@ -184,13 +185,16 @@ wp_interactivity_state(
 	'jcore/dynamic-archive',
 	apply_filters(
 		'jcore_dynamic_archive_interactivity_state',
-		array()
+		array(
+			'prefix' => build_param_name( '', $attributes['instanceId'], $attributes ),
+		)
 	)
 );
 
 $context['interactivity_context_attribute'] = wp_interactivity_data_wp_context( $interactivity_context, 'jcore/dynamic-archive' );
 
-$context['attributes'] = $attributes;
+$context['attributes']          = $attributes;
+$context['taxonomy_field_type'] = get_taxonomy_param_field_type( $attributes );
 
 $rendered = Timber::compile( 'dynamic-archive/archive.twig', $context );
 

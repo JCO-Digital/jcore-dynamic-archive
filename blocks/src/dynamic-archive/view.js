@@ -19,7 +19,7 @@ const debug = _debug('dynamic-archive:frontend');
 /** @typedef {Record<FilterName, TaxonomyState>} FilterState */
 
 const buildParamName = (instanceId, name) => {
-	return `dynamic-archive-${instanceId}-${name}`;
+	return `${state.prefix}${name}`;
 };
 
 const isValidLink = (ref) =>
@@ -116,9 +116,9 @@ const buildFilterUrl = ({
 	};
 	const parsedPage = parseInt(currentPage);
 	if (isInfiniteScroll && !isNaN(parsedPage) && parsedPage > 1) {
-		urlState[buildParamName(blockId, 'paged')] = currentPage;
+		urlState[buildParamName(blockId, 'archive-paged')] = currentPage;
 	} else {
-		delete urlState[buildParamName(blockId, 'paged')];
+		delete urlState[buildParamName(blockId, 'archive-paged')];
 	}
 	url.search = qs.stringify(urlState, {
 		encode: false,
