@@ -1,3 +1,17 @@
+# [0.19.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.18.0...v0.19.0) (2025-12-05)
+
+
+### Bug Fixes
+
+* Fix typo in interactivity state filter name. ([fcb70c9](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fcb70c920a8abb4fc8ced4177cb9dc73f61aef02))
+
+
+### Features
+
+* Support taxonomy filter by slug and customizable param names ([ab85d3e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ab85d3efc0f53f7024f54432e0b9c747c107ee66))
+
+
+
 # [0.18.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.17.0...v0.18.0) (2025-12-01)
 
 
@@ -32,15 +46,6 @@
 ### Bug Fixes
 
 * require v3 or v4 of ydin ([7b29371](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7b29371d69f5a75c6a47bd84397455a5751023be))
-
-
-
-## [0.16.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.1...v0.16.2) (2025-11-03)
-
-
-### Bug Fixes
-
-* **latest-posts:** add similar filter as with dynamic-archive for the post query args ([554fdb0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/554fdb00e50de997b108a38afac4d8bacbf567b5))
 
 
 
