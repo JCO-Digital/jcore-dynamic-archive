@@ -184,7 +184,7 @@ $interactivity_context = apply_filters( 'jcore_dynamic_archive_interactivity_con
 wp_interactivity_state(
 	'jcore/dynamic-archive',
 	apply_filters(
-		'jcore_dynamic_archive_interactivcity_state',
+		'jcore_dynamic_archive_interactivity_state',
 		array(
 			'prefix' => build_param_name( '', $attributes['instanceId'], $attributes ),
 		)
