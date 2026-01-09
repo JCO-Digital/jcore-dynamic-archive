@@ -1,3 +1,12 @@
+## [0.19.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.19.0...v0.19.1) (2026-01-09)
+
+
+### Bug Fixes
+
+* Update dynamic-archive block to correctly handle post exclusion on singular pages ([37d2587](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/37d2587a8646f23abb4a25ba36c4659a4800feb5))
+
+
+
 # [0.19.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.18.0...v0.19.0) (2025-12-05)
 
 
@@ -37,15 +46,6 @@
 ### Bug Fixes
 
 * added composer installers. ([d87e8b7](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d87e8b7825fdbdcb658e9aaf0002c5a493c917b5))
-
-
-
-## [0.16.3](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.2...v0.16.3) (2025-11-14)
-
-
-### Bug Fixes
-
-* require v3 or v4 of ydin ([7b29371](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7b29371d69f5a75c6a47bd84397455a5751023be))
 
 
 
