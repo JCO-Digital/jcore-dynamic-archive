@@ -38,9 +38,14 @@ $context['taxonomies_filter']        = build_taxonomies_filter( $attributes );
 $block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 );
 $args           = array(
 	'post_type'      => $attributes['postType'],
-	'post__not_in'   => array( get_the_ID() ),
 	'posts_per_page' => $block_per_page,
 );
+
+// Only exclude the current post on singular pages to avoid showing the current post in related posts.
+// On archive pages, get_the_ID() returns the first post in the archive, which should not be excluded.
+if ( is_singular() ) {
+	$args['post__not_in'] = array( get_the_ID() );
+}
 
 // If inherit is true, we need to override the arguments with the current query.
 if ( $attributes['inherit'] ) {
