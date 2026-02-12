@@ -1,34 +1,52 @@
-<div id="dynamic-archive-{{ attributes.instanceId }}"
+<div
+	id="dynamic-archive-{{ attributes.instanceId }}"
 	{{ block_wrapper_attributes }}
 	{{ interactivity_context_attribute }}
-	 data-wp-interactive="jcore/dynamic-archive"
-	 data-wp-router-region="dynamic-archive-{{ attributes.instanceId }}"
-	 data-wp-class--is-loading="context.isLoading"
-	 data-wp-class--is-prefetching="context.isPrefetching"
-	 data-wp-watch="callbacks.updateServerContext"
+	data-wp-interactive="jcore/dynamic-archive"
+	data-wp-router-region="dynamic-archive-{{ attributes.instanceId }}"
+	data-wp-class--is-loading="context.isLoading"
+	data-wp-class--is-prefetching="context.isPrefetching"
+	data-wp-watch="callbacks.updateServerContext"
 >
 	<div class="wp-block-jcore-dynamic-archive__filters">
-		{% include ['dynamic-archive/partials/filters.twig', 'partials/filters.twig'] ignore missing %}
+		{% include [
+			'dynamic-archive/partials/filters.twig',
+			'partials/filters.twig'
+		] ignore missing %}
 	</div>
 	<div class="wp-block-jcore-dynamic-archive-posts {{ 'post-type-' ~ attributes.postType }}">
 		<div
-			class="wp-block-jcore-dynamic-archive-posts__inner{{ attributes.masonryGrid ? ' masonry-grid' : '' }}{{ attributes.columns ? ' columns-' ~ attributes.columns : '' }}">
+			class="wp-block-jcore-dynamic-archive-posts__inner{{
+			attributes.masonryGrid
+				? ' masonry-grid'
+				: ''
+			}}{{ attributes.columns ? ' columns-' ~ attributes.columns : '' }}"
+		>
 			{% for post in posts %}
-				{% include ['dynamic-archive/partials/tease.twig', 'partials/tease.twig'] with { post: post, nr: loop.index } %}
+				{% include ['dynamic-archive/partials/tease.twig', 'partials/tease.twig'] with {
+					post: post,
+					nr: loop.index
+				} %}
 			{% endfor %}
-			{% if posts|length == 0 %}
+			{% if (posts|length) == 0 %}
 				<div class="wp-block-jcore-dynamic-archive-posts__empty">
-					{{ __( 'No posts found', 'jcore-dynamic-archive' ) }}
+					{{ __('No posts found', 'jcore-dynamic-archive') }}
 				</div>
 			{% endif %}
 		</div>
 	</div>
 	<div class="wp-block-jcore-dynamic-archive-posts__pagination">
 		{% if attributes.showPagination and not attributes.infiniteScroll %}
-			{% include ['dynamic-archive/partials/pagination.twig', 'partials/pagination.twig'] ignore missing %}
+			{% include [
+				'dynamic-archive/overrides/partials/pagination.twig',
+				'dynamic-archive/partials/pagination.twig'
+			] ignore missing %}
 		{% endif %}
 		{% if attributes.showPagination and attributes.infiniteScroll %}
-			{% include ['dynamic-archive/partials/load-more.twig', 'partials/load-more.twig'] ignore missing %}
+			{% include [
+				'dynamic-archive/overrides/partials/load-more.twig',
+				'dynamic-archive/partials/load-more.twig'
+			] ignore missing %}
 		{% endif %}
 	</div>
 </div>
