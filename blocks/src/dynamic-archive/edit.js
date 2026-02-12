@@ -2,9 +2,10 @@
  * Hooks
  */
 import { __ } from '@wordpress/i18n';
-import { useEffect, useState } from '@wordpress/element';
+import { Fragment, useEffect, useMemo, useState } from '@wordpress/element';
 import { useInstanceId } from '@wordpress/compose';
 import { useBlockProps } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
 import { settings, layout, funnel } from '@wordpress/icons';
 import _debug from 'debug';
 const debug = _debug('dynamic-archive:Edit');
@@ -39,6 +40,24 @@ import usePostTypes from '@/shared/usePostTypes';
 import useSiteSetting from '@/shared/useSiteSetting';
 import useTaxonomies from '@/shared/useTaxonomies';
 import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
+import {
+	DynamicArchiveInspectorFiltersSlot,
+	DynamicArchiveInspectorGeneralSlot,
+	DynamicArchiveInspectorLayoutSlot,
+} from './extensions';
+
+const normalizeExtensionControls = (controls) => {
+	if (!controls) {
+		return [];
+	}
+
+	return Array.isArray(controls) ? controls : [controls];
+};
+
+const renderExtensionControls = (controls, keyPrefix) =>
+	controls.map((control, index) => (
+		<Fragment key={`${keyPrefix}-${index}`}>{control}</Fragment>
+	));
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -155,6 +174,85 @@ export default function Edit({ attributes, setAttributes, context }) {
 		{ label: __('Dropdown', 'jcore-dynamic-archive'), value: 'dropdown' },
 	];
 
+	const extensionContext = useMemo(
+		() =>
+			applyFilters(
+				'jcore.dynamicArchive.editor.extensionContext',
+				{
+					attributes,
+					setAttributes,
+					postType,
+					taxonomies,
+					isSingular,
+					inherit,
+					isPostTypeHierarchical,
+					postTypes,
+					taxonomyOptions,
+					loading: {
+						postTypes: postTypeLoading,
+						taxonomies: taxonomiesLoading,
+					},
+					capabilities: {
+						canToggleInherit: !isSingular,
+						canConfigurePostType: !inherit,
+						canConfigureFilters: !inherit,
+						isHierarchicalPostType: isPostTypeHierarchical,
+					},
+				},
+				context
+			),
+		[
+			attributes,
+			context,
+			inherit,
+			isPostTypeHierarchical,
+			isSingular,
+			postType,
+			postTypeLoading,
+			postTypes,
+			setAttributes,
+			taxonomies,
+			taxonomiesLoading,
+			taxonomyOptions,
+		]
+	);
+
+	const generalExtensionControls = useMemo(
+		() =>
+			normalizeExtensionControls(
+				applyFilters(
+					'jcore.dynamicArchive.editor.generalControls',
+					[],
+					extensionContext
+				)
+			),
+		[extensionContext]
+	);
+
+	const layoutExtensionControls = useMemo(
+		() =>
+			normalizeExtensionControls(
+				applyFilters(
+					'jcore.dynamicArchive.editor.layoutControls',
+					[],
+					extensionContext
+				)
+			),
+		[extensionContext]
+	);
+
+	const filtersExtensionControls = useMemo(
+		() =>
+			normalizeExtensionControls(
+				applyFilters(
+					'jcore.dynamicArchive.editor.filterControls',
+					[],
+					extensionContext
+				)
+			),
+		[extensionContext]
+	);
+
 	return (
 		<>
 			<InspectorControls>
@@ -255,6 +353,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 							)}
 						</>
 					)}
+					{renderExtensionControls(generalExtensionControls, 'dynamic-archive-general')}
+					<DynamicArchiveInspectorGeneralSlot extensionContext={extensionContext} />
 				</PanelBody>
 				<PanelBody title={__('Layout', 'jcore-dynamic-archive')} icon={layout}>
 					<ToggleControl
@@ -292,6 +392,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 						__nextHasNoMarginBottom
 						__next40pxDefaultSize
 					/>
+					{renderExtensionControls(layoutExtensionControls, 'dynamic-archive-layout')}
+					<DynamicArchiveInspectorLayoutSlot extensionContext={extensionContext} />
 				</PanelBody>
 				{!inherit && (
 					<PanelBody
@@ -432,6 +534,11 @@ export default function Edit({ attributes, setAttributes, context }) {
 								</VStack>
 							</>
 						)}
+						{renderExtensionControls(
+							filtersExtensionControls,
+							'dynamic-archive-filters'
+						)}
+						<DynamicArchiveInspectorFiltersSlot extensionContext={extensionContext} />
 					</PanelBody>
 				)}
 			</InspectorControls>

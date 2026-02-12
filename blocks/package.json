@@ -38,6 +38,7 @@
 		"@wordpress/is-shallow-equal": "*",
 		"@wordpress/keycodes": "*",
 		"@wordpress/notices": "*",
+		"@wordpress/plugins": "*",
 		"@wordpress/scripts": "^30.5.1",
 		"@wordpress/server-side-render": "*"
 	},

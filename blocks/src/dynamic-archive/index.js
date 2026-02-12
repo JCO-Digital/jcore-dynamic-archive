@@ -19,6 +19,14 @@ import './style.css';
  */
 import Edit from './edit';
 import metadata from './block.json';
+import * as dynamicArchiveExtensions from './extensions';
+
+if (typeof window !== 'undefined') {
+	window.jcoreDynamicArchive = Object.assign({}, window.jcoreDynamicArchive, {
+		extensions: dynamicArchiveExtensions,
+		extensibilityApiVersion: 1,
+	});
+}
 
 /**
  * Every block starts by registering a new block type definition.

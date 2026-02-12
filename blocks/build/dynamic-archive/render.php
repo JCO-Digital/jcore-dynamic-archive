@@ -201,6 +201,21 @@ $context['interactivity_context_attribute'] = wp_interactivity_data_wp_context( 
 $context['attributes']          = $attributes;
 $context['taxonomy_field_type'] = get_taxonomy_param_field_type( $attributes );
 
+/**
+ * Filters the final render context for the dynamic archive block.
+ *
+ * This runs after query execution and interactivity context assembly, and
+ * before Twig compilation. It can be used to pass extension-specific data to templates.
+ *
+ * @param array         $context The full Twig context.
+ * @param array         $attributes The block attributes.
+ * @param array         $args The final WP_Query arguments.
+ * @param Timber\PostQuery $timber_posts The query result object.
+ *
+ * @hooked jcore_dynamic_archive_render_context
+ */
+$context = apply_filters( 'jcore_dynamic_archive_render_context', $context, $attributes, $args, $timber_posts );
+
 $rendered = Timber::compile( 'dynamic-archive/archive.twig', $context );
 
 echo wp_interactivity_process_directives( $rendered ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
