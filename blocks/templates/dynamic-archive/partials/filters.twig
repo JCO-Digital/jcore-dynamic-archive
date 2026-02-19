@@ -83,8 +83,15 @@
 
 {% if attributes.search %}
 	<div class="wp-block-jcore-dynamic-archive__filters__search">
-		<h3>{{ attributes.searchLabel }}</h3>
+		<label
+			class="wp-block-jcore-dynamic-archive__filters__search__label"
+			id="dynamic-archive-{{ attributes.instanceId }}-search-label"
+			for="dynamic-archive-{{ attributes.instanceId }}-search-input"
+		>
+			{{ attributes.searchLabel }}
+		</label>
 		<input
+			id="dynamic-archive-{{ attributes.instanceId }}-search-input"
 			type="text"
 			aria-labelledby="dynamic-archive-{{ attributes.instanceId }}-search-label"
 			class="wp-block-jcore-dynamic-archive__filters__search__input"
