@@ -39,6 +39,7 @@ $block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 1
 $args           = array(
 	'post_type'      => $attributes['postType'],
 	'posts_per_page' => $block_per_page,
+	'post_status'    => 'publish',
 );
 
 // Only exclude the current post on singular pages to avoid showing the current post in related posts.
