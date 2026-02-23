@@ -59,7 +59,7 @@ if ( $attributes['related'] ) {
 
 $taxonomies_filter = get_nested_value( $attributes, array( 'selectedTaxonomies' ), array() );
 if ( ! empty( $taxonomies_filter ) && ! $attributes['related'] ) {
-	$args['tax_query'] = array();
+	$args['tax_query'] = $args['tax_query'] ?? array();
 	foreach ( $taxonomies_filter as $slug => $terms ) {
 		if ( empty( $terms ) ) {
 			continue;
