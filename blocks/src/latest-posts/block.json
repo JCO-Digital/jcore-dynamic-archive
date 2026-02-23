@@ -48,8 +48,13 @@
 		"expanded": {
 			"type": "boolean",
 			"default": true
+		},
+		"inherit": {
+			"type": "boolean",
+			"default": false
 		}
 	},
+	"usesContext": ["templateSlug"],
 	"supports": {
 		"html": false,
 		"align": true
