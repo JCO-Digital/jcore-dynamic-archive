@@ -440,3 +440,77 @@ function build_pagination_url( array $attributes, int $page ): string {
 function get_taxonomy_param_field_type( $attributes ) {
 	return apply_filters( 'jcore_dynamic_archive_taxonomy_param_field_type', 'id', $attributes );
 }
+
+/**
+ * Examines the global $wp_query and returns WP_Query args reflecting the current archive context.
+ *
+ * Handles WP_Term (category/tag/taxonomy), WP_Post_Type (post type archive), WP_User (author),
+ * is_home(), is_search(), and is_date(). Does NOT inherit order/orderby/posts_per_page.
+ *
+ * @return array WP_Query args to merge into the block's query.
+ */
+function get_inherited_query_args(): array {
+	$args            = array();
+	$queried_object  = get_queried_object();
+
+	if ( $queried_object instanceof \WP_Term ) {
+		// Category, tag, or custom taxonomy archive.
+		$taxonomy   = get_taxonomy( $queried_object->taxonomy );
+		$post_types = $taxonomy ? $taxonomy->object_type : array( 'post' );
+		if ( count( $post_types ) === 1 ) {
+			$args['post_type'] = $post_types[0];
+		} else {
+			$args['post_type'] = $post_types;
+		}
+		$args['tax_query'] = array(
+			array(
+				'taxonomy'         => $queried_object->taxonomy,
+				'field'            => 'id',
+				'terms'            => array( $queried_object->term_id ),
+				'include_children' => true,
+			),
+		);
+	} elseif ( $queried_object instanceof \WP_Post_Type ) {
+		// Post type archive.
+		$args['post_type'] = $queried_object->name;
+	} elseif ( $queried_object instanceof \WP_User ) {
+		// Author archive.
+		$args['author'] = $queried_object->ID;
+	} elseif ( is_home() ) {
+		// Blog home / posts page.
+		$args['post_type'] = 'post';
+	}
+
+	if ( is_search() ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$search = isset( $_GET['s'] ) ? sanitize_text_field( wp_unslash( $_GET['s'] ) ) : get_search_query();
+		if ( $search ) {
+			$args['s'] = $search;
+		}
+	}
+
+	if ( is_date() ) {
+		global $wp_query;
+		$year  = $wp_query->get( 'year' );
+		$month = $wp_query->get( 'monthnum' );
+		$day   = $wp_query->get( 'day' );
+		if ( $year ) {
+			$args['year'] = absint( $year );
+		}
+		if ( $month ) {
+			$args['monthnum'] = absint( $month );
+		}
+		if ( $day ) {
+			$args['day'] = absint( $day );
+		}
+	}
+
+	/**
+	 * Filters the inherited query args for the dynamic archive / latest posts block.
+	 *
+	 * @param array $args The inherited WP_Query args derived from the current archive context.
+	 *
+	 * @hooked jcore_dynamic_archive_inherited_query_args
+	 */
+	return apply_filters( 'jcore_dynamic_archive_inherited_query_args', $args );
+}
