@@ -17,6 +17,7 @@ use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
 use function Jcore\DynamicArchive\Helpers\is_post_type;
 use function Jcore\DynamicArchive\Helpers\get_taxonomy_param_field_type;
+use function Jcore\DynamicArchive\Helpers\get_inherited_query_args;
 
 $context          = Timber::context();
 $context['block'] = $block;
@@ -50,15 +51,39 @@ if ( is_singular() ) {
 
 // If inherit is true, we need to override the arguments with the current query.
 if ( $attributes['inherit'] ) {
-	$current_post_type = get_queried_object();
-	if ( $current_post_type instanceof WP_Post_Type ) {
-		$selected_post_type = $current_post_type;
-		$args['post_type']  = $current_post_type->name;
-	} elseif ( is_home() ) {
+	$inherited = get_inherited_query_args();
+
+	// Merge post_type.
+	if ( ! empty( $inherited['post_type'] ) ) {
+		$args['post_type']      = $inherited['post_type'];
+		$attributes['postType'] = is_array( $inherited['post_type'] ) ? $inherited['post_type'][0] : $inherited['post_type'];
+	}
+
+	// Merge tax_query (will be layered upon by handle_dynamic_args / handle_taxonomies_filter).
+	if ( ! empty( $inherited['tax_query'] ) ) {
+		$args['tax_query'] = array_merge( $args['tax_query'] ?? array(), $inherited['tax_query'] );
+	}
+
+	// Merge author.
+	if ( ! empty( $inherited['author'] ) ) {
+		$args['author'] = $inherited['author'];
+	}
+
+	// Merge search only if the block's own search feature is disabled.
+	if ( ! ( $attributes['search'] ?? false ) && ! empty( $inherited['s'] ) ) {
+		$args['s'] = $inherited['s'];
+	}
+
+	// Merge date constraints.
+	foreach ( array( 'year', 'monthnum', 'day' ) as $date_key ) {
+		if ( ! empty( $inherited[ $date_key ] ) ) {
+			$args[ $date_key ] = $inherited[ $date_key ];
+		}
+	}
+
+	$selected_post_type     = get_post_type_object( $attributes['postType'] );
+	if ( ! $selected_post_type ) {
 		$selected_post_type = get_post_type_object( 'post' );
-		$args['post_type']  = 'post';
-	} else {
-		$selected_post_type = get_post_type_object( $attributes['postType'] );
 	}
 	$attributes['postType'] = $selected_post_type->name;
 } else {

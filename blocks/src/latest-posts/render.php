@@ -9,6 +9,7 @@
 
 use Timber\FunctionWrapper;
 use function Jcore\DynamicArchive\Helpers\get_nested_value;
+use function Jcore\DynamicArchive\Helpers\get_inherited_query_args;
 
 $context               = Timber::context();
 $context['block']      = $block;
@@ -22,6 +23,30 @@ if ( $attributes['related'] ) {
 		'orderby'        => get_nested_value( $attributes, array( 'orderBy' ), 'date' ),
 		'post__not_in'   => array( get_the_ID() ),
 	);
+} elseif ( $attributes['inherit'] ?? false ) {
+	$inherited = get_inherited_query_args();
+	$args      = array(
+		'posts_per_page' => get_nested_value( $attributes, array( 'postsPerPage' ), 6 ),
+		'order'          => strtoupper( get_nested_value( $attributes, array( 'order' ), 'desc' ) ),
+		'orderby'        => get_nested_value( $attributes, array( 'orderBy' ), 'date' ),
+	);
+	if ( ! empty( $inherited['post_type'] ) ) {
+		$args['post_type'] = $inherited['post_type'];
+	}
+	if ( ! empty( $inherited['tax_query'] ) ) {
+		$args['tax_query'] = $inherited['tax_query'];
+	}
+	if ( ! empty( $inherited['author'] ) ) {
+		$args['author'] = $inherited['author'];
+	}
+	if ( ! empty( $inherited['s'] ) ) {
+		$args['s'] = $inherited['s'];
+	}
+	foreach ( array( 'year', 'monthnum', 'day' ) as $date_key ) {
+		if ( ! empty( $inherited[ $date_key ] ) ) {
+			$args[ $date_key ] = $inherited[ $date_key ];
+		}
+	}
 } else {
 	$args = array(
 		'post_type'      => get_nested_value( $attributes, array( 'postTypes' ), array() ),
@@ -34,7 +59,7 @@ if ( $attributes['related'] ) {
 
 $taxonomies_filter = get_nested_value( $attributes, array( 'selectedTaxonomies' ), array() );
 if ( ! empty( $taxonomies_filter ) && ! $attributes['related'] ) {
-	$args['tax_query'] = array();
+	$args['tax_query'] = $args['tax_query'] ?? array();
 	foreach ( $taxonomies_filter as $slug => $terms ) {
 		if ( empty( $terms ) ) {
 			continue;
