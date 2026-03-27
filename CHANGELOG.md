@@ -1,3 +1,18 @@
+# [0.21.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.20.0...v0.21.0) (2026-03-27)
+
+
+### Bug Fixes
+
+* actually allow overriding pagination by changing first path. ([fd2a07a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fd2a07aaf2a8551e76d9bcd633b5dc724accfb69))
+* ensure posts are only fetched if published in dynamic-archive block ([bb10d72](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/bb10d72f963de20d016e8661a48305cefbf7f324))
+
+
+### Features
+
+* correctly use a label for the search input to improve a11y. ([39a4c84](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/39a4c843e8130e115f10a0b216a607bf0f6cab55))
+
+
+
 # [0.20.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.19.1...v0.20.0) (2026-02-23)
 
 
@@ -41,16 +56,6 @@
 ### Features
 
 * Add support for relevanssi. ([19d9d4a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/19d9d4a6bf0a71eae5b42f35c4442e11f5bfab47))
-
-
-
-# [0.17.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.4...v0.17.0) (2025-12-01)
-
-
-### Features
-
-* Add "Search..." translation to Finnish and Swedish files. ([899fcb6](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/899fcb648c59a756d21867e54c2eb2ebd884f96c))
-* Add free text search option to filters. ([2c27896](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/2c27896c7a947ce1240ac773976469ceefb60d54))
 
 
 
