@@ -1,3 +1,14 @@
+# [0.22.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.21.0...v0.22.0) (2026-03-30)
+
+
+### Features
+
+* add sorting for taxonomy terms by name in dynamic archive block ([210f548](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/210f548d3b68d4ac41dc4eba455affdc167491ce))
+* enhance dynamic archive block with improved taxonomy filtering. ([fb717f2](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb717f2a05f82f58552b344e25a4b225a87157fb))
+* implement caching for term usage by post type in dynamic archive ([defe6b9](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/defe6b9ed3779f4c44e2a47ef68a8da8b818d158))
+
+
+
 # [0.21.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.20.0...v0.21.0) (2026-03-27)
 
 
@@ -47,15 +58,6 @@
 ### Features
 
 * Support taxonomy filter by slug and customizable param names ([ab85d3e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ab85d3efc0f53f7024f54432e0b9c747c107ee66))
-
-
-
-# [0.18.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.17.0...v0.18.0) (2025-12-01)
-
-
-### Features
-
-* Add support for relevanssi. ([19d9d4a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/19d9d4a6bf0a71eae5b42f35c4442e11f5bfab47))
 
 
 
