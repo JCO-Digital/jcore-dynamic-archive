@@ -10,14 +10,13 @@
 use Timber\Timber;
 use Timber\FunctionWrapper;
 use Timber\URLHelper;
+use function Jcore\DynamicArchive\Helpers\build_dynamic_archive_block_base_args;
 use function Jcore\DynamicArchive\Helpers\build_pagination_url;
 use function Jcore\DynamicArchive\Helpers\build_param_name;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
 use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
-use function Jcore\DynamicArchive\Helpers\is_post_type;
 use function Jcore\DynamicArchive\Helpers\get_taxonomy_param_field_type;
-use function Jcore\DynamicArchive\Helpers\get_inherited_query_args;
 
 $context          = Timber::context();
 $context['block'] = $block;
@@ -29,86 +28,14 @@ if ( $parsed_url === false ) {
 }
 $context['current_path'] = $parsed_url;
 
-if ( ! is_post_type( $attributes['postType'] ?? '' ) ) {
-	$attributes['postType'] = 'post';
-}
-
 $context['block_wrapper_attributes'] = new FunctionWrapper( 'get_block_wrapper_attributes' );
-$context['taxonomies_filter']        = build_taxonomies_filter( $attributes );
+
+[ $attributes, $base_args ] = build_dynamic_archive_block_base_args( $attributes );
+$context['taxonomies_filter']        = build_taxonomies_filter( $attributes, $base_args );
 
 $block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 );
-$args           = array(
-	'post_type'      => $attributes['postType'],
-	'posts_per_page' => $block_per_page,
-	'post_status'    => 'publish',
-);
 
-// Only exclude the current post on singular pages to avoid showing the current post in related posts.
-// On archive pages, get_the_ID() returns the first post in the archive, which should not be excluded.
-if ( is_singular() ) {
-	$args['post__not_in'] = array( get_the_ID() );
-}
-
-// If inherit is true, we need to override the arguments with the current query.
-if ( $attributes['inherit'] ) {
-	$inherited = get_inherited_query_args();
-
-	// Merge post_type.
-	if ( ! empty( $inherited['post_type'] ) ) {
-		$args['post_type']      = $inherited['post_type'];
-		$attributes['postType'] = is_array( $inherited['post_type'] ) ? $inherited['post_type'][0] : $inherited['post_type'];
-	}
-
-	// Merge tax_query (will be layered upon by handle_dynamic_args / handle_taxonomies_filter).
-	if ( ! empty( $inherited['tax_query'] ) ) {
-		$args['tax_query'] = array_merge( $args['tax_query'] ?? array(), $inherited['tax_query'] );
-	}
-
-	// Merge author.
-	if ( ! empty( $inherited['author'] ) ) {
-		$args['author'] = $inherited['author'];
-	}
-
-	// Merge search only if the block's own search feature is disabled.
-	if ( ! ( $attributes['search'] ?? false ) && ! empty( $inherited['s'] ) ) {
-		$args['s'] = $inherited['s'];
-	}
-
-	// Merge date constraints.
-	foreach ( array( 'year', 'monthnum', 'day' ) as $date_key ) {
-		if ( ! empty( $inherited[ $date_key ] ) ) {
-			$args[ $date_key ] = $inherited[ $date_key ];
-		}
-	}
-
-	$selected_post_type     = get_post_type_object( $attributes['postType'] );
-	if ( ! $selected_post_type ) {
-		$selected_post_type = get_post_type_object( 'post' );
-	}
-	$attributes['postType'] = $selected_post_type->name;
-} else {
-	$selected_post_type = get_post_type_object( $attributes['postType'] );
-}
-
-
-if ( $selected_post_type->hierarchical && $attributes['hideChildren'] === true ) {
-	$args['post_parent'] = 0;
-}
-if ( isset( $attributes['sticky'] ) || ( $attributes['inherit'] && apply_filters( 'jcore_dynamic_archive_inherit_sticky', false ) ) ) {
-	$args_to_add = match ( $attributes['sticky'] ) {
-		'exclude' => array(
-			'post__not_in' => get_option( 'sticky_posts' ),
-		),
-		'only' => array(
-			'post__in'            => get_option( 'sticky_posts' ),
-			'ignore_sticky_posts' => true, // This might seem redundant, but all it does is improve performance. See https://wordpress.stackexchange.com/questions/260941/why-ignore-sticky-posts-argument-is-in-sticky-post-query#:~:text=Explanation%20of%20the%20codex%20example%3A for more information.
-		),
-		default => array(),
-	};
-	$args = array_merge( $args, $args_to_add );
-}
-
-$args = handle_dynamic_args( $args, $attributes );
+$args = handle_dynamic_args( $base_args, $attributes );
 /**
  * Filters the dynamic archive args for the dynamic archive block.
  *
