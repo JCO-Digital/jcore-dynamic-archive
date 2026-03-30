@@ -336,14 +336,18 @@ function build_taxonomies_filter( array $attributes ): array {
 	// Extract the taxonomy filters, filter types, filter types child, and hierarchical filter from the attributes.
 	[$taxonomy_filters, $filter_types, $filter_types_child, $hierarchical_filter] = extract_taxonomy_filter_attributes( $attributes );
 
-	$taxonomies  = array();
-	$instance_id = $attributes['instanceId'] ?? '';
-	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
+	$taxonomies         = array();
+	$instance_id        = $attributes['instanceId'] ?? '';
+	$all_filters        = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
+	$selected_post_type = get_taxonomies_filter_post_type( $attributes );
 
 	foreach ( $taxonomy_filters as $taxonomy ) {
 		// Get taxonomy object.
-		$tax_object   = get_taxonomy( $taxonomy );
-		$forced_terms = get_nested_value( $attributes, array( 'forcedCategories', $taxonomy ), array() );
+		$tax_object                  = get_taxonomy( $taxonomy );
+		$forced_terms                = get_nested_value( $attributes, array( 'forcedCategories', $taxonomy ), array() );
+		$use_post_type_term_usage    = ! $attributes['showAllLanguages'] && '' !== $selected_post_type && apply_filters( 'jcore_dynamic_archive_use_post_type_term_usage', false, $taxonomy, $selected_post_type, $attributes, $all_filters );
+		$post_type_used_term_ids     = $use_post_type_term_usage ? get_term_ids_in_use_for_post_type( $taxonomy, $selected_post_type ) : array();
+		$post_type_used_term_ids_map = $use_post_type_term_usage ? array_fill_keys( $post_type_used_term_ids, true ) : array();
 		if ( ! is_array( $forced_terms ) || $attributes['inherit'] ) {
 			$forced_terms = array();
 		}
@@ -370,7 +374,7 @@ function build_taxonomies_filter( array $attributes ): array {
 		$terms                   = get_terms(
 			array(
 				'taxonomy'   => $taxonomy,
-				'hide_empty' => ! $attributes['showAllLanguages'], // Show empty if all languages are shown.
+				'hide_empty' => ! $attributes['showAllLanguages'] && ! $use_post_type_term_usage, // Show empty if all languages are shown or term usage is filtered by post type.
 			)
 		);
 		$taxonomies[ $taxonomy ] = array(
@@ -386,6 +390,9 @@ function build_taxonomies_filter( array $attributes ): array {
 			$filter_type = $taxonomies[ $taxonomy ]['filterType'] ?? 'checkbox';
 			if ( ( $taxonomies[ $taxonomy ]['hierarchical'] ?? false ) && $term->parent > 0 ) {
 				$filter_type = $taxonomies[ $taxonomy ]['filterTypeChild'] ?? 'checkbox';
+			}
+			if ( $use_post_type_term_usage && ! isset( $post_type_used_term_ids_map[ $term->term_id ] ) ) {
+				continue;
 			}
 			// Handles only showing forced categories.
 			if ( $has_forced && ! in_array( $term->term_id, $forced_terms, true ) ) {
@@ -433,6 +440,32 @@ function build_taxonomies_filter( array $attributes ): array {
 	 * Terms are sorted by name (case-insensitive) when {@see 'jcore_dynamic_archive_sort_taxonomy_terms_by_name'} returns true.
 	 */
 	return apply_filters( 'jcore_dynamic_archive_taxonomies_filter', $taxonomies, $attributes, $all_filters );
+}
+
+/**
+ * Resolves the post type used for the taxonomy filter.
+ *
+ * @param array $attributes The attributes of the dynamic archive block.
+ *
+ * @return string
+ */
+function get_taxonomies_filter_post_type( array $attributes ): string {
+	$post_type = $attributes['postType'] ?? '';
+	if ( ! is_string( $post_type ) || ! is_post_type( $post_type ) ) {
+		$post_type = 'post';
+	}
+
+	if ( ! empty( $attributes['inherit'] ) ) {
+		$inherited_post_type = get_nested_value( get_inherited_query_args(), array( 'post_type' ), '' );
+		if ( is_array( $inherited_post_type ) ) {
+			$inherited_post_type = reset( $inherited_post_type ) ?: '';
+		}
+		if ( is_string( $inherited_post_type ) && is_post_type( $inherited_post_type ) ) {
+			$post_type = $inherited_post_type;
+		}
+	}
+
+	return $post_type;
 }
 
 /**
