@@ -404,6 +404,23 @@ function build_taxonomies_filter( array $attributes ): array {
 			);
 		}
 	}
+
+	$sort_terms_by_name = apply_filters( 'jcore_dynamic_archive_sort_taxonomy_terms_by_name', true, $attributes, $all_filters );
+	if ( $sort_terms_by_name ) {
+		foreach ( $taxonomies as &$taxonomy_data ) {
+			if ( empty( $taxonomy_data['terms'] ) || ! is_array( $taxonomy_data['terms'] ) ) {
+				continue;
+			}
+			usort(
+				$taxonomy_data['terms'],
+				static function ( array $a, array $b ): int {
+					return strcasecmp( $a['name'] ?? '', $b['name'] ?? '' );
+				}
+			);
+		}
+		unset( $taxonomy_data );
+	}
+
 	/**
 	 * Filters the taxonomies filter for the dynamic archive block.
 	 *
@@ -412,6 +429,8 @@ function build_taxonomies_filter( array $attributes ): array {
 	 * @param array $all_filters All currently active filters.
 	 *
 	 * @hooked jcore_dynamic_archive_taxonomies_filter
+	 *
+	 * Terms are sorted by name (case-insensitive) when {@see 'jcore_dynamic_archive_sort_taxonomy_terms_by_name'} returns true.
 	 */
 	return apply_filters( 'jcore_dynamic_archive_taxonomies_filter', $taxonomies, $attributes, $all_filters );
 }
