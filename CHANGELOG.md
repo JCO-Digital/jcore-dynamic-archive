@@ -1,3 +1,13 @@
+# [0.23.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.22.0...v0.23.0) (2026-04-02)
+
+
+### Features
+
+* add backfill option to latest posts block for improved post retrieval ([4b2a8ba](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4b2a8bae6e665e02818b21f530b6b72775717cb1))
+* add heading support to latest posts block and improve code formatting ([1ad8e32](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/1ad8e3238569aa6705c77206886dc9679f9e8c15))
+
+
+
 # [0.22.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.21.0...v0.22.0) (2026-03-30)
 
 
@@ -44,20 +54,6 @@
 ### Bug Fixes
 
 * Update dynamic-archive block to correctly handle post exclusion on singular pages ([37d2587](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/37d2587a8646f23abb4a25ba36c4659a4800feb5))
-
-
-
-# [0.19.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.18.0...v0.19.0) (2025-12-05)
-
-
-### Bug Fixes
-
-* Fix typo in interactivity state filter name. ([fcb70c9](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fcb70c920a8abb4fc8ced4177cb9dc73f61aef02))
-
-
-### Features
-
-* Support taxonomy filter by slug and customizable param names ([ab85d3e](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ab85d3efc0f53f7024f54432e0b9c747c107ee66))
 
 
 
