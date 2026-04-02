@@ -24,8 +24,8 @@ function is_post_type( string $post_type ): bool {
 /**
  * Handles setting up the dynamic archive arguments.
  *
- * @param array $args The arguments to handle.
- * @param array $attributes The attributes of the dynamic archive block.
+ * @param array       $args The arguments to handle.
+ * @param array       $attributes The attributes of the dynamic archive block.
  * @param string|null $skip_taxonomy Optional taxonomy slug to omit from URL-driven tax_query.
  *
  * @return array
@@ -65,8 +65,8 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
 /**
  * Handles generating the taxonomies filter for the dynamic archive block.
  *
- * @param array $args The arguments to handle.
- * @param array $attributes The attributes of the dynamic archive block.
+ * @param array       $args The arguments to handle.
+ * @param array       $attributes The attributes of the dynamic archive block.
  * @param string|null $skip_taxonomy Optional taxonomy slug to omit from URL-driven tax_query.
  *
  * @return array
@@ -706,8 +706,8 @@ function get_taxonomy_param_field_type( $attributes ) {
  * @return array WP_Query args to merge into the block's query.
  */
 function get_inherited_query_args(): array {
-	$args            = array();
-	$queried_object  = get_queried_object();
+	$args           = array();
+	$queried_object = get_queried_object();
 
 	if ( $queried_object instanceof \WP_Term ) {
 		// Category, tag, or custom taxonomy archive.

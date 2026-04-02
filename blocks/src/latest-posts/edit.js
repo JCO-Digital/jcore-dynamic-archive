@@ -1,7 +1,7 @@
 /**
  * Hooks
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import usePostTypes from '@/shared/usePostTypes';
 import { applyFilters } from '@wordpress/hooks';
@@ -13,7 +13,7 @@ import getQueryContextFromTemplate from '@/shared/useQueryContextFromTemplate';
 /**
  * Components
  */
-import ServerSideRender from '@wordpress/server-side-render';
+import { ServerSideRender } from '@wordpress/server-side-render';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
@@ -42,6 +42,7 @@ const debug = _debug('latest-posts:Edit');
  */
 import './editor.css';
 import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
+import { useEffect } from '@wordpress/element';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -55,6 +56,8 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const {
 		postTypes,
 		related,
+		backfill,
+		heading,
 		columns,
 		postsPerPage,
 		order,
@@ -124,6 +127,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 		}
 	};
 
+	useEffect(() => {
+		if (!related) {
+			setAttributes({ backfill: false });
+		}
+	}, [related]);
+
 	return (
 		<>
 			<InspectorControls>
@@ -186,6 +195,25 @@ export default function Edit({ attributes, setAttributes, context }) {
 					{!inherit && (
 						<Spacer marginBottom={6}>
 							<VStack>
+								{related && (
+									<ToggleControl
+										label={__(
+											'Backfill with other posts from the same post type',
+											'jcore-dynamic-archive'
+										)}
+										checked={backfill}
+										onChange={(checked) =>
+											setAttributes({
+												backfill: checked,
+											})
+										}
+										help={__(
+											'If there are not enough related posts, fill the remaining slots with other posts from the same post type.',
+											'jcore-dynamic-archive'
+										)}
+										__nextHasNoMarginBottom
+									/>
+								)}
 								{taxonomiesLoading && (
 									<HStack alignment={'left'}>
 										<Spinner />
@@ -201,7 +229,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 									<QueryControls
 										numberOfItems={postsPerPage}
 										onNumberOfItemsChange={(value) =>
-											setAttributes({ postsPerPage: value })
+											setAttributes({
+												postsPerPage: value,
+											})
 										}
 										maxItems={applyFilters(
 											'jcore.latestPosts.maxItems',
@@ -217,7 +247,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 											setAttributes({ orderBy: value })
 										}
 										onCategoryChange={(value) =>
-											setAttributes({ category: value.id })
+											setAttributes({
+												category: value.id,
+											})
 										}
 									/>
 								)}
@@ -315,13 +347,23 @@ export default function Edit({ attributes, setAttributes, context }) {
 				)}
 			</InspectorControls>
 			<div {...useBlockProps()}>
-				<Disabled isDisabled={true}>
-					<ServerSideRender
-						block="jcore/latest-posts"
-						attributes={attributes}
-						httpMethod={'POST'}
-					/>
-				</Disabled>
+				<RichText
+					tagName="h2"
+					className="wp-block-jcore-latest-posts__heading"
+					value={heading ?? ''}
+					allowedFormats={['core/bold', 'core/italic']}
+					placeholder={__('Latest posts', 'jcore-dynamic-archive')}
+					onChange={(value) => setAttributes({ heading: value })}
+				/>
+				<div className="jcore-latest-posts__preview">
+					<Disabled isDisabled={true}>
+						<ServerSideRender
+							block="jcore/latest-posts"
+							attributes={attributes}
+							httpMethod={'POST'}
+						/>
+					</Disabled>
+				</div>
 			</div>
 		</>
 	);

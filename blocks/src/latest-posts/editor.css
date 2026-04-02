@@ -19,3 +19,7 @@
 .wp-block-jcore-latest-posts__inner.columns-5 {
 	grid-template-columns: repeat(5, 1fr);
 }
+
+.jcore-latest-posts__preview .wp-block-jcore-latest-posts__heading {
+	display: none;
+}

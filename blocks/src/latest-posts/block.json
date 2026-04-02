@@ -17,6 +17,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"backfill": {
+			"type": "boolean",
+			"default": false
+		},
 		"postsPerPage": {
 			"type": "number",
 			"default": 6
@@ -48,6 +52,10 @@
 		"expanded": {
 			"type": "boolean",
 			"default": true
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
 		},
 		"inherit": {
 			"type": "boolean",
