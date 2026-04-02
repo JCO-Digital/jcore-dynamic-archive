@@ -49,6 +49,10 @@
 			"type": "boolean",
 			"default": true
 		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		},
 		"inherit": {
 			"type": "boolean",
 			"default": false

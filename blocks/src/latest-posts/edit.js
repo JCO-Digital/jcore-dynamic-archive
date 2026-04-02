@@ -1,7 +1,7 @@
 /**
  * Hooks
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import usePostTypes from '@/shared/usePostTypes';
 import { applyFilters } from '@wordpress/hooks';
@@ -13,7 +13,7 @@ import getQueryContextFromTemplate from '@/shared/useQueryContextFromTemplate';
 /**
  * Components
  */
-import ServerSideRender from '@wordpress/server-side-render';
+import { ServerSideRender } from '@wordpress/server-side-render';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
@@ -55,6 +55,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const {
 		postTypes,
 		related,
+		heading,
 		columns,
 		postsPerPage,
 		order,
@@ -201,7 +202,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 									<QueryControls
 										numberOfItems={postsPerPage}
 										onNumberOfItemsChange={(value) =>
-											setAttributes({ postsPerPage: value })
+											setAttributes({
+												postsPerPage: value,
+											})
 										}
 										maxItems={applyFilters(
 											'jcore.latestPosts.maxItems',
@@ -217,7 +220,9 @@ export default function Edit({ attributes, setAttributes, context }) {
 											setAttributes({ orderBy: value })
 										}
 										onCategoryChange={(value) =>
-											setAttributes({ category: value.id })
+											setAttributes({
+												category: value.id,
+											})
 										}
 									/>
 								)}
@@ -315,13 +320,23 @@ export default function Edit({ attributes, setAttributes, context }) {
 				)}
 			</InspectorControls>
 			<div {...useBlockProps()}>
-				<Disabled isDisabled={true}>
-					<ServerSideRender
-						block="jcore/latest-posts"
-						attributes={attributes}
-						httpMethod={'POST'}
-					/>
-				</Disabled>
+				<RichText
+					tagName="h2"
+					className="wp-block-jcore-latest-posts__heading"
+					value={heading ?? ''}
+					allowedFormats={['core/bold', 'core/italic']}
+					placeholder={__('Latest posts', 'jcore-dynamic-archive')}
+					onChange={(value) => setAttributes({ heading: value })}
+				/>
+				<div className="jcore-latest-posts__preview">
+					<Disabled isDisabled={true}>
+						<ServerSideRender
+							block="jcore/latest-posts"
+							attributes={attributes}
+							httpMethod={'POST'}
+						/>
+					</Disabled>
+				</div>
 			</div>
 		</>
 	);

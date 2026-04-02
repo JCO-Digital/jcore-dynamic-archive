@@ -1,4 +1,7 @@
 <div {{ block_wrapper_attributes }} data-related="{{ attributes.related ? 'true' : 'false' }}">
+	{% if posts|length > 0 and attributes.heading|default('')|length > 0 %}
+		<h2 class="wp-block-jcore-latest-posts__heading">{{ attributes.heading }}</h2>
+	{% endif %}
 	<div class="wp-block-jcore-latest-posts__inner columns-{{ attributes.columns }}">
 		{% for post in posts %}
 			{% include ['latest-posts/partials/tease.twig', 'partials/tease.twig'] with { post: post, nr: loop.index } %}
