@@ -42,6 +42,7 @@ const debug = _debug('latest-posts:Edit');
  */
 import './editor.css';
 import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
+import { useEffect } from '@wordpress/element';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -55,6 +56,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 	const {
 		postTypes,
 		related,
+		backfill,
 		heading,
 		columns,
 		postsPerPage,
@@ -125,6 +127,12 @@ export default function Edit({ attributes, setAttributes, context }) {
 		}
 	};
 
+	useEffect(() => {
+		if (!related) {
+			setAttributes({ backfill: false });
+		}
+	}, [related]);
+
 	return (
 		<>
 			<InspectorControls>
@@ -187,6 +195,25 @@ export default function Edit({ attributes, setAttributes, context }) {
 					{!inherit && (
 						<Spacer marginBottom={6}>
 							<VStack>
+								{related && (
+									<ToggleControl
+										label={__(
+											'Backfill with other posts from the same post type',
+											'jcore-dynamic-archive'
+										)}
+										checked={backfill}
+										onChange={(checked) =>
+											setAttributes({
+												backfill: checked,
+											})
+										}
+										help={__(
+											'If there are not enough related posts, fill the remaining slots with other posts from the same post type.',
+											'jcore-dynamic-archive'
+										)}
+										__nextHasNoMarginBottom
+									/>
+								)}
 								{taxonomiesLoading && (
 									<HStack alignment={'left'}>
 										<Spinner />
