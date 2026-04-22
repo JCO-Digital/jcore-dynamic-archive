@@ -1,3 +1,12 @@
+## [0.23.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.23.0...v0.23.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* update URL handling in helper functions to prevent XSS ([f4619eb](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f4619eb6ac459fe28c24b7ce5cfbba4b9ce5dd67))
+
+
+
 # [0.23.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.22.0...v0.23.0) (2026-04-02)
 
 
@@ -45,15 +54,6 @@
 ### Features
 
 * improved inherit option to actually query by current category ([f5680b0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f5680b03381a22fbffba583d8599b49ca01d6585))
-
-
-
-## [0.19.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.19.0...v0.19.1) (2026-01-09)
-
-
-### Bug Fixes
-
-* Update dynamic-archive block to correctly handle post exclusion on singular pages ([37d2587](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/37d2587a8646f23abb4a25ba36c4659a4800feb5))
 
 
 
