@@ -1,115 +1,24 @@
 import * as __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__ from "@wordpress/interactivity";
 /******/ var __webpack_modules__ = ({
 
-/***/ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/actualApply.js":
-/*!************************************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/actualApply.js ***!
-  \************************************************************************************************************************/
+/***/ "./node_modules/.pnpm/call-bind@1.0.7/node_modules/call-bind/callBound.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/.pnpm/call-bind@1.0.7/node_modules/call-bind/callBound.js ***!
+  \********************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var bind = __webpack_require__(/*! function-bind */ "../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js");
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js");
 
-var $apply = __webpack_require__(/*! ./functionApply */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionApply.js");
-var $call = __webpack_require__(/*! ./functionCall */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionCall.js");
-var $reflectApply = __webpack_require__(/*! ./reflectApply */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/reflectApply.js");
+var callBind = __webpack_require__(/*! ./ */ "./node_modules/.pnpm/call-bind@1.0.7/node_modules/call-bind/index.js");
 
-/** @type {import('./actualApply')} */
-module.exports = $reflectApply || bind.call($call, $apply);
+var $indexOf = callBind(GetIntrinsic('String.prototype.indexOf'));
 
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionApply.js":
-/*!**************************************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionApply.js ***!
-  \**************************************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./functionApply')} */
-module.exports = Function.prototype.apply;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionCall.js":
-/*!*************************************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionCall.js ***!
-  \*************************************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./functionCall')} */
-module.exports = Function.prototype.call;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/index.js":
-/*!******************************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/index.js ***!
-  \******************************************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var bind = __webpack_require__(/*! function-bind */ "../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js");
-var $TypeError = __webpack_require__(/*! es-errors/type */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
-
-var $call = __webpack_require__(/*! ./functionCall */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionCall.js");
-var $actualApply = __webpack_require__(/*! ./actualApply */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/actualApply.js");
-
-/** @type {(args: [Function, thisArg?: unknown, ...args: unknown[]]) => Function} TODO FIXME, find a way to use import('.') */
-module.exports = function callBindBasic(args) {
-	if (args.length < 1 || typeof args[0] !== 'function') {
-		throw new $TypeError('a function is required');
-	}
-	return $actualApply(bind, $call, args);
-};
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/reflectApply.js":
-/*!*************************************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/reflectApply.js ***!
-  \*************************************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./reflectApply')} */
-module.exports = typeof Reflect !== 'undefined' && Reflect && Reflect.apply;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/call-bound@1.0.4/node_modules/call-bound/index.js":
-/*!****************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/call-bound@1.0.4/node_modules/call-bound/index.js ***!
-  \****************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "../../../../node_modules/.pnpm/get-intrinsic@1.3.0/node_modules/get-intrinsic/index.js");
-
-var callBindBasic = __webpack_require__(/*! call-bind-apply-helpers */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/index.js");
-
-/** @type {(thisArg: string, searchString: string, position?: number) => number} */
-var $indexOf = callBindBasic([GetIntrinsic('%String.prototype.indexOf%')]);
-
-/** @type {import('.')} */
 module.exports = function callBoundIntrinsic(name, allowMissing) {
-	/* eslint no-extra-parens: 0 */
-
-	var intrinsic = /** @type {(this: unknown, ...args: unknown[]) => unknown} */ (GetIntrinsic(name, !!allowMissing));
+	var intrinsic = GetIntrinsic(name, !!allowMissing);
 	if (typeof intrinsic === 'function' && $indexOf(name, '.prototype.') > -1) {
-		return callBindBasic(/** @type {const} */ ([intrinsic]));
+		return callBind(intrinsic);
 	}
 	return intrinsic;
 };
@@ -117,10 +26,55 @@ module.exports = function callBoundIntrinsic(name, allowMissing) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/browser.js":
-/*!************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/browser.js ***!
-  \************************************************************************************/
+/***/ "./node_modules/.pnpm/call-bind@1.0.7/node_modules/call-bind/index.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/.pnpm/call-bind@1.0.7/node_modules/call-bind/index.js ***!
+  \****************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var bind = __webpack_require__(/*! function-bind */ "./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js");
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js");
+var setFunctionLength = __webpack_require__(/*! set-function-length */ "./node_modules/.pnpm/set-function-length@1.2.2/node_modules/set-function-length/index.js");
+
+var $TypeError = __webpack_require__(/*! es-errors/type */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
+var $apply = GetIntrinsic('%Function.prototype.apply%');
+var $call = GetIntrinsic('%Function.prototype.call%');
+var $reflectApply = GetIntrinsic('%Reflect.apply%', true) || bind.call($call, $apply);
+
+var $defineProperty = __webpack_require__(/*! es-define-property */ "./node_modules/.pnpm/es-define-property@1.0.0/node_modules/es-define-property/index.js");
+var $max = GetIntrinsic('%Math.max%');
+
+module.exports = function callBind(originalFunction) {
+	if (typeof originalFunction !== 'function') {
+		throw new $TypeError('a function is required');
+	}
+	var func = $reflectApply(bind, $call, arguments);
+	return setFunctionLength(
+		func,
+		1 + $max(0, originalFunction.length - (arguments.length - 1)),
+		true
+	);
+};
+
+var applyBind = function applyBind() {
+	return $reflectApply(bind, $apply, arguments);
+};
+
+if ($defineProperty) {
+	$defineProperty(module.exports, 'apply', { value: applyBind });
+} else {
+	module.exports.apply = applyBind;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/debug@4.3.7/node_modules/debug/src/browser.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/.pnpm/debug@4.3.7/node_modules/debug/src/browser.js ***!
+  \**************************************************************************/
 /***/ ((module, exports, __webpack_require__) => {
 
 /* eslint-env browser */
@@ -254,7 +208,6 @@ function useColors() {
 
 	// Is webkit? http://stackoverflow.com/a/16459606/376773
 	// document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-	// eslint-disable-next-line no-return-assign
 	return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
 		// Is firebug? http://stackoverflow.com/a/398120/376773
 		(typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
@@ -344,7 +297,7 @@ function save(namespaces) {
 function load() {
 	let r;
 	try {
-		r = exports.storage.getItem('debug') || exports.storage.getItem('DEBUG') ;
+		r = exports.storage.getItem('debug');
 	} catch (error) {
 		// Swallow
 		// XXX (@Qix-) should we be logging these?
@@ -380,7 +333,7 @@ function localstorage() {
 	}
 }
 
-module.exports = __webpack_require__(/*! ./common */ "../../../../node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/common.js")(exports);
+module.exports = __webpack_require__(/*! ./common */ "./node_modules/.pnpm/debug@4.3.7/node_modules/debug/src/common.js")(exports);
 
 const {formatters} = module.exports;
 
@@ -399,10 +352,10 @@ formatters.j = function (v) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/common.js":
-/*!***********************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/common.js ***!
-  \***********************************************************************************/
+/***/ "./node_modules/.pnpm/debug@4.3.7/node_modules/debug/src/common.js":
+/*!*************************************************************************!*\
+  !*** ./node_modules/.pnpm/debug@4.3.7/node_modules/debug/src/common.js ***!
+  \*************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
@@ -418,7 +371,7 @@ function setup(env) {
 	createDebug.disable = disable;
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
-	createDebug.humanize = __webpack_require__(/*! ms */ "../../../../node_modules/.pnpm/ms@2.1.3/node_modules/ms/index.js");
+	createDebug.humanize = __webpack_require__(/*! ms */ "./node_modules/.pnpm/ms@2.1.3/node_modules/ms/index.js");
 	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {
@@ -573,62 +526,24 @@ function setup(env) {
 		createDebug.names = [];
 		createDebug.skips = [];
 
-		const split = (typeof namespaces === 'string' ? namespaces : '')
-			.trim()
-			.replace(/\s+/g, ',')
-			.split(',')
-			.filter(Boolean);
+		let i;
+		const split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
+		const len = split.length;
 
-		for (const ns of split) {
-			if (ns[0] === '-') {
-				createDebug.skips.push(ns.slice(1));
+		for (i = 0; i < len; i++) {
+			if (!split[i]) {
+				// ignore empty strings
+				continue;
+			}
+
+			namespaces = split[i].replace(/\*/g, '.*?');
+
+			if (namespaces[0] === '-') {
+				createDebug.skips.push(new RegExp('^' + namespaces.slice(1) + '$'));
 			} else {
-				createDebug.names.push(ns);
+				createDebug.names.push(new RegExp('^' + namespaces + '$'));
 			}
 		}
-	}
-
-	/**
-	 * Checks if the given string matches a namespace template, honoring
-	 * asterisks as wildcards.
-	 *
-	 * @param {String} search
-	 * @param {String} template
-	 * @return {Boolean}
-	 */
-	function matchesTemplate(search, template) {
-		let searchIndex = 0;
-		let templateIndex = 0;
-		let starIndex = -1;
-		let matchIndex = 0;
-
-		while (searchIndex < search.length) {
-			if (templateIndex < template.length && (template[templateIndex] === search[searchIndex] || template[templateIndex] === '*')) {
-				// Match character or proceed with wildcard
-				if (template[templateIndex] === '*') {
-					starIndex = templateIndex;
-					matchIndex = searchIndex;
-					templateIndex++; // Skip the '*'
-				} else {
-					searchIndex++;
-					templateIndex++;
-				}
-			} else if (starIndex !== -1) { // eslint-disable-line no-negated-condition
-				// Backtrack to the last '*' and try to match more characters
-				templateIndex = starIndex + 1;
-				matchIndex++;
-				searchIndex = matchIndex;
-			} else {
-				return false; // No match
-			}
-		}
-
-		// Handle trailing '*' in template
-		while (templateIndex < template.length && template[templateIndex] === '*') {
-			templateIndex++;
-		}
-
-		return templateIndex === template.length;
 	}
 
 	/**
@@ -639,8 +554,8 @@ function setup(env) {
 	*/
 	function disable() {
 		const namespaces = [
-			...createDebug.names,
-			...createDebug.skips.map(namespace => '-' + namespace)
+			...createDebug.names.map(toNamespace),
+			...createDebug.skips.map(toNamespace).map(namespace => '-' + namespace)
 		].join(',');
 		createDebug.enable('');
 		return namespaces;
@@ -654,19 +569,39 @@ function setup(env) {
 	* @api public
 	*/
 	function enabled(name) {
-		for (const skip of createDebug.skips) {
-			if (matchesTemplate(name, skip)) {
+		if (name[name.length - 1] === '*') {
+			return true;
+		}
+
+		let i;
+		let len;
+
+		for (i = 0, len = createDebug.skips.length; i < len; i++) {
+			if (createDebug.skips[i].test(name)) {
 				return false;
 			}
 		}
 
-		for (const ns of createDebug.names) {
-			if (matchesTemplate(name, ns)) {
+		for (i = 0, len = createDebug.names.length; i < len; i++) {
+			if (createDebug.names[i].test(name)) {
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	/**
+	* Convert regexp to namespace
+	*
+	* @param {RegExp} regxep
+	* @return {String} namespace
+	* @api private
+	*/
+	function toNamespace(regexp) {
+		return regexp.toString()
+			.substring(2, regexp.toString().length - 2)
+			.replace(/\.\*\?$/, '*');
 	}
 
 	/**
@@ -701,56 +636,84 @@ module.exports = setup;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/dunder-proto@1.0.1/node_modules/dunder-proto/get.js":
-/*!******************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/dunder-proto@1.0.1/node_modules/dunder-proto/get.js ***!
-  \******************************************************************************************/
+/***/ "./node_modules/.pnpm/define-data-property@1.1.4/node_modules/define-data-property/index.js":
+/*!**************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/define-data-property@1.1.4/node_modules/define-data-property/index.js ***!
+  \**************************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var callBind = __webpack_require__(/*! call-bind-apply-helpers */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/index.js");
-var gOPD = __webpack_require__(/*! gopd */ "../../../../node_modules/.pnpm/gopd@1.2.0/node_modules/gopd/index.js");
+var $defineProperty = __webpack_require__(/*! es-define-property */ "./node_modules/.pnpm/es-define-property@1.0.0/node_modules/es-define-property/index.js");
 
-var hasProtoAccessor;
-try {
-	// eslint-disable-next-line no-extra-parens, no-proto
-	hasProtoAccessor = /** @type {{ __proto__?: typeof Array.prototype }} */ ([]).__proto__ === Array.prototype;
-} catch (e) {
-	if (!e || typeof e !== 'object' || !('code' in e) || e.code !== 'ERR_PROTO_ACCESS') {
-		throw e;
+var $SyntaxError = __webpack_require__(/*! es-errors/syntax */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/syntax.js");
+var $TypeError = __webpack_require__(/*! es-errors/type */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
+
+var gopd = __webpack_require__(/*! gopd */ "./node_modules/.pnpm/gopd@1.0.1/node_modules/gopd/index.js");
+
+/** @type {import('.')} */
+module.exports = function defineDataProperty(
+	obj,
+	property,
+	value
+) {
+	if (!obj || (typeof obj !== 'object' && typeof obj !== 'function')) {
+		throw new $TypeError('`obj` must be an object or a function`');
 	}
-}
+	if (typeof property !== 'string' && typeof property !== 'symbol') {
+		throw new $TypeError('`property` must be a string or a symbol`');
+	}
+	if (arguments.length > 3 && typeof arguments[3] !== 'boolean' && arguments[3] !== null) {
+		throw new $TypeError('`nonEnumerable`, if provided, must be a boolean or null');
+	}
+	if (arguments.length > 4 && typeof arguments[4] !== 'boolean' && arguments[4] !== null) {
+		throw new $TypeError('`nonWritable`, if provided, must be a boolean or null');
+	}
+	if (arguments.length > 5 && typeof arguments[5] !== 'boolean' && arguments[5] !== null) {
+		throw new $TypeError('`nonConfigurable`, if provided, must be a boolean or null');
+	}
+	if (arguments.length > 6 && typeof arguments[6] !== 'boolean') {
+		throw new $TypeError('`loose`, if provided, must be a boolean');
+	}
 
-// eslint-disable-next-line no-extra-parens
-var desc = !!hasProtoAccessor && gOPD && gOPD(Object.prototype, /** @type {keyof typeof Object.prototype} */ ('__proto__'));
+	var nonEnumerable = arguments.length > 3 ? arguments[3] : null;
+	var nonWritable = arguments.length > 4 ? arguments[4] : null;
+	var nonConfigurable = arguments.length > 5 ? arguments[5] : null;
+	var loose = arguments.length > 6 ? arguments[6] : false;
 
-var $Object = Object;
-var $getPrototypeOf = $Object.getPrototypeOf;
+	/* @type {false | TypedPropertyDescriptor<unknown>} */
+	var desc = !!gopd && gopd(obj, property);
 
-/** @type {import('./get')} */
-module.exports = desc && typeof desc.get === 'function'
-	? callBind([desc.get])
-	: typeof $getPrototypeOf === 'function'
-		? /** @type {import('./get')} */ function getDunder(value) {
-			// eslint-disable-next-line eqeqeq
-			return $getPrototypeOf(value == null ? value : $Object(value));
-		}
-		: false;
+	if ($defineProperty) {
+		$defineProperty(obj, property, {
+			configurable: nonConfigurable === null && desc ? desc.configurable : !nonConfigurable,
+			enumerable: nonEnumerable === null && desc ? desc.enumerable : !nonEnumerable,
+			value: value,
+			writable: nonWritable === null && desc ? desc.writable : !nonWritable
+		});
+	} else if (loose || (!nonEnumerable && !nonWritable && !nonConfigurable)) {
+		// must fall back to [[Set]], and was not explicitly asked to make non-enumerable, non-writable, or non-configurable
+		obj[property] = value; // eslint-disable-line no-param-reassign
+	} else {
+		throw new $SyntaxError('This environment does not support defining a property as non-configurable, non-writable, or non-enumerable.');
+	}
+};
 
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-define-property@1.0.1/node_modules/es-define-property/index.js":
-/*!********************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-define-property@1.0.1/node_modules/es-define-property/index.js ***!
-  \********************************************************************************************************/
-/***/ ((module) => {
+/***/ "./node_modules/.pnpm/es-define-property@1.0.0/node_modules/es-define-property/index.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-define-property@1.0.0/node_modules/es-define-property/index.js ***!
+  \**********************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
+
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js");
 
 /** @type {import('.')} */
-var $defineProperty = Object.defineProperty || false;
+var $defineProperty = GetIntrinsic('%Object.defineProperty%', true) || false;
 if ($defineProperty) {
 	try {
 		$defineProperty({}, 'a', { value: 1 });
@@ -765,10 +728,10 @@ module.exports = $defineProperty;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/eval.js":
-/*!*************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/eval.js ***!
-  \*************************************************************************************/
+/***/ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/eval.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/eval.js ***!
+  \***************************************************************************/
 /***/ ((module) => {
 
 
@@ -779,10 +742,10 @@ module.exports = EvalError;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/index.js":
-/*!**************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/index.js ***!
-  \**************************************************************************************/
+/***/ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/index.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/index.js ***!
+  \****************************************************************************/
 /***/ ((module) => {
 
 
@@ -793,10 +756,10 @@ module.exports = Error;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/range.js":
-/*!**************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/range.js ***!
-  \**************************************************************************************/
+/***/ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/range.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/range.js ***!
+  \****************************************************************************/
 /***/ ((module) => {
 
 
@@ -807,10 +770,10 @@ module.exports = RangeError;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/ref.js":
-/*!************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/ref.js ***!
-  \************************************************************************************/
+/***/ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/ref.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/ref.js ***!
+  \**************************************************************************/
 /***/ ((module) => {
 
 
@@ -821,10 +784,10 @@ module.exports = ReferenceError;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/syntax.js":
-/*!***************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/syntax.js ***!
-  \***************************************************************************************/
+/***/ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/syntax.js":
+/*!*****************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/syntax.js ***!
+  \*****************************************************************************/
 /***/ ((module) => {
 
 
@@ -835,10 +798,10 @@ module.exports = SyntaxError;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js":
-/*!*************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js ***!
-  \*************************************************************************************/
+/***/ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js ***!
+  \***************************************************************************/
 /***/ ((module) => {
 
 
@@ -849,10 +812,10 @@ module.exports = TypeError;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/uri.js":
-/*!************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/uri.js ***!
-  \************************************************************************************/
+/***/ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/uri.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/uri.js ***!
+  \**************************************************************************/
 /***/ ((module) => {
 
 
@@ -863,24 +826,10 @@ module.exports = URIError;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/es-object-atoms@1.1.1/node_modules/es-object-atoms/index.js":
-/*!**************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/es-object-atoms@1.1.1/node_modules/es-object-atoms/index.js ***!
-  \**************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('.')} */
-module.exports = Object;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/implementation.js":
-/*!*******************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/implementation.js ***!
-  \*******************************************************************************************************/
+/***/ "./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/implementation.js":
+/*!*********************************************************************************************!*\
+  !*** ./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/implementation.js ***!
+  \*********************************************************************************************/
 /***/ ((module) => {
 
 
@@ -971,48 +920,38 @@ module.exports = function bind(that) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js":
-/*!**********************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js ***!
-  \**********************************************************************************************/
+/***/ "./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js ***!
+  \************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var implementation = __webpack_require__(/*! ./implementation */ "../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/implementation.js");
+var implementation = __webpack_require__(/*! ./implementation */ "./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/implementation.js");
 
 module.exports = Function.prototype.bind || implementation;
 
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/get-intrinsic@1.3.0/node_modules/get-intrinsic/index.js":
-/*!**********************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/get-intrinsic@1.3.0/node_modules/get-intrinsic/index.js ***!
-  \**********************************************************************************************/
+/***/ "./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js":
+/*!************************************************************************************!*\
+  !*** ./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js ***!
+  \************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
 var undefined;
 
-var $Object = __webpack_require__(/*! es-object-atoms */ "../../../../node_modules/.pnpm/es-object-atoms@1.1.1/node_modules/es-object-atoms/index.js");
-
-var $Error = __webpack_require__(/*! es-errors */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/index.js");
-var $EvalError = __webpack_require__(/*! es-errors/eval */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/eval.js");
-var $RangeError = __webpack_require__(/*! es-errors/range */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/range.js");
-var $ReferenceError = __webpack_require__(/*! es-errors/ref */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/ref.js");
-var $SyntaxError = __webpack_require__(/*! es-errors/syntax */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/syntax.js");
-var $TypeError = __webpack_require__(/*! es-errors/type */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
-var $URIError = __webpack_require__(/*! es-errors/uri */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/uri.js");
-
-var abs = __webpack_require__(/*! math-intrinsics/abs */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/abs.js");
-var floor = __webpack_require__(/*! math-intrinsics/floor */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/floor.js");
-var max = __webpack_require__(/*! math-intrinsics/max */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/max.js");
-var min = __webpack_require__(/*! math-intrinsics/min */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/min.js");
-var pow = __webpack_require__(/*! math-intrinsics/pow */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/pow.js");
-var round = __webpack_require__(/*! math-intrinsics/round */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/round.js");
-var sign = __webpack_require__(/*! math-intrinsics/sign */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/sign.js");
+var $Error = __webpack_require__(/*! es-errors */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/index.js");
+var $EvalError = __webpack_require__(/*! es-errors/eval */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/eval.js");
+var $RangeError = __webpack_require__(/*! es-errors/range */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/range.js");
+var $ReferenceError = __webpack_require__(/*! es-errors/ref */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/ref.js");
+var $SyntaxError = __webpack_require__(/*! es-errors/syntax */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/syntax.js");
+var $TypeError = __webpack_require__(/*! es-errors/type */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
+var $URIError = __webpack_require__(/*! es-errors/uri */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/uri.js");
 
 var $Function = Function;
 
@@ -1023,8 +962,14 @@ var getEvalledConstructor = function (expressionSyntax) {
 	} catch (e) {}
 };
 
-var $gOPD = __webpack_require__(/*! gopd */ "../../../../node_modules/.pnpm/gopd@1.2.0/node_modules/gopd/index.js");
-var $defineProperty = __webpack_require__(/*! es-define-property */ "../../../../node_modules/.pnpm/es-define-property@1.0.1/node_modules/es-define-property/index.js");
+var $gOPD = Object.getOwnPropertyDescriptor;
+if ($gOPD) {
+	try {
+		$gOPD({}, '');
+	} catch (e) {
+		$gOPD = null; // this is IE 8, which has a broken gOPD
+	}
+}
 
 var throwTypeError = function () {
 	throw new $TypeError();
@@ -1046,14 +991,14 @@ var ThrowTypeError = $gOPD
 	}())
 	: throwTypeError;
 
-var hasSymbols = __webpack_require__(/*! has-symbols */ "../../../../node_modules/.pnpm/has-symbols@1.1.0/node_modules/has-symbols/index.js")();
+var hasSymbols = __webpack_require__(/*! has-symbols */ "./node_modules/.pnpm/has-symbols@1.0.3/node_modules/has-symbols/index.js")();
+var hasProto = __webpack_require__(/*! has-proto */ "./node_modules/.pnpm/has-proto@1.0.3/node_modules/has-proto/index.js")();
 
-var getProto = __webpack_require__(/*! get-proto */ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/index.js");
-var $ObjectGPO = __webpack_require__(/*! get-proto/Object.getPrototypeOf */ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Object.getPrototypeOf.js");
-var $ReflectGPO = __webpack_require__(/*! get-proto/Reflect.getPrototypeOf */ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Reflect.getPrototypeOf.js");
-
-var $apply = __webpack_require__(/*! call-bind-apply-helpers/functionApply */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionApply.js");
-var $call = __webpack_require__(/*! call-bind-apply-helpers/functionCall */ "../../../../node_modules/.pnpm/call-bind-apply-helpers@1.0.2/node_modules/call-bind-apply-helpers/functionCall.js");
+var getProto = Object.getPrototypeOf || (
+	hasProto
+		? function (x) { return x.__proto__; } // eslint-disable-line no-proto
+		: null
+);
 
 var needsEval = {};
 
@@ -1084,7 +1029,6 @@ var INTRINSICS = {
 	'%Error%': $Error,
 	'%eval%': eval, // eslint-disable-line no-eval
 	'%EvalError%': $EvalError,
-	'%Float16Array%': typeof Float16Array === 'undefined' ? undefined : Float16Array,
 	'%Float32Array%': typeof Float32Array === 'undefined' ? undefined : Float32Array,
 	'%Float64Array%': typeof Float64Array === 'undefined' ? undefined : Float64Array,
 	'%FinalizationRegistry%': typeof FinalizationRegistry === 'undefined' ? undefined : FinalizationRegistry,
@@ -1101,8 +1045,7 @@ var INTRINSICS = {
 	'%MapIteratorPrototype%': typeof Map === 'undefined' || !hasSymbols || !getProto ? undefined : getProto(new Map()[Symbol.iterator]()),
 	'%Math%': Math,
 	'%Number%': Number,
-	'%Object%': $Object,
-	'%Object.getOwnPropertyDescriptor%': $gOPD,
+	'%Object%': Object,
 	'%parseFloat%': parseFloat,
 	'%parseInt%': parseInt,
 	'%Promise%': typeof Promise === 'undefined' ? undefined : Promise,
@@ -1128,20 +1071,7 @@ var INTRINSICS = {
 	'%URIError%': $URIError,
 	'%WeakMap%': typeof WeakMap === 'undefined' ? undefined : WeakMap,
 	'%WeakRef%': typeof WeakRef === 'undefined' ? undefined : WeakRef,
-	'%WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet,
-
-	'%Function.prototype.call%': $call,
-	'%Function.prototype.apply%': $apply,
-	'%Object.defineProperty%': $defineProperty,
-	'%Object.getPrototypeOf%': $ObjectGPO,
-	'%Math.abs%': abs,
-	'%Math.floor%': floor,
-	'%Math.max%': max,
-	'%Math.min%': min,
-	'%Math.pow%': pow,
-	'%Math.round%': round,
-	'%Math.sign%': sign,
-	'%Reflect.getPrototypeOf%': $ReflectGPO
+	'%WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet
 };
 
 if (getProto) {
@@ -1234,13 +1164,13 @@ var LEGACY_ALIASES = {
 	'%WeakSetPrototype%': ['WeakSet', 'prototype']
 };
 
-var bind = __webpack_require__(/*! function-bind */ "../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js");
-var hasOwn = __webpack_require__(/*! hasown */ "../../../../node_modules/.pnpm/hasown@2.0.2/node_modules/hasown/index.js");
-var $concat = bind.call($call, Array.prototype.concat);
-var $spliceApply = bind.call($apply, Array.prototype.splice);
-var $replace = bind.call($call, String.prototype.replace);
-var $strSlice = bind.call($call, String.prototype.slice);
-var $exec = bind.call($call, RegExp.prototype.exec);
+var bind = __webpack_require__(/*! function-bind */ "./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js");
+var hasOwn = __webpack_require__(/*! hasown */ "./node_modules/.pnpm/hasown@2.0.2/node_modules/hasown/index.js");
+var $concat = bind.call(Function.call, Array.prototype.concat);
+var $spliceApply = bind.call(Function.apply, Array.prototype.splice);
+var $replace = bind.call(Function.call, String.prototype.replace);
+var $strSlice = bind.call(Function.call, String.prototype.slice);
+var $exec = bind.call(Function.call, RegExp.prototype.exec);
 
 /* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
 var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
@@ -1374,97 +1304,17 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Object.getPrototypeOf.js":
-/*!******************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Object.getPrototypeOf.js ***!
-  \******************************************************************************************************/
+/***/ "./node_modules/.pnpm/gopd@1.0.1/node_modules/gopd/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/.pnpm/gopd@1.0.1/node_modules/gopd/index.js ***!
+  \******************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var $Object = __webpack_require__(/*! es-object-atoms */ "../../../../node_modules/.pnpm/es-object-atoms@1.1.1/node_modules/es-object-atoms/index.js");
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js");
 
-/** @type {import('./Object.getPrototypeOf')} */
-module.exports = $Object.getPrototypeOf || null;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Reflect.getPrototypeOf.js":
-/*!*******************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Reflect.getPrototypeOf.js ***!
-  \*******************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./Reflect.getPrototypeOf')} */
-module.exports = (typeof Reflect !== 'undefined' && Reflect.getPrototypeOf) || null;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/index.js":
-/*!**************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/index.js ***!
-  \**************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var reflectGetProto = __webpack_require__(/*! ./Reflect.getPrototypeOf */ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Reflect.getPrototypeOf.js");
-var originalGetProto = __webpack_require__(/*! ./Object.getPrototypeOf */ "../../../../node_modules/.pnpm/get-proto@1.0.1/node_modules/get-proto/Object.getPrototypeOf.js");
-
-var getDunderProto = __webpack_require__(/*! dunder-proto/get */ "../../../../node_modules/.pnpm/dunder-proto@1.0.1/node_modules/dunder-proto/get.js");
-
-/** @type {import('.')} */
-module.exports = reflectGetProto
-	? function getProto(O) {
-		// @ts-expect-error TS can't narrow inside a closure, for some reason
-		return reflectGetProto(O);
-	}
-	: originalGetProto
-		? function getProto(O) {
-			if (!O || (typeof O !== 'object' && typeof O !== 'function')) {
-				throw new TypeError('getProto: not an object');
-			}
-			// @ts-expect-error TS can't narrow inside a closure, for some reason
-			return originalGetProto(O);
-		}
-		: getDunderProto
-			? function getProto(O) {
-				// @ts-expect-error TS can't narrow inside a closure, for some reason
-				return getDunderProto(O);
-			}
-			: null;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/gopd@1.2.0/node_modules/gopd/gOPD.js":
-/*!***************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/gopd@1.2.0/node_modules/gopd/gOPD.js ***!
-  \***************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./gOPD')} */
-module.exports = Object.getOwnPropertyDescriptor;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/gopd@1.2.0/node_modules/gopd/index.js":
-/*!****************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/gopd@1.2.0/node_modules/gopd/index.js ***!
-  \****************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-/** @type {import('.')} */
-var $gOPD = __webpack_require__(/*! ./gOPD */ "../../../../node_modules/.pnpm/gopd@1.2.0/node_modules/gopd/gOPD.js");
+var $gOPD = GetIntrinsic('%Object.getOwnPropertyDescriptor%', true);
 
 if ($gOPD) {
 	try {
@@ -1480,18 +1330,74 @@ module.exports = $gOPD;
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/has-symbols@1.1.0/node_modules/has-symbols/index.js":
-/*!******************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/has-symbols@1.1.0/node_modules/has-symbols/index.js ***!
-  \******************************************************************************************/
+/***/ "./node_modules/.pnpm/has-property-descriptors@1.0.2/node_modules/has-property-descriptors/index.js":
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/has-property-descriptors@1.0.2/node_modules/has-property-descriptors/index.js ***!
+  \**********************************************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var $defineProperty = __webpack_require__(/*! es-define-property */ "./node_modules/.pnpm/es-define-property@1.0.0/node_modules/es-define-property/index.js");
+
+var hasPropertyDescriptors = function hasPropertyDescriptors() {
+	return !!$defineProperty;
+};
+
+hasPropertyDescriptors.hasArrayLengthDefineBug = function hasArrayLengthDefineBug() {
+	// node v0.6 has a bug where array lengths can be Set but not Defined
+	if (!$defineProperty) {
+		return null;
+	}
+	try {
+		return $defineProperty([], 'length', { value: 1 }).length !== 1;
+	} catch (e) {
+		// In Firefox 4-22, defining length on an array throws an exception.
+		return true;
+	}
+};
+
+module.exports = hasPropertyDescriptors;
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/has-proto@1.0.3/node_modules/has-proto/index.js":
+/*!****************************************************************************!*\
+  !*** ./node_modules/.pnpm/has-proto@1.0.3/node_modules/has-proto/index.js ***!
+  \****************************************************************************/
+/***/ ((module) => {
+
+
+
+var test = {
+	__proto__: null,
+	foo: {}
+};
+
+var $Object = Object;
+
+/** @type {import('.')} */
+module.exports = function hasProto() {
+	// @ts-expect-error: TS errors on an inherited property for some reason
+	return { __proto__: test }.foo === test.foo
+		&& !(test instanceof $Object);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/has-symbols@1.0.3/node_modules/has-symbols/index.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/.pnpm/has-symbols@1.0.3/node_modules/has-symbols/index.js ***!
+  \********************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
 var origSymbol = typeof Symbol !== 'undefined' && Symbol;
-var hasSymbolSham = __webpack_require__(/*! ./shams */ "../../../../node_modules/.pnpm/has-symbols@1.1.0/node_modules/has-symbols/shams.js");
+var hasSymbolSham = __webpack_require__(/*! ./shams */ "./node_modules/.pnpm/has-symbols@1.0.3/node_modules/has-symbols/shams.js");
 
-/** @type {import('.')} */
 module.exports = function hasNativeSymbols() {
 	if (typeof origSymbol !== 'function') { return false; }
 	if (typeof Symbol !== 'function') { return false; }
@@ -1504,21 +1410,19 @@ module.exports = function hasNativeSymbols() {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/has-symbols@1.1.0/node_modules/has-symbols/shams.js":
-/*!******************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/has-symbols@1.1.0/node_modules/has-symbols/shams.js ***!
-  \******************************************************************************************/
+/***/ "./node_modules/.pnpm/has-symbols@1.0.3/node_modules/has-symbols/shams.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/.pnpm/has-symbols@1.0.3/node_modules/has-symbols/shams.js ***!
+  \********************************************************************************/
 /***/ ((module) => {
 
 
 
-/** @type {import('./shams')} */
 /* eslint complexity: [2, 18], max-statements: [2, 33] */
 module.exports = function hasSymbols() {
 	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
 	if (typeof Symbol.iterator === 'symbol') { return true; }
 
-	/** @type {{ [k in symbol]?: unknown }} */
 	var obj = {};
 	var sym = Symbol('test');
 	var symObj = Object(sym);
@@ -1537,7 +1441,7 @@ module.exports = function hasSymbols() {
 
 	var symVal = 42;
 	obj[sym] = symVal;
-	for (var _ in obj) { return false; } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
+	for (sym in obj) { return false; } // eslint-disable-line no-restricted-syntax, no-unreachable-loop
 	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
 
 	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
@@ -1548,8 +1452,7 @@ module.exports = function hasSymbols() {
 	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
 
 	if (typeof Object.getOwnPropertyDescriptor === 'function') {
-		// eslint-disable-next-line no-extra-parens
-		var descriptor = /** @type {PropertyDescriptor} */ (Object.getOwnPropertyDescriptor(obj, sym));
+		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
 		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
 	}
 
@@ -1559,17 +1462,17 @@ module.exports = function hasSymbols() {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/hasown@2.0.2/node_modules/hasown/index.js":
-/*!********************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/hasown@2.0.2/node_modules/hasown/index.js ***!
-  \********************************************************************************/
+/***/ "./node_modules/.pnpm/hasown@2.0.2/node_modules/hasown/index.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/.pnpm/hasown@2.0.2/node_modules/hasown/index.js ***!
+  \**********************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
 var call = Function.prototype.call;
 var $hasOwn = Object.prototype.hasOwnProperty;
-var bind = __webpack_require__(/*! function-bind */ "../../../../node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js");
+var bind = __webpack_require__(/*! function-bind */ "./node_modules/.pnpm/function-bind@1.1.2/node_modules/function-bind/index.js");
 
 /** @type {import('.')} */
 module.exports = bind.call(call, $hasOwn);
@@ -1577,131 +1480,10 @@ module.exports = bind.call(call, $hasOwn);
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/abs.js":
-/*!************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/abs.js ***!
-  \************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./abs')} */
-module.exports = Math.abs;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/floor.js":
-/*!**************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/floor.js ***!
-  \**************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./floor')} */
-module.exports = Math.floor;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/isNaN.js":
-/*!**************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/isNaN.js ***!
-  \**************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./isNaN')} */
-module.exports = Number.isNaN || function isNaN(a) {
-	return a !== a;
-};
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/max.js":
-/*!************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/max.js ***!
-  \************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./max')} */
-module.exports = Math.max;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/min.js":
-/*!************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/min.js ***!
-  \************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./min')} */
-module.exports = Math.min;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/pow.js":
-/*!************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/pow.js ***!
-  \************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./pow')} */
-module.exports = Math.pow;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/round.js":
-/*!**************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/round.js ***!
-  \**************************************************************************************************/
-/***/ ((module) => {
-
-
-
-/** @type {import('./round')} */
-module.exports = Math.round;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/sign.js":
-/*!*************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/sign.js ***!
-  \*************************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var $isNaN = __webpack_require__(/*! ./isNaN */ "../../../../node_modules/.pnpm/math-intrinsics@1.1.0/node_modules/math-intrinsics/isNaN.js");
-
-/** @type {import('./sign')} */
-module.exports = function sign(number) {
-	if ($isNaN(number) || number === 0) {
-		return number;
-	}
-	return number < 0 ? -1 : +1;
-};
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/ms@2.1.3/node_modules/ms/index.js":
-/*!************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/ms@2.1.3/node_modules/ms/index.js ***!
-  \************************************************************************/
+/***/ "./node_modules/.pnpm/ms@2.1.3/node_modules/ms/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/.pnpm/ms@2.1.3/node_modules/ms/index.js ***!
+  \**************************************************************/
 /***/ ((module) => {
 
 /**
@@ -1870,10 +1652,10 @@ function plural(ms, msAbs, n, name) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/object-inspect@1.13.4/node_modules/object-inspect/index.js":
-/*!*************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/object-inspect@1.13.4/node_modules/object-inspect/index.js ***!
-  \*************************************************************************************************/
+/***/ "./node_modules/.pnpm/object-inspect@1.13.3/node_modules/object-inspect/index.js":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/.pnpm/object-inspect@1.13.3/node_modules/object-inspect/index.js ***!
+  \***************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var hasMap = typeof Map === 'function' && Map.prototype;
@@ -1943,7 +1725,7 @@ function addNumericSeparator(num, str) {
     return $replace.call(str, sepRegex, '$&_');
 }
 
-var utilInspect = __webpack_require__(/*! ./util.inspect */ "?05fe");
+var utilInspect = __webpack_require__(/*! ./util.inspect */ "?6d3b");
 var inspectCustom = utilInspect.custom;
 var inspectSymbol = isSymbol(inspectCustom) ? inspectCustom : null;
 
@@ -2165,16 +1947,13 @@ function quote(s) {
     return $replace.call(String(s), /"/g, '&quot;');
 }
 
-function canTrustToString(obj) {
-    return !toStringTag || !(typeof obj === 'object' && (toStringTag in obj || typeof obj[toStringTag] !== 'undefined'));
-}
-function isArray(obj) { return toStr(obj) === '[object Array]' && canTrustToString(obj); }
-function isDate(obj) { return toStr(obj) === '[object Date]' && canTrustToString(obj); }
-function isRegExp(obj) { return toStr(obj) === '[object RegExp]' && canTrustToString(obj); }
-function isError(obj) { return toStr(obj) === '[object Error]' && canTrustToString(obj); }
-function isString(obj) { return toStr(obj) === '[object String]' && canTrustToString(obj); }
-function isNumber(obj) { return toStr(obj) === '[object Number]' && canTrustToString(obj); }
-function isBoolean(obj) { return toStr(obj) === '[object Boolean]' && canTrustToString(obj); }
+function isArray(obj) { return toStr(obj) === '[object Array]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isDate(obj) { return toStr(obj) === '[object Date]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isRegExp(obj) { return toStr(obj) === '[object RegExp]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isError(obj) { return toStr(obj) === '[object Error]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isString(obj) { return toStr(obj) === '[object String]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isNumber(obj) { return toStr(obj) === '[object Number]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
+function isBoolean(obj) { return toStr(obj) === '[object Boolean]' && (!toStringTag || !(typeof obj === 'object' && toStringTag in obj)); }
 
 // Symbol and BigInt do have Symbol.toStringTag by spec, so that can't be used to eliminate false positives
 function isSymbol(obj) {
@@ -2424,10 +2203,10 @@ function arrObjKeys(obj, inspect) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js":
-/*!*******************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js ***!
-  \*******************************************************************************/
+/***/ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js":
+/*!*********************************************************************!*\
+  !*** ./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js ***!
+  \*********************************************************************/
 /***/ ((module) => {
 
 
@@ -2457,17 +2236,17 @@ module.exports = {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/index.js":
-/*!*****************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/index.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/index.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/index.js ***!
+  \*******************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var stringify = __webpack_require__(/*! ./stringify */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/stringify.js");
-var parse = __webpack_require__(/*! ./parse */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/parse.js");
-var formats = __webpack_require__(/*! ./formats */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js");
+var stringify = __webpack_require__(/*! ./stringify */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/stringify.js");
+var parse = __webpack_require__(/*! ./parse */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/parse.js");
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js");
 
 module.exports = {
     formats: formats,
@@ -2478,15 +2257,15 @@ module.exports = {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/parse.js":
-/*!*****************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/parse.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/parse.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/parse.js ***!
+  \*******************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var utils = __webpack_require__(/*! ./utils */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js");
 
 var has = Object.prototype.hasOwnProperty;
 var isArray = Array.isArray;
@@ -2784,17 +2563,17 @@ module.exports = function (str, opts) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/stringify.js":
-/*!*********************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/stringify.js ***!
-  \*********************************************************************************/
+/***/ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/stringify.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/stringify.js ***!
+  \***********************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var getSideChannel = __webpack_require__(/*! side-channel */ "../../../../node_modules/.pnpm/side-channel@1.1.0/node_modules/side-channel/index.js");
-var utils = __webpack_require__(/*! ./utils */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js");
-var formats = __webpack_require__(/*! ./formats */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js");
+var getSideChannel = __webpack_require__(/*! side-channel */ "./node_modules/.pnpm/side-channel@1.0.6/node_modules/side-channel/index.js");
+var utils = __webpack_require__(/*! ./utils */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js");
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js");
 var has = Object.prototype.hasOwnProperty;
 
 var arrayPrefixGenerators = {
@@ -3145,15 +2924,15 @@ module.exports = function (object, opts) {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js":
-/*!*****************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js ***!
-  \*****************************************************************************/
+/***/ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/utils.js ***!
+  \*******************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var formats = __webpack_require__(/*! ./formats */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js");
+var formats = __webpack_require__(/*! ./formats */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/formats.js");
 
 var has = Object.prototype.hasOwnProperty;
 var isArray = Array.isArray;
@@ -3420,361 +3199,204 @@ module.exports = {
 
 /***/ }),
 
-/***/ "../../../../node_modules/.pnpm/side-channel-list@1.0.0/node_modules/side-channel-list/index.js":
-/*!******************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/side-channel-list@1.0.0/node_modules/side-channel-list/index.js ***!
-  \******************************************************************************************************/
+/***/ "./node_modules/.pnpm/set-function-length@1.2.2/node_modules/set-function-length/index.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/set-function-length@1.2.2/node_modules/set-function-length/index.js ***!
+  \************************************************************************************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
 
-var inspect = __webpack_require__(/*! object-inspect */ "../../../../node_modules/.pnpm/object-inspect@1.13.4/node_modules/object-inspect/index.js");
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js");
+var define = __webpack_require__(/*! define-data-property */ "./node_modules/.pnpm/define-data-property@1.1.4/node_modules/define-data-property/index.js");
+var hasDescriptors = __webpack_require__(/*! has-property-descriptors */ "./node_modules/.pnpm/has-property-descriptors@1.0.2/node_modules/has-property-descriptors/index.js")();
+var gOPD = __webpack_require__(/*! gopd */ "./node_modules/.pnpm/gopd@1.0.1/node_modules/gopd/index.js");
 
-var $TypeError = __webpack_require__(/*! es-errors/type */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
+var $TypeError = __webpack_require__(/*! es-errors/type */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
+var $floor = GetIntrinsic('%Math.floor%');
+
+/** @type {import('.')} */
+module.exports = function setFunctionLength(fn, length) {
+	if (typeof fn !== 'function') {
+		throw new $TypeError('`fn` is not a function');
+	}
+	if (typeof length !== 'number' || length < 0 || length > 0xFFFFFFFF || $floor(length) !== length) {
+		throw new $TypeError('`length` must be a positive 32-bit integer');
+	}
+
+	var loose = arguments.length > 2 && !!arguments[2];
+
+	var functionLengthIsConfigurable = true;
+	var functionLengthIsWritable = true;
+	if ('length' in fn && gOPD) {
+		var desc = gOPD(fn, 'length');
+		if (desc && !desc.configurable) {
+			functionLengthIsConfigurable = false;
+		}
+		if (desc && !desc.writable) {
+			functionLengthIsWritable = false;
+		}
+	}
+
+	if (functionLengthIsConfigurable || functionLengthIsWritable || !loose) {
+		if (hasDescriptors) {
+			define(/** @type {Parameters<define>[0]} */ (fn), 'length', length, true, true);
+		} else {
+			define(/** @type {Parameters<define>[0]} */ (fn), 'length', length);
+		}
+	}
+	return fn;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/side-channel@1.0.6/node_modules/side-channel/index.js":
+/*!**********************************************************************************!*\
+  !*** ./node_modules/.pnpm/side-channel@1.0.6/node_modules/side-channel/index.js ***!
+  \**********************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+
+
+var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "./node_modules/.pnpm/get-intrinsic@1.2.4/node_modules/get-intrinsic/index.js");
+var callBound = __webpack_require__(/*! call-bind/callBound */ "./node_modules/.pnpm/call-bind@1.0.7/node_modules/call-bind/callBound.js");
+var inspect = __webpack_require__(/*! object-inspect */ "./node_modules/.pnpm/object-inspect@1.13.3/node_modules/object-inspect/index.js");
+
+var $TypeError = __webpack_require__(/*! es-errors/type */ "./node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
+var $WeakMap = GetIntrinsic('%WeakMap%', true);
+var $Map = GetIntrinsic('%Map%', true);
+
+var $weakMapGet = callBound('WeakMap.prototype.get', true);
+var $weakMapSet = callBound('WeakMap.prototype.set', true);
+var $weakMapHas = callBound('WeakMap.prototype.has', true);
+var $mapGet = callBound('Map.prototype.get', true);
+var $mapSet = callBound('Map.prototype.set', true);
+var $mapHas = callBound('Map.prototype.has', true);
 
 /*
 * This function traverses the list returning the node corresponding to the given key.
 *
-* That node is also moved to the head of the list, so that if it's accessed again we don't need to traverse the whole list.
-* By doing so, all the recently used nodes can be accessed relatively quickly.
+* That node is also moved to the head of the list, so that if it's accessed again we don't need to traverse the whole list. By doing so, all the recently used nodes can be accessed relatively quickly.
 */
-/** @type {import('./list.d.ts').listGetNode} */
-// eslint-disable-next-line consistent-return
-var listGetNode = function (list, key, isDelete) {
+/** @type {import('.').listGetNode} */
+var listGetNode = function (list, key) { // eslint-disable-line consistent-return
 	/** @type {typeof list | NonNullable<(typeof list)['next']>} */
 	var prev = list;
 	/** @type {(typeof list)['next']} */
 	var curr;
-	// eslint-disable-next-line eqeqeq
-	for (; (curr = prev.next) != null; prev = curr) {
+	for (; (curr = prev.next) !== null; prev = curr) {
 		if (curr.key === key) {
 			prev.next = curr.next;
-			if (!isDelete) {
-				// eslint-disable-next-line no-extra-parens
-				curr.next = /** @type {NonNullable<typeof list.next>} */ (list.next);
-				list.next = curr; // eslint-disable-line no-param-reassign
-			}
+			// eslint-disable-next-line no-extra-parens
+			curr.next = /** @type {NonNullable<typeof list.next>} */ (list.next);
+			list.next = curr; // eslint-disable-line no-param-reassign
 			return curr;
 		}
 	}
 };
 
-/** @type {import('./list.d.ts').listGet} */
+/** @type {import('.').listGet} */
 var listGet = function (objects, key) {
-	if (!objects) {
-		return void undefined;
-	}
 	var node = listGetNode(objects, key);
 	return node && node.value;
 };
-/** @type {import('./list.d.ts').listSet} */
+/** @type {import('.').listSet} */
 var listSet = function (objects, key, value) {
 	var node = listGetNode(objects, key);
 	if (node) {
 		node.value = value;
 	} else {
 		// Prepend the new node to the beginning of the list
-		objects.next = /** @type {import('./list.d.ts').ListNode<typeof value, typeof key>} */ ({ // eslint-disable-line no-param-reassign, no-extra-parens
+		objects.next = /** @type {import('.').ListNode<typeof value>} */ ({ // eslint-disable-line no-param-reassign, no-extra-parens
 			key: key,
 			next: objects.next,
 			value: value
 		});
 	}
 };
-/** @type {import('./list.d.ts').listHas} */
+/** @type {import('.').listHas} */
 var listHas = function (objects, key) {
-	if (!objects) {
-		return false;
-	}
 	return !!listGetNode(objects, key);
 };
-/** @type {import('./list.d.ts').listDelete} */
-// eslint-disable-next-line consistent-return
-var listDelete = function (objects, key) {
-	if (objects) {
-		return listGetNode(objects, key, true);
-	}
-};
-
-/** @type {import('.')} */
-module.exports = function getSideChannelList() {
-	/** @typedef {ReturnType<typeof getSideChannelList>} Channel */
-	/** @typedef {Parameters<Channel['get']>[0]} K */
-	/** @typedef {Parameters<Channel['set']>[1]} V */
-
-	/** @type {import('./list.d.ts').RootNode<V, K> | undefined} */ var $o;
-
-	/** @type {Channel} */
-	var channel = {
-		assert: function (key) {
-			if (!channel.has(key)) {
-				throw new $TypeError('Side channel does not contain ' + inspect(key));
-			}
-		},
-		'delete': function (key) {
-			var root = $o && $o.next;
-			var deletedNode = listDelete($o, key);
-			if (deletedNode && root && root === deletedNode) {
-				$o = void undefined;
-			}
-			return !!deletedNode;
-		},
-		get: function (key) {
-			return listGet($o, key);
-		},
-		has: function (key) {
-			return listHas($o, key);
-		},
-		set: function (key, value) {
-			if (!$o) {
-				// Initialize the linked list as an empty node, so that we don't have to special-case handling of the first node: we can always refer to it as (previous node).next, instead of something like (list).head
-				$o = {
-					next: void undefined
-				};
-			}
-			// eslint-disable-next-line no-extra-parens
-			listSet(/** @type {NonNullable<typeof $o>} */ ($o), key, value);
-		}
-	};
-	// @ts-expect-error TODO: figure out why this is erroring
-	return channel;
-};
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/side-channel-map@1.0.1/node_modules/side-channel-map/index.js":
-/*!****************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/side-channel-map@1.0.1/node_modules/side-channel-map/index.js ***!
-  \****************************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "../../../../node_modules/.pnpm/get-intrinsic@1.3.0/node_modules/get-intrinsic/index.js");
-var callBound = __webpack_require__(/*! call-bound */ "../../../../node_modules/.pnpm/call-bound@1.0.4/node_modules/call-bound/index.js");
-var inspect = __webpack_require__(/*! object-inspect */ "../../../../node_modules/.pnpm/object-inspect@1.13.4/node_modules/object-inspect/index.js");
-
-var $TypeError = __webpack_require__(/*! es-errors/type */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
-var $Map = GetIntrinsic('%Map%', true);
-
-/** @type {<K, V>(thisArg: Map<K, V>, key: K) => V} */
-var $mapGet = callBound('Map.prototype.get', true);
-/** @type {<K, V>(thisArg: Map<K, V>, key: K, value: V) => void} */
-var $mapSet = callBound('Map.prototype.set', true);
-/** @type {<K, V>(thisArg: Map<K, V>, key: K) => boolean} */
-var $mapHas = callBound('Map.prototype.has', true);
-/** @type {<K, V>(thisArg: Map<K, V>, key: K) => boolean} */
-var $mapDelete = callBound('Map.prototype.delete', true);
-/** @type {<K, V>(thisArg: Map<K, V>) => number} */
-var $mapSize = callBound('Map.prototype.size', true);
-
-/** @type {import('.')} */
-module.exports = !!$Map && /** @type {Exclude<import('.'), false>} */ function getSideChannelMap() {
-	/** @typedef {ReturnType<typeof getSideChannelMap>} Channel */
-	/** @typedef {Parameters<Channel['get']>[0]} K */
-	/** @typedef {Parameters<Channel['set']>[1]} V */
-
-	/** @type {Map<K, V> | undefined} */ var $m;
-
-	/** @type {Channel} */
-	var channel = {
-		assert: function (key) {
-			if (!channel.has(key)) {
-				throw new $TypeError('Side channel does not contain ' + inspect(key));
-			}
-		},
-		'delete': function (key) {
-			if ($m) {
-				var result = $mapDelete($m, key);
-				if ($mapSize($m) === 0) {
-					$m = void undefined;
-				}
-				return result;
-			}
-			return false;
-		},
-		get: function (key) { // eslint-disable-line consistent-return
-			if ($m) {
-				return $mapGet($m, key);
-			}
-		},
-		has: function (key) {
-			if ($m) {
-				return $mapHas($m, key);
-			}
-			return false;
-		},
-		set: function (key, value) {
-			if (!$m) {
-				// @ts-expect-error TS can't handle narrowing a variable inside a closure
-				$m = new $Map();
-			}
-			$mapSet($m, key, value);
-		}
-	};
-
-	// @ts-expect-error TODO: figure out why TS is erroring here
-	return channel;
-};
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/side-channel-weakmap@1.0.2/node_modules/side-channel-weakmap/index.js":
-/*!************************************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/side-channel-weakmap@1.0.2/node_modules/side-channel-weakmap/index.js ***!
-  \************************************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var GetIntrinsic = __webpack_require__(/*! get-intrinsic */ "../../../../node_modules/.pnpm/get-intrinsic@1.3.0/node_modules/get-intrinsic/index.js");
-var callBound = __webpack_require__(/*! call-bound */ "../../../../node_modules/.pnpm/call-bound@1.0.4/node_modules/call-bound/index.js");
-var inspect = __webpack_require__(/*! object-inspect */ "../../../../node_modules/.pnpm/object-inspect@1.13.4/node_modules/object-inspect/index.js");
-var getSideChannelMap = __webpack_require__(/*! side-channel-map */ "../../../../node_modules/.pnpm/side-channel-map@1.0.1/node_modules/side-channel-map/index.js");
-
-var $TypeError = __webpack_require__(/*! es-errors/type */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
-var $WeakMap = GetIntrinsic('%WeakMap%', true);
-
-/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K) => V} */
-var $weakMapGet = callBound('WeakMap.prototype.get', true);
-/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K, value: V) => void} */
-var $weakMapSet = callBound('WeakMap.prototype.set', true);
-/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K) => boolean} */
-var $weakMapHas = callBound('WeakMap.prototype.has', true);
-/** @type {<K extends object, V>(thisArg: WeakMap<K, V>, key: K) => boolean} */
-var $weakMapDelete = callBound('WeakMap.prototype.delete', true);
-
-/** @type {import('.')} */
-module.exports = $WeakMap
-	? /** @type {Exclude<import('.'), false>} */ function getSideChannelWeakMap() {
-		/** @typedef {ReturnType<typeof getSideChannelWeakMap>} Channel */
-		/** @typedef {Parameters<Channel['get']>[0]} K */
-		/** @typedef {Parameters<Channel['set']>[1]} V */
-
-		/** @type {WeakMap<K & object, V> | undefined} */ var $wm;
-		/** @type {Channel | undefined} */ var $m;
-
-		/** @type {Channel} */
-		var channel = {
-			assert: function (key) {
-				if (!channel.has(key)) {
-					throw new $TypeError('Side channel does not contain ' + inspect(key));
-				}
-			},
-			'delete': function (key) {
-				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-					if ($wm) {
-						return $weakMapDelete($wm, key);
-					}
-				} else if (getSideChannelMap) {
-					if ($m) {
-						return $m['delete'](key);
-					}
-				}
-				return false;
-			},
-			get: function (key) {
-				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-					if ($wm) {
-						return $weakMapGet($wm, key);
-					}
-				}
-				return $m && $m.get(key);
-			},
-			has: function (key) {
-				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-					if ($wm) {
-						return $weakMapHas($wm, key);
-					}
-				}
-				return !!$m && $m.has(key);
-			},
-			set: function (key, value) {
-				if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
-					if (!$wm) {
-						$wm = new $WeakMap();
-					}
-					$weakMapSet($wm, key, value);
-				} else if (getSideChannelMap) {
-					if (!$m) {
-						$m = getSideChannelMap();
-					}
-					// eslint-disable-next-line no-extra-parens
-					/** @type {NonNullable<typeof $m>} */ ($m).set(key, value);
-				}
-			}
-		};
-
-		// @ts-expect-error TODO: figure out why this is erroring
-		return channel;
-	}
-	: getSideChannelMap;
-
-
-/***/ }),
-
-/***/ "../../../../node_modules/.pnpm/side-channel@1.1.0/node_modules/side-channel/index.js":
-/*!********************************************************************************************!*\
-  !*** ../../../../node_modules/.pnpm/side-channel@1.1.0/node_modules/side-channel/index.js ***!
-  \********************************************************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-
-
-var $TypeError = __webpack_require__(/*! es-errors/type */ "../../../../node_modules/.pnpm/es-errors@1.3.0/node_modules/es-errors/type.js");
-var inspect = __webpack_require__(/*! object-inspect */ "../../../../node_modules/.pnpm/object-inspect@1.13.4/node_modules/object-inspect/index.js");
-var getSideChannelList = __webpack_require__(/*! side-channel-list */ "../../../../node_modules/.pnpm/side-channel-list@1.0.0/node_modules/side-channel-list/index.js");
-var getSideChannelMap = __webpack_require__(/*! side-channel-map */ "../../../../node_modules/.pnpm/side-channel-map@1.0.1/node_modules/side-channel-map/index.js");
-var getSideChannelWeakMap = __webpack_require__(/*! side-channel-weakmap */ "../../../../node_modules/.pnpm/side-channel-weakmap@1.0.2/node_modules/side-channel-weakmap/index.js");
-
-var makeChannel = getSideChannelWeakMap || getSideChannelMap || getSideChannelList;
 
 /** @type {import('.')} */
 module.exports = function getSideChannel() {
-	/** @typedef {ReturnType<typeof getSideChannel>} Channel */
+	/** @type {WeakMap<object, unknown>} */ var $wm;
+	/** @type {Map<object, unknown>} */ var $m;
+	/** @type {import('.').RootNode<unknown>} */ var $o;
 
-	/** @type {Channel | undefined} */ var $channelData;
-
-	/** @type {Channel} */
+	/** @type {import('.').Channel} */
 	var channel = {
 		assert: function (key) {
 			if (!channel.has(key)) {
 				throw new $TypeError('Side channel does not contain ' + inspect(key));
 			}
 		},
-		'delete': function (key) {
-			return !!$channelData && $channelData['delete'](key);
-		},
-		get: function (key) {
-			return $channelData && $channelData.get(key);
+		get: function (key) { // eslint-disable-line consistent-return
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapGet($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapGet($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listGet($o, key);
+				}
+			}
 		},
 		has: function (key) {
-			return !!$channelData && $channelData.has(key);
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if ($wm) {
+					return $weakMapHas($wm, key);
+				}
+			} else if ($Map) {
+				if ($m) {
+					return $mapHas($m, key);
+				}
+			} else {
+				if ($o) { // eslint-disable-line no-lonely-if
+					return listHas($o, key);
+				}
+			}
+			return false;
 		},
 		set: function (key, value) {
-			if (!$channelData) {
-				$channelData = makeChannel();
+			if ($WeakMap && key && (typeof key === 'object' || typeof key === 'function')) {
+				if (!$wm) {
+					$wm = new $WeakMap();
+				}
+				$weakMapSet($wm, key, value);
+			} else if ($Map) {
+				if (!$m) {
+					$m = new $Map();
+				}
+				$mapSet($m, key, value);
+			} else {
+				if (!$o) {
+					// Initialize the linked list as an empty node, so that we don't have to special-case handling of the first node: we can always refer to it as (previous node).next, instead of something like (list).head
+					$o = { key: {}, next: null };
+				}
+				listSet($o, key, value);
 			}
-
-			$channelData.set(key, value);
 		}
 	};
-	// @ts-expect-error TODO: figure out why this is erroring
 	return channel;
 };
 
 
 /***/ }),
 
-/***/ "?05fe":
-/*!********************************!*\
-  !*** ./util.inspect (ignored) ***!
-  \********************************/
-/***/ (() => {
+/***/ "@wordpress/interactivity-router":
+/*!**************************************************!*\
+  !*** external "@wordpress/interactivity-router" ***!
+  \**************************************************/
+/***/ ((module) => {
 
-/* (ignored) */
+module.exports = import("@wordpress/interactivity-router");;
 
 /***/ }),
 
@@ -3788,13 +3410,451 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__;
 
 /***/ }),
 
-/***/ "@wordpress/interactivity-router":
-/*!**************************************************!*\
-  !*** external "@wordpress/interactivity-router" ***!
-  \**************************************************/
-/***/ ((module) => {
+/***/ "?6d3b":
+/*!********************************!*\
+  !*** ./util.inspect (ignored) ***!
+  \********************************/
+/***/ (() => {
 
-module.exports = import("@wordpress/interactivity-router");;
+/* (ignored) */
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/defineProperty.js":
+/*!************************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/defineProperty.js ***!
+  \************************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _defineProperty)
+/* harmony export */ });
+/* harmony import */ var _toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/toPropertyKey.js");
+
+function _defineProperty(e, r, t) {
+  return (r = (0,_toPropertyKey_js__WEBPACK_IMPORTED_MODULE_0__["default"])(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/toPrimitive.js":
+/*!*********************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/toPrimitive.js ***!
+  \*********************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ toPrimitive)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/typeof.js");
+
+function toPrimitive(t, r) {
+  if ("object" != (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(t) || !t) return t;
+  var e = t[Symbol.toPrimitive];
+  if (void 0 !== e) {
+    var i = e.call(t, r || "default");
+    if ("object" != (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(i)) return i;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return ("string" === r ? String : Number)(t);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/toPropertyKey.js":
+/*!***********************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/toPropertyKey.js ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ toPropertyKey)
+/* harmony export */ });
+/* harmony import */ var _typeof_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./typeof.js */ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./toPrimitive.js */ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/toPrimitive.js");
+
+
+function toPropertyKey(t) {
+  var i = (0,_toPrimitive_js__WEBPACK_IMPORTED_MODULE_1__["default"])(t, "string");
+  return "symbol" == (0,_typeof_js__WEBPACK_IMPORTED_MODULE_0__["default"])(i) ? i : i + "";
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/typeof.js":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/typeof.js ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _typeof)
+/* harmony export */ });
+function _typeof(o) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) {
+    return typeof o;
+  } : function (o) {
+    return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o;
+  }, _typeof(o);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/getSymbols.mjs":
+/*!***********************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/getSymbols.mjs ***!
+  \***********************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getSymbols: () => (/* binding */ getSymbols)
+/* harmony export */ });
+function getSymbols(object) {
+    return Object.getOwnPropertySymbols(object).filter(symbol => Object.prototype.propertyIsEnumerable.call(object, symbol));
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/getTag.mjs":
+/*!*******************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/getTag.mjs ***!
+  \*******************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getTag: () => (/* binding */ getTag)
+/* harmony export */ });
+function getTag(value) {
+    if (value == null) {
+        return value === undefined ? '[object Undefined]' : '[object Null]';
+    }
+    return Object.prototype.toString.call(value);
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/tags.mjs":
+/*!*****************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/tags.mjs ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   argumentsTag: () => (/* binding */ argumentsTag),
+/* harmony export */   arrayBufferTag: () => (/* binding */ arrayBufferTag),
+/* harmony export */   arrayTag: () => (/* binding */ arrayTag),
+/* harmony export */   bigInt64ArrayTag: () => (/* binding */ bigInt64ArrayTag),
+/* harmony export */   bigUint64ArrayTag: () => (/* binding */ bigUint64ArrayTag),
+/* harmony export */   booleanTag: () => (/* binding */ booleanTag),
+/* harmony export */   dataViewTag: () => (/* binding */ dataViewTag),
+/* harmony export */   dateTag: () => (/* binding */ dateTag),
+/* harmony export */   errorTag: () => (/* binding */ errorTag),
+/* harmony export */   float32ArrayTag: () => (/* binding */ float32ArrayTag),
+/* harmony export */   float64ArrayTag: () => (/* binding */ float64ArrayTag),
+/* harmony export */   functionTag: () => (/* binding */ functionTag),
+/* harmony export */   int16ArrayTag: () => (/* binding */ int16ArrayTag),
+/* harmony export */   int32ArrayTag: () => (/* binding */ int32ArrayTag),
+/* harmony export */   int8ArrayTag: () => (/* binding */ int8ArrayTag),
+/* harmony export */   mapTag: () => (/* binding */ mapTag),
+/* harmony export */   numberTag: () => (/* binding */ numberTag),
+/* harmony export */   objectTag: () => (/* binding */ objectTag),
+/* harmony export */   regexpTag: () => (/* binding */ regexpTag),
+/* harmony export */   setTag: () => (/* binding */ setTag),
+/* harmony export */   stringTag: () => (/* binding */ stringTag),
+/* harmony export */   symbolTag: () => (/* binding */ symbolTag),
+/* harmony export */   uint16ArrayTag: () => (/* binding */ uint16ArrayTag),
+/* harmony export */   uint32ArrayTag: () => (/* binding */ uint32ArrayTag),
+/* harmony export */   uint8ArrayTag: () => (/* binding */ uint8ArrayTag),
+/* harmony export */   uint8ClampedArrayTag: () => (/* binding */ uint8ClampedArrayTag)
+/* harmony export */ });
+const regexpTag = '[object RegExp]';
+const stringTag = '[object String]';
+const numberTag = '[object Number]';
+const booleanTag = '[object Boolean]';
+const argumentsTag = '[object Arguments]';
+const symbolTag = '[object Symbol]';
+const dateTag = '[object Date]';
+const mapTag = '[object Map]';
+const setTag = '[object Set]';
+const arrayTag = '[object Array]';
+const functionTag = '[object Function]';
+const arrayBufferTag = '[object ArrayBuffer]';
+const objectTag = '[object Object]';
+const errorTag = '[object Error]';
+const dataViewTag = '[object DataView]';
+const uint8ArrayTag = '[object Uint8Array]';
+const uint8ClampedArrayTag = '[object Uint8ClampedArray]';
+const uint16ArrayTag = '[object Uint16Array]';
+const uint32ArrayTag = '[object Uint32Array]';
+const bigUint64ArrayTag = '[object BigUint64Array]';
+const int8ArrayTag = '[object Int8Array]';
+const int16ArrayTag = '[object Int16Array]';
+const int32ArrayTag = '[object Int32Array]';
+const bigInt64ArrayTag = '[object BigInt64Array]';
+const float32ArrayTag = '[object Float32Array]';
+const float64ArrayTag = '[object Float64Array]';
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeep.mjs":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeep.mjs ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   cloneDeep: () => (/* binding */ cloneDeep)
+/* harmony export */ });
+/* harmony import */ var _cloneDeepWith_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cloneDeepWith.mjs */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeepWith.mjs");
+
+
+function cloneDeep(obj) {
+    return (0,_cloneDeepWith_mjs__WEBPACK_IMPORTED_MODULE_0__.cloneDeepWithImpl)(obj, undefined, obj, new Map(), undefined);
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeepWith.mjs":
+/*!****************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeepWith.mjs ***!
+  \****************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   cloneDeepWith: () => (/* binding */ cloneDeepWith),
+/* harmony export */   cloneDeepWithImpl: () => (/* binding */ cloneDeepWithImpl),
+/* harmony export */   copyProperties: () => (/* binding */ copyProperties)
+/* harmony export */ });
+/* harmony import */ var _compat_internal_getSymbols_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../compat/_internal/getSymbols.mjs */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/getSymbols.mjs");
+/* harmony import */ var _compat_internal_getTag_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../compat/_internal/getTag.mjs */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/getTag.mjs");
+/* harmony import */ var _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../compat/_internal/tags.mjs */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/compat/_internal/tags.mjs");
+/* harmony import */ var _predicate_isPrimitive_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../predicate/isPrimitive.mjs */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/predicate/isPrimitive.mjs");
+/* harmony import */ var _predicate_isTypedArray_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../predicate/isTypedArray.mjs */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/predicate/isTypedArray.mjs");
+
+
+
+
+
+
+function cloneDeepWith(obj, cloneValue) {
+    return cloneDeepWithImpl(obj, undefined, obj, new Map(), cloneValue);
+}
+function cloneDeepWithImpl(valueToClone, keyToClone, objectToClone, stack = new Map(), cloneValue = undefined) {
+    const cloned = cloneValue?.(valueToClone, keyToClone, objectToClone, stack);
+    if (cloned != null) {
+        return cloned;
+    }
+    if ((0,_predicate_isPrimitive_mjs__WEBPACK_IMPORTED_MODULE_0__.isPrimitive)(valueToClone)) {
+        return valueToClone;
+    }
+    if (stack.has(valueToClone)) {
+        return stack.get(valueToClone);
+    }
+    if (Array.isArray(valueToClone)) {
+        const result = new Array(valueToClone.length);
+        stack.set(valueToClone, result);
+        for (let i = 0; i < valueToClone.length; i++) {
+            result[i] = cloneDeepWithImpl(valueToClone[i], i, objectToClone, stack, cloneValue);
+        }
+        if (Object.hasOwn(valueToClone, 'index')) {
+            result.index = valueToClone.index;
+        }
+        if (Object.hasOwn(valueToClone, 'input')) {
+            result.input = valueToClone.input;
+        }
+        return result;
+    }
+    if (valueToClone instanceof Date) {
+        return new Date(valueToClone.getTime());
+    }
+    if (valueToClone instanceof RegExp) {
+        const result = new RegExp(valueToClone.source, valueToClone.flags);
+        result.lastIndex = valueToClone.lastIndex;
+        return result;
+    }
+    if (valueToClone instanceof Map) {
+        const result = new Map();
+        stack.set(valueToClone, result);
+        for (const [key, value] of valueToClone) {
+            result.set(key, cloneDeepWithImpl(value, key, objectToClone, stack, cloneValue));
+        }
+        return result;
+    }
+    if (valueToClone instanceof Set) {
+        const result = new Set();
+        stack.set(valueToClone, result);
+        for (const value of valueToClone) {
+            result.add(cloneDeepWithImpl(value, undefined, objectToClone, stack, cloneValue));
+        }
+        return result;
+    }
+    if (typeof Buffer !== 'undefined' && Buffer.isBuffer(valueToClone)) {
+        return valueToClone.subarray();
+    }
+    if ((0,_predicate_isTypedArray_mjs__WEBPACK_IMPORTED_MODULE_1__.isTypedArray)(valueToClone)) {
+        const result = new (Object.getPrototypeOf(valueToClone).constructor)(valueToClone.length);
+        stack.set(valueToClone, result);
+        for (let i = 0; i < valueToClone.length; i++) {
+            result[i] = cloneDeepWithImpl(valueToClone[i], i, objectToClone, stack, cloneValue);
+        }
+        return result;
+    }
+    if (valueToClone instanceof ArrayBuffer ||
+        (typeof SharedArrayBuffer !== 'undefined' && valueToClone instanceof SharedArrayBuffer)) {
+        return valueToClone.slice(0);
+    }
+    if (valueToClone instanceof DataView) {
+        const result = new DataView(valueToClone.buffer.slice(0), valueToClone.byteOffset, valueToClone.byteLength);
+        stack.set(valueToClone, result);
+        copyProperties(result, valueToClone, objectToClone, stack, cloneValue);
+        return result;
+    }
+    if (typeof File !== 'undefined' && valueToClone instanceof File) {
+        const result = new File([valueToClone], valueToClone.name, {
+            type: valueToClone.type,
+        });
+        stack.set(valueToClone, result);
+        copyProperties(result, valueToClone, objectToClone, stack, cloneValue);
+        return result;
+    }
+    if (valueToClone instanceof Blob) {
+        const result = new Blob([valueToClone], { type: valueToClone.type });
+        stack.set(valueToClone, result);
+        copyProperties(result, valueToClone, objectToClone, stack, cloneValue);
+        return result;
+    }
+    if (valueToClone instanceof Error) {
+        const result = new valueToClone.constructor();
+        stack.set(valueToClone, result);
+        result.message = valueToClone.message;
+        result.name = valueToClone.name;
+        result.stack = valueToClone.stack;
+        result.cause = valueToClone.cause;
+        copyProperties(result, valueToClone, objectToClone, stack, cloneValue);
+        return result;
+    }
+    if (typeof valueToClone === 'object' && isCloneableObject(valueToClone)) {
+        const result = Object.create(Object.getPrototypeOf(valueToClone));
+        stack.set(valueToClone, result);
+        copyProperties(result, valueToClone, objectToClone, stack, cloneValue);
+        return result;
+    }
+    return valueToClone;
+}
+function copyProperties(target, source, objectToClone = target, stack, cloneValue) {
+    const keys = [...Object.keys(source), ...(0,_compat_internal_getSymbols_mjs__WEBPACK_IMPORTED_MODULE_2__.getSymbols)(source)];
+    for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const descriptor = Object.getOwnPropertyDescriptor(target, key);
+        if (descriptor == null || descriptor.writable) {
+            target[key] = cloneDeepWithImpl(source[key], key, objectToClone, stack, cloneValue);
+        }
+    }
+}
+function isCloneableObject(object) {
+    switch ((0,_compat_internal_getTag_mjs__WEBPACK_IMPORTED_MODULE_3__.getTag)(object)) {
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.argumentsTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.arrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.arrayBufferTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.dataViewTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.booleanTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.dateTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.float32ArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.float64ArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.int8ArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.int16ArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.int32ArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.mapTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.numberTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.objectTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.regexpTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.setTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.stringTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.symbolTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.uint8ArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.uint8ClampedArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.uint16ArrayTag:
+        case _compat_internal_tags_mjs__WEBPACK_IMPORTED_MODULE_4__.uint32ArrayTag: {
+            return true;
+        }
+        default: {
+            return false;
+        }
+    }
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/predicate/isPrimitive.mjs":
+/*!*****************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/predicate/isPrimitive.mjs ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isPrimitive: () => (/* binding */ isPrimitive)
+/* harmony export */ });
+function isPrimitive(value) {
+    return value == null || (typeof value !== 'object' && typeof value !== 'function');
+}
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/predicate/isTypedArray.mjs":
+/*!******************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/predicate/isTypedArray.mjs ***!
+  \******************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   isTypedArray: () => (/* binding */ isTypedArray)
+/* harmony export */ });
+function isTypedArray(x) {
+    return ArrayBuffer.isView(x) && !(x instanceof DataView);
+}
+
+
+
 
 /***/ })
 
@@ -3885,21 +3945,21 @@ var __webpack_exports__ = {};
   !*** ./src/dynamic-archive/view.js ***!
   \*************************************/
 __webpack_require__.r(__webpack_exports__);
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '@babel/runtime/helpers/defineProperty'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/.pnpm/@babel+runtime@7.25.7/node_modules/@babel/runtime/helpers/esm/defineProperty.js");
 /* harmony import */ var _wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/interactivity */ "@wordpress/interactivity");
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! qs */ "../../../../node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/index.js");
-/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_2__);
-Object(function webpackMissingModule() { var e = new Error("Cannot find module 'es-toolkit/object'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! debug */ "../../../../node_modules/.pnpm/debug@4.4.3/node_modules/debug/src/browser.js");
-/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! qs */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/index.js");
+/* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var es_toolkit_object__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! es-toolkit/object */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeep.mjs");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! debug */ "./node_modules/.pnpm/debug@4.3.7/node_modules/debug/src/browser.js");
+/* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_2__);
 
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
-function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { Object(function webpackMissingModule() { var e = new Error("Cannot find module '@babel/runtime/helpers/defineProperty'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 
 
 
 
-const debug = debug__WEBPACK_IMPORTED_MODULE_3___default()('dynamic-archive:frontend');
+const debug = debug__WEBPACK_IMPORTED_MODULE_2___default()('dynamic-archive:frontend');
 
 /** @typedef {string} TaxonomyName */
 /** @typedef {string} FilterName */
@@ -3976,7 +4036,7 @@ const buildFilterUrl = ({
       break;
   }
   const url = new URL(window.location.href);
-  const parsedUrl = qs__WEBPACK_IMPORTED_MODULE_2___default().parse(url.search.replaceAll('?', ''));
+  const parsedUrl = qs__WEBPACK_IMPORTED_MODULE_3___default().parse(url.search.replaceAll('?', ''));
   let urlState = _objectSpread(_objectSpread({}, parsedUrl), filterState);
   const parsedPage = parseInt(currentPage);
   if (isInfiniteScroll && !isNaN(parsedPage) && parsedPage > 1) {
@@ -3984,7 +4044,7 @@ const buildFilterUrl = ({
   } else {
     delete urlState[buildParamName(blockId, 'paged')];
   }
-  url.search = qs__WEBPACK_IMPORTED_MODULE_2___default().stringify(urlState, {
+  url.search = qs__WEBPACK_IMPORTED_MODULE_3___default().stringify(urlState, {
     encode: false
   });
   return url.toString();
@@ -4123,12 +4183,13 @@ const {
         blockId
       } = context;
       const sortKey = buildParamName(blockId, 'sort');
+      context.currentSort = event.target.value;
       filters[sortKey] = event.target.value;
       const url = new URL(window.location.href);
-      const parsedUrl = qs__WEBPACK_IMPORTED_MODULE_2___default().parse(url.search.replaceAll('?', ''));
+      const parsedUrl = qs__WEBPACK_IMPORTED_MODULE_3___default().parse(url.search.replaceAll('?', ''));
       const urlState = _objectSpread(_objectSpread({}, parsedUrl), filters);
       delete urlState[buildParamName(blockId, 'paged')];
-      url.search = qs__WEBPACK_IMPORTED_MODULE_2___default().stringify(urlState, {
+      url.search = qs__WEBPACK_IMPORTED_MODULE_3___default().stringify(urlState, {
         encode: false
       });
       const newUrl = url.toString();
@@ -4198,7 +4259,7 @@ const {
         isInfiniteScroll,
         currentPage
       } = context;
-      const fakeFilter = Object(function webpackMissingModule() { var e = new Error("Cannot find module 'es-toolkit/object'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())(filters);
+      const fakeFilter = (0,es_toolkit_object__WEBPACK_IMPORTED_MODULE_4__.cloneDeep)(filters);
       const newUrl = buildFilterUrl({
         blockId,
         type,
@@ -4278,6 +4339,9 @@ const {
       // Handles updating the current page number from the server.
       const context = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.getContext)();
       const serverContext = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.getServerContext)();
+      if (!serverContext) {
+        return;
+      }
       if (serverContext.currentPage) {
         if (!isNaN(parseInt(serverContext.currentPage))) {
           context.currentPage = parseInt(serverContext.currentPage);
@@ -4285,6 +4349,12 @@ const {
       }
       if (serverContext.terms) {
         context.terms = serverContext.terms;
+      }
+      if (serverContext.filters) {
+        context.filters = serverContext.filters;
+      }
+      if (typeof serverContext.currentSort !== 'undefined') {
+        context.currentSort = serverContext.currentSort;
       }
     }
   }

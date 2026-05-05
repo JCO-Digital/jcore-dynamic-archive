@@ -161,6 +161,8 @@ $context['posts'] = $final_posts ?? $timber_posts;
 $taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
 $sort_key     = build_param_name( 'sort', $attributes['instanceId'] ?? '' );
 
+$context['sort_param_name'] = $sort_key;
+
 $interactivity_context = array(
 	'currentPage'      => $current_page ?? 1,
 	'isInfiniteScroll' => $attributes['infiniteScroll'] ?? false,
@@ -169,6 +171,7 @@ $interactivity_context = array(
 		$taxonomy_key => get_parameter( $taxonomy_key, array() ),
 		$sort_key     => get_parameter( $sort_key ),
 	),
+	'currentSort'      => get_parameter( $sort_key ),
 	'terms'            => $context['taxonomies_filter'],
 	'blockId'          => $attributes['instanceId'],
 );

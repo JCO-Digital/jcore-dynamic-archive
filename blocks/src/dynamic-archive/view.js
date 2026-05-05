@@ -253,6 +253,7 @@ const { state } = store('jcore/dynamic-archive', {
 			const context = getContext();
 			const { filters, blockId } = context;
 			const sortKey = buildParamName(blockId, 'sort');
+			context.currentSort = event.target.value;
 			filters[sortKey] = event.target.value;
 
 			const url = new URL(window.location.href);
@@ -392,6 +393,9 @@ const { state } = store('jcore/dynamic-archive', {
 			// Handles updating the current page number from the server.
 			const context = getContext();
 			const serverContext = getServerContext();
+			if (!serverContext) {
+				return;
+			}
 			if (serverContext.currentPage) {
 				if (!isNaN(parseInt(serverContext.currentPage))) {
 					context.currentPage = parseInt(serverContext.currentPage);
@@ -399,6 +403,12 @@ const { state } = store('jcore/dynamic-archive', {
 			}
 			if (serverContext.terms) {
 				context.terms = serverContext.terms;
+			}
+			if (serverContext.filters) {
+				context.filters = serverContext.filters;
+			}
+			if (typeof serverContext.currentSort !== 'undefined') {
+				context.currentSort = serverContext.currentSort;
 			}
 		},
 	},
