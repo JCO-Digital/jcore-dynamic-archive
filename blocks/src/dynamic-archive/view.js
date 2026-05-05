@@ -43,15 +43,8 @@ const isValidEvent = (event) =>
  * @returns {[*,*]}
  */
 const parseAttributes = (event, ref, attributes) => {
-	if (
-		getNestedValue(attributes, ['data-filter-type'], undefined) ===
-		'dropdown'
-	) {
-		const taxonomyName = getNestedValue(
-			attributes,
-			['data-taxonomy'],
-			undefined
-		);
+	if (getNestedValue(attributes, ['data-filter-type'], undefined) === 'dropdown') {
+		const taxonomyName = getNestedValue(attributes, ['data-taxonomy'], undefined);
 		const value = getNestedValue(event, ['target', 'value'], undefined);
 		return [
 			getNestedValue(attributes, ['data-filter-type'], undefined),
@@ -60,11 +53,7 @@ const parseAttributes = (event, ref, attributes) => {
 			getNestedValue(attributes, ['data-is-child'], false),
 		];
 	}
-	const taxonomyName = getNestedValue(
-		attributes,
-		['data-taxonomy'],
-		undefined
-	);
+	const taxonomyName = getNestedValue(attributes, ['data-taxonomy'], undefined);
 	const value = getNestedValue(attributes, ['data-term'], undefined);
 	return [
 		getNestedValue(attributes, ['data-filter-type'], undefined),
@@ -175,14 +164,11 @@ const setupFilter = (filters, taxonomyKey, taxonomyName) => {
  */
 const handleToggle = (filters, taxonomyKey, taxonomyName, value) => {
 	if (filters[taxonomyKey][taxonomyName].includes(value)) {
-		filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][
-			taxonomyName
-		].filter((item) => item !== value);
+		filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][taxonomyName].filter(
+			(item) => item !== value
+		);
 	} else {
-		filters[taxonomyKey][taxonomyName] = [
-			...(filters[taxonomyKey][taxonomyName] || []),
-			value,
-		];
+		filters[taxonomyKey][taxonomyName] = [...(filters[taxonomyKey][taxonomyName] || []), value];
 	}
 };
 
@@ -207,18 +193,15 @@ const handleRadio = (filters, taxonomyKey, taxonomyName, value) => {
 	if (filters[taxonomyKey][taxonomyName].includes(value)) {
 		// If the value is a child, then only remove the child (since we don't want to remove the parent)
 		if (isChild) {
-			filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][
-				taxonomyName
-			].filter((term) => term !== value);
+			filters[taxonomyKey][taxonomyName] = filters[taxonomyKey][taxonomyName].filter(
+				(term) => term !== value
+			);
 			return;
 		}
 		filters[taxonomyKey][taxonomyName] = [];
 	} else if (isChild) {
 		// If the value is a child term, then add it (don't overwrite the parent)
-		filters[taxonomyKey][taxonomyName] = [
-			...(filters[taxonomyKey][taxonomyName] || []),
-			value,
-		];
+		filters[taxonomyKey][taxonomyName] = [...(filters[taxonomyKey][taxonomyName] || []), value];
 	} else {
 		// If the value is a parent term, then overwrite the filters.
 		filters[taxonomyKey][taxonomyName] = [value];
@@ -232,54 +215,68 @@ const { state } = store('jcore/dynamic-archive', {
 			if (!context.terms) {
 				return {};
 			}
-			return Object.entries(context.terms).reduce(
-				(acc, [taxonomyName, taxonomy]) => {
-					if (!taxonomy.hierarchical) {
-						return acc;
-					}
-					const children = taxonomy.terms
-						.filter((term) => term.isChild)
-						.map((term) => term.id);
-					if (children.length > 0) {
-						acc[taxonomyName] = children;
-					}
+			return Object.entries(context.terms).reduce((acc, [taxonomyName, taxonomy]) => {
+				if (!taxonomy.hierarchical) {
 					return acc;
-				},
-				{}
-			);
+				}
+				const children = taxonomy.terms
+					.filter((term) => term.isChild)
+					.map((term) => term.id);
+				if (children.length > 0) {
+					acc[taxonomyName] = children;
+				}
+				return acc;
+			}, {});
 		},
 		get filterTypes() {
 			const context = getContext();
 			if (!context.terms) {
 				return {};
 			}
-			return Object.entries(context.terms).reduce(
-				(acc, [taxonomyName, taxonomy]) => {
-					let types = {
-						type: taxonomy.filterType,
+			return Object.entries(context.terms).reduce((acc, [taxonomyName, taxonomy]) => {
+				let types = {
+					type: taxonomy.filterType,
+				};
+				if (taxonomy.hierarchical) {
+					types = {
+						...types,
+						childType: taxonomy.filterTypeChild,
 					};
-					if (taxonomy.hierarchical) {
-						types = {
-							...types,
-							childType: taxonomy.filterTypeChild,
-						};
-					}
-					acc[taxonomyName] = types;
-					return acc;
-				},
-				{}
-			);
+				}
+				acc[taxonomyName] = types;
+				return acc;
+			}, {});
 		},
 	},
 	actions: {
+		*sortChange(event) {
+			const context = getContext();
+			const { filters, blockId } = context;
+			const sortKey = buildParamName(blockId, 'sort');
+			filters[sortKey] = event.target.value;
+
+			const url = new URL(window.location.href);
+			const parsedUrl = qs.parse(url.search.replaceAll('?', ''));
+			const urlState = {
+				...parsedUrl,
+				...filters,
+			};
+			delete urlState[buildParamName(blockId, 'paged')];
+
+			url.search = qs.stringify(urlState, {
+				encode: false,
+			});
+			const newUrl = url.toString();
+
+			context.isLoading = true;
+			const { actions } = yield import('@wordpress/interactivity-router');
+			yield actions.navigate(newUrl);
+			context.isLoading = false;
+		},
 		*filterChange(event) {
 			const element = getElement();
 			const { attributes } = element;
-			const [type, taxonomyName, value] = parseAttributes(
-				event,
-				element.ref,
-				attributes
-			);
+			const [type, taxonomyName, value] = parseAttributes(event, element.ref, attributes);
 			// Bail early if we don't have a taxonomy name.
 			if (!taxonomyName) {
 				return;
@@ -341,9 +338,7 @@ const { state } = store('jcore/dynamic-archive', {
 			const context = getContext();
 			/** @type {HTMLAnchorElement} */
 			const ref = element.ref;
-			const parentEl = ref.closest(
-				'[data-wp-interactive="jcore/dynamic-archive"]'
-			);
+			const parentEl = ref.closest('[data-wp-interactive="jcore/dynamic-archive"]');
 			if (!isValidLink(ref) || !isValidEvent(event)) {
 				return;
 			}

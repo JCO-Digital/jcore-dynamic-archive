@@ -37,6 +37,14 @@
       "type": "boolean",
       "default": false
     },
+    "showSort": {
+      "type": "boolean",
+      "default": false
+    },
+    "sortOptions": {
+      "type": "array",
+      "default": []
+    },
     "sticky": {
       "type": "string",
       "default": "include",

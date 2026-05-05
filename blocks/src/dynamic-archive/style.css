@@ -1,0 +1,14 @@
+.wp-block-jcore-dynamic-archive__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	align-items: flex-start;
+	margin-bottom: 24px;
+}
+
+.wp-block-jcore-dynamic-archive__filters__sort select {
+	padding: 8px 12px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	background-color: #fff;
+}

@@ -37,20 +37,37 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 		$paged                   = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
 		$args['posts_per_page'] *= $paged;
 	}
-	$order = get_parameter( build_param_name( 'order', $instance_id ), $attributes['order'] ?? 'desc' );
-	$order = match ( strtolower( $order ) ) {
-		'asc'  => 'asc',
-		default => 'desc',
-	};
-	$args['order']   = strtoupper( $order );
-	$args['orderby'] = get_parameter( build_param_name( 'orderby', $instance_id ), $attributes['orderBy'] ?? 'date' );
+	$sort = get_parameter( build_param_name( 'sort', $instance_id ) );
+	if ( $sort ) {
+		if ( str_starts_with( $sort, 'tax:' ) ) {
+			$args['jcore_dynamic_archive_sort_taxonomy'] = str_replace( 'tax:', '', $sort );
+		} elseif ( str_contains( $sort, '-' ) ) {
+			$parts           = explode( '-', $sort );
+			$args['orderby'] = $parts[0];
+			$args['order']   = strtoupper( $parts[1] );
+		} else {
+			$args['orderby'] = $sort;
+			$args['order']   = 'ASC';
+		}
+	} else {
+		$order = get_parameter( build_param_name( 'order', $instance_id ), $attributes['order'] ?? 'desc' );
+		$order = match ( strtolower( $order ) ) {
+			'asc'   => 'asc',
+			default => 'desc',
+		};
+
+		$args['order']   = strtoupper( $order );
+		$args['orderby'] = get_parameter( build_param_name( 'orderby', $instance_id ), $attributes['orderBy'] ?? 'date' );
+	}
 
 	// Load all posts regardless of language.
 	if ( $attributes['showAllLanguages'] ) {
 		$args['lang'] = '';
 	}
 
-	return handle_taxonomies_filter( $args, $attributes );
+	$args = handle_taxonomies_filter( $args, $attributes );
+
+	return handle_taxonomy_sorting( $args, $attributes );
 }
 
 /**
@@ -143,6 +160,46 @@ function handle_taxonomies_filter( array $args, array $attributes ): array {
 	 */
 	return apply_filters( 'jcore_dynamic_archive_tax_query', $args, $attributes, $all_filters );
 }
+
+/**
+ * Handles sorting by taxonomy.
+ *
+ * @param array $args The arguments to handle.
+ * @param array $attributes The attributes of the dynamic archive block.
+ *
+ * @return array
+ */
+function handle_taxonomy_sorting( array $args, array $attributes ): array {
+	if ( ! isset( $args['jcore_dynamic_archive_sort_taxonomy'] ) ) {
+		return $args;
+	}
+
+	/**
+	 * Filters the arguments for taxonomy sorting.
+	 *
+	 * @param array $args The arguments to handle.
+	 * @param array $attributes The attributes of the dynamic archive block.
+	 */
+	return apply_filters( 'jcore_dynamic_archive_handle_taxonomy_sorting', $args, $attributes );
+}
+
+add_filter(
+	'posts_clauses',
+	function ( $clauses, $query ) {
+		global $wpdb;
+		$taxonomy = $query->get( 'jcore_dynamic_archive_sort_taxonomy' );
+		if ( $taxonomy ) {
+			$clauses['join']   .= " LEFT JOIN {$wpdb->term_relationships} tr ON {$wpdb->posts}.ID = tr.object_id";
+			$clauses['join']   .= " LEFT JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id AND tt.taxonomy = " . $wpdb->prepare( '%s', $taxonomy );
+			$clauses['join']   .= " LEFT JOIN {$wpdb->terms} t ON tt.term_id = t.term_id";
+			$clauses['groupby'] = "{$wpdb->posts}.ID";
+			$clauses['orderby'] = "t.name ASC, " . $clauses['orderby'];
+		}
+		return $clauses;
+	},
+	10,
+	2
+);
 
 /**
  * Builds a parameter name for the dynamic archive block, based on the instance id and the parameter name.
@@ -399,4 +456,45 @@ function build_pagination_url( array $attributes, int $page ): string {
 	$param_name = rawurlencode( build_param_name( 'paged', $attributes['instanceId'] ?? '' ) );
 	$url        = remove_query_arg( $param_name, $url );
 	return rawurldecode( add_query_arg( $param_name, absint( $page ), $url ) );
+}
+
+/**
+ * Handles generating the sort options for the dynamic archive block.
+ *
+ * @param array $attributes The attributes of the dynamic archive block.
+ *
+ * @return array
+ */
+function build_sort_options( array $attributes ): array {
+	if ( ! ( $attributes['showSort'] ?? false ) ) {
+		return array();
+	}
+	$instance_id      = $attributes['instanceId'] ?? '';
+	$selected_options = $attributes['sortOptions'] ?? array();
+	$current_sort     = get_parameter( build_param_name( 'sort', $instance_id ) );
+
+	$all_options = array(
+		'date-DESC'  => __( 'Newest -> Oldest', 'jcore-dynamic-archive' ),
+		'date-ASC'   => __( 'Oldest -> Newest', 'jcore-dynamic-archive' ),
+		'post_title' => __( 'Title', 'jcore-dynamic-archive' ),
+	);
+
+	// Add taxonomies.
+	$taxonomies = get_object_taxonomies( $attributes['postType'], 'objects' );
+	foreach ( $taxonomies as $taxonomy ) {
+		$all_options[ 'tax:' . $taxonomy->name ] = $taxonomy->label;
+	}
+
+	$sort_options = array();
+	foreach ( $selected_options as $option_value ) {
+		if ( isset( $all_options[ $option_value ] ) ) {
+			$sort_options[] = array(
+				'value'    => $option_value,
+				'label'    => $all_options[ $option_value ],
+				'selected' => $current_sort === $option_value,
+			);
+		}
+	}
+
+	return $sort_options;
 }

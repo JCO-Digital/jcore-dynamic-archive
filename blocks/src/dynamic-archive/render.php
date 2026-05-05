@@ -12,6 +12,7 @@ use Timber\FunctionWrapper;
 use Timber\URLHelper;
 use function Jcore\DynamicArchive\Helpers\build_pagination_url;
 use function Jcore\DynamicArchive\Helpers\build_param_name;
+use function Jcore\DynamicArchive\Helpers\build_sort_options;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
 use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
@@ -33,6 +34,7 @@ if ( ! is_post_type( $attributes['postType'] ?? '' ) ) {
 
 $context['block_wrapper_attributes'] = new FunctionWrapper( 'get_block_wrapper_attributes' );
 $context['taxonomies_filter']        = build_taxonomies_filter( $attributes );
+$context['sort_options']             = build_sort_options( $attributes );
 
 $block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 );
 $args           = array(
@@ -157,6 +159,7 @@ if ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll
 $context['posts'] = $final_posts ?? $timber_posts;
 
 $taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
+$sort_key     = build_param_name( 'sort', $attributes['instanceId'] ?? '' );
 
 $interactivity_context = array(
 	'currentPage'      => $current_page ?? 1,
@@ -164,6 +167,7 @@ $interactivity_context = array(
 	'showAllLanguages' => $attributes['showAllLanguages'] ?? false,
 	'filters'          => array(
 		$taxonomy_key => get_parameter( $taxonomy_key, array() ),
+		$sort_key     => get_parameter( $sort_key ),
 	),
 	'terms'            => $context['taxonomies_filter'],
 	'blockId'          => $attributes['instanceId'],
