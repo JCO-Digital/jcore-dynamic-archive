@@ -152,18 +152,31 @@ export default function Edit({ attributes, setAttributes, context }) {
 
 	const availableSortOptions = [
 		{
-			label: __('Newest -> Oldest', 'jcore-dynamic-archive'),
+			label: __('Date ↓', 'jcore-dynamic-archive'),
 			value: 'date-DESC',
 		},
 		{
-			label: __('Oldest -> Newest', 'jcore-dynamic-archive'),
+			label: __('Date ↑', 'jcore-dynamic-archive'),
 			value: 'date-ASC',
 		},
-		{ label: __('Title', 'jcore-dynamic-archive'), value: 'post_title' },
-		...taxonomyOptions.map((t) => ({
-			label: t.label,
-			value: `tax:${t.value}`,
-		})),
+		{
+			label: __('Title ↑', 'jcore-dynamic-archive'),
+			value: 'title-ASC',
+		},
+		{
+			label: __('Title ↓', 'jcore-dynamic-archive'),
+			value: 'title-DESC',
+		},
+		...taxonomyOptions.flatMap((t) => [
+			{
+				label: `${t.label} ↑`,
+				value: `tax:${t.value}-ASC`,
+			},
+			{
+				label: `${t.label} ↓`,
+				value: `tax:${t.value}-DESC`,
+			},
+		]),
 	];
 
 	const filterTypesOptions = [
@@ -366,7 +379,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 														)
 															? taxonomies.filter(
 																	(t) => t !== taxonomy.value
-																)
+															  )
 															: [...taxonomies, taxonomy.value],
 													})
 												}
@@ -406,11 +419,11 @@ export default function Edit({ attributes, setAttributes, context }) {
 																? __(
 																		'Filter type (Parent categories)',
 																		'jcore-dynamic-archive'
-																	)
+																  )
 																: __(
 																		'Filter type',
 																		'jcore-dynamic-archive'
-																	)
+																  )
 														}
 														value={filterTypes[taxonomy.value]}
 														options={filterTypesOptions}

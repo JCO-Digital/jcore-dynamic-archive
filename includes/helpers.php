@@ -40,7 +40,18 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 	$sort = get_parameter( build_param_name( 'sort', $instance_id ) );
 	if ( $sort ) {
 		if ( str_starts_with( $sort, 'tax:' ) ) {
-			$args['jcore_dynamic_archive_sort_taxonomy'] = str_replace( 'tax:', '', $sort );
+			$tax_sort = str_replace( 'tax:', '', $sort );
+			if ( str_contains( $tax_sort, '-' ) ) {
+				$parts                                       = explode( '-', $tax_sort );
+				$args['jcore_dynamic_archive_sort_taxonomy'] = $parts[0];
+				$args['jcore_dynamic_archive_sort_order']    = strtoupper( $parts[1] );
+			} else {
+				$args['jcore_dynamic_archive_sort_taxonomy'] = $tax_sort;
+				$args['jcore_dynamic_archive_sort_order']    = 'ASC';
+			}
+			// Set a default orderby so WP_Query generates an ORDER BY clause we can prepend to.
+			$args['orderby'] = 'post_date';
+			$args['order']   = $args['jcore_dynamic_archive_sort_order'];
 		} elseif ( str_contains( $sort, '-' ) ) {
 			$parts           = explode( '-', $sort );
 			$args['orderby'] = $parts[0];
@@ -48,6 +59,13 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 		} else {
 			$args['orderby'] = $sort;
 			$args['order']   = 'ASC';
+		}
+
+		// Ensure orderby values are compatible with WP_Query.
+		if ( 'date' === $args['orderby'] ) {
+			$args['orderby'] = 'post_date';
+		} elseif ( 'title' === $args['orderby'] ) {
+			$args['orderby'] = 'post_title';
 		}
 	} else {
 		$order = get_parameter( build_param_name( 'order', $instance_id ), $attributes['order'] ?? 'desc' );
@@ -58,6 +76,13 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 
 		$args['order']   = strtoupper( $order );
 		$args['orderby'] = get_parameter( build_param_name( 'orderby', $instance_id ), $attributes['orderBy'] ?? 'date' );
+
+		// Ensure orderby values are compatible with WP_Query.
+		if ( 'date' === $args['orderby'] ) {
+			$args['orderby'] = 'post_date';
+		} elseif ( 'title' === $args['orderby'] ) {
+			$args['orderby'] = 'post_title';
+		}
 	}
 
 	// Load all posts regardless of language.
@@ -188,12 +213,25 @@ add_filter(
 	function ( $clauses, $query ) {
 		global $wpdb;
 		$taxonomy = $query->get( 'jcore_dynamic_archive_sort_taxonomy' );
+		$order    = strtoupper( $query->get( 'jcore_dynamic_archive_sort_order' ) ?: 'ASC' );
 		if ( $taxonomy ) {
-			$clauses['join']   .= " LEFT JOIN {$wpdb->term_relationships} tr ON {$wpdb->posts}.ID = tr.object_id";
-			$clauses['join']   .= " LEFT JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id AND tt.taxonomy = " . $wpdb->prepare( '%s', $taxonomy );
-			$clauses['join']   .= " LEFT JOIN {$wpdb->terms} t ON tt.term_id = t.term_id";
-			$clauses['groupby'] = "{$wpdb->posts}.ID";
-			$clauses['orderby'] = "t.name ASC, " . $clauses['orderby'];
+			$clauses['join'] .= " LEFT JOIN {$wpdb->term_relationships} AS jcore_tr ON {$wpdb->posts}.ID = jcore_tr.object_id";
+			$clauses['join'] .= " LEFT JOIN {$wpdb->term_taxonomy} AS jcore_tt ON jcore_tr.term_taxonomy_id = jcore_tt.term_taxonomy_id AND jcore_tt.taxonomy = " . $wpdb->prepare( '%s', $taxonomy );
+			$clauses['join'] .= " LEFT JOIN {$wpdb->terms} AS jcore_t ON jcore_tt.term_id = jcore_t.term_id";
+
+			if ( empty( $clauses['groupby'] ) ) {
+				$clauses['groupby'] = "{$wpdb->posts}.ID";
+			} elseif ( ! str_contains( $clauses['groupby'], "{$wpdb->posts}.ID" ) ) {
+				$clauses['groupby'] .= ", {$wpdb->posts}.ID";
+			}
+
+			$aggregate   = 'ASC' === $order ? 'MIN' : 'MAX';
+			$tax_orderby = "$aggregate(jcore_t.name) $order";
+			if ( ! empty( $clauses['orderby'] ) ) {
+				$clauses['orderby'] = "$tax_orderby, {$clauses['orderby']}";
+			} else {
+				$clauses['orderby'] = $tax_orderby;
+			}
 		}
 		return $clauses;
 	},
@@ -474,15 +512,17 @@ function build_sort_options( array $attributes ): array {
 	$current_sort     = get_parameter( build_param_name( 'sort', $instance_id ) );
 
 	$all_options = array(
-		'date-DESC'  => __( 'Newest -> Oldest', 'jcore-dynamic-archive' ),
-		'date-ASC'   => __( 'Oldest -> Newest', 'jcore-dynamic-archive' ),
-		'post_title' => __( 'Title', 'jcore-dynamic-archive' ),
+		'date-DESC'       => __( 'Date ↓', 'jcore-dynamic-archive' ),
+		'date-ASC'        => __( 'Date ↑', 'jcore-dynamic-archive' ),
+		'post_title-ASC'  => __( 'Title ↑', 'jcore-dynamic-archive' ),
+		'post_title-DESC' => __( 'Title ↓', 'jcore-dynamic-archive' ),
 	);
 
 	// Add taxonomies.
 	$taxonomies = get_object_taxonomies( $attributes['postType'], 'objects' );
 	foreach ( $taxonomies as $taxonomy ) {
-		$all_options[ 'tax:' . $taxonomy->name ] = $taxonomy->label;
+		$all_options[ 'tax:' . $taxonomy->name . '-ASC' ]  = $taxonomy->label . ' ↑';
+		$all_options[ 'tax:' . $taxonomy->name . '-DESC' ] = $taxonomy->label . ' ↓';
 	}
 
 	$sort_options = array();

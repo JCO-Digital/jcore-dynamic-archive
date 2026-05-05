@@ -689,18 +689,24 @@ function Edit({
     }
   }, [_taxonomies]);
   const availableSortOptions = [{
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Newest -> Oldest', 'jcore-dynamic-archive'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Date ↓', 'jcore-dynamic-archive'),
     value: 'date-DESC'
   }, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Oldest -> Newest', 'jcore-dynamic-archive'),
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Date ↑', 'jcore-dynamic-archive'),
     value: 'date-ASC'
   }, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Title', 'jcore-dynamic-archive'),
-    value: 'post_title'
-  }, ...taxonomyOptions.map(t => ({
-    label: t.label,
-    value: `tax:${t.value}`
-  }))];
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Title ↑', 'jcore-dynamic-archive'),
+    value: 'title-ASC'
+  }, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Title ↓', 'jcore-dynamic-archive'),
+    value: 'title-DESC'
+  }, ...taxonomyOptions.flatMap(t => [{
+    label: `${t.label} ↑`,
+    value: `tax:${t.value}-ASC`
+  }, {
+    label: `${t.label} ↓`,
+    value: `tax:${t.value}-DESC`
+  }])];
   const filterTypesOptions = [{
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Checkbox', 'jcore-dynamic-archive'),
     value: 'checkbox'
