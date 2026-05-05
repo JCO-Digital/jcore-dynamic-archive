@@ -1,7 +1,7 @@
 <option
 	data-taxonomy="{{ term.type }}"
-	data-term="{{ term.id }}"
-	value="{{ term.id }}"
+	data-term="{{ attribute(term, taxonomy_field_type) }}"
+	value="{{ attribute(term, taxonomy_field_type) }}"
 	{% if term.active %}
 		selected="selected"
 	{% endif %}

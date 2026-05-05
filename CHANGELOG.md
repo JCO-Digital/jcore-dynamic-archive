@@ -1,45 +1,59 @@
-## [0.16.4](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.3...v0.16.4) (2025-11-19)
+## [0.23.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.23.0...v0.23.1) (2026-04-22)
 
 
 ### Bug Fixes
 
-* added composer installers. ([d87e8b7](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d87e8b7825fdbdcb658e9aaf0002c5a493c917b5))
+* update URL handling in helper functions to prevent XSS ([f4619eb](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f4619eb6ac459fe28c24b7ce5cfbba4b9ce5dd67))
 
 
 
-## [0.16.3](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.2...v0.16.3) (2025-11-14)
-
-
-### Bug Fixes
-
-* require v3 or v4 of ydin ([7b29371](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7b29371d69f5a75c6a47bd84397455a5751023be))
-
-
-
-## [0.16.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.1...v0.16.2) (2025-11-03)
-
-
-### Bug Fixes
-
-* **latest-posts:** add similar filter as with dynamic-archive for the post query args ([554fdb0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/554fdb00e50de997b108a38afac4d8bacbf567b5))
-
-
-
-## [0.16.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.16.0...v0.16.1) (2025-10-31)
-
-
-### Bug Fixes
-
-* Update tax query relation to use a filter for improved flexibility ([21613c4](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/21613c481ff3f0f219245449f8976c68afdf30f6))
-
-
-
-# [0.16.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.15.1...v0.16.0) (2025-09-12)
+# [0.23.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.22.0...v0.23.0) (2026-04-02)
 
 
 ### Features
 
-* Add "Show all" option for radio filters and update translations. ✨ 🌐 ([f726025](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f7260252e0221230eac28fdb2ddb3c2de759e04d))
+* add backfill option to latest posts block for improved post retrieval ([4b2a8ba](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4b2a8bae6e665e02818b21f530b6b72775717cb1))
+* add heading support to latest posts block and improve code formatting ([1ad8e32](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/1ad8e3238569aa6705c77206886dc9679f9e8c15))
+
+
+
+# [0.22.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.21.0...v0.22.0) (2026-03-30)
+
+
+### Features
+
+* add sorting for taxonomy terms by name in dynamic archive block ([210f548](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/210f548d3b68d4ac41dc4eba455affdc167491ce))
+* enhance dynamic archive block with improved taxonomy filtering. ([fb717f2](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb717f2a05f82f58552b344e25a4b225a87157fb))
+* implement caching for term usage by post type in dynamic archive ([defe6b9](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/defe6b9ed3779f4c44e2a47ef68a8da8b818d158))
+
+
+
+# [0.21.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.20.0...v0.21.0) (2026-03-27)
+
+
+### Bug Fixes
+
+* actually allow overriding pagination by changing first path. ([fd2a07a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fd2a07aaf2a8551e76d9bcd633b5dc724accfb69))
+* ensure posts are only fetched if published in dynamic-archive block ([bb10d72](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/bb10d72f963de20d016e8661a48305cefbf7f324))
+
+
+### Features
+
+* correctly use a label for the search input to improve a11y. ([39a4c84](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/39a4c843e8130e115f10a0b216a607bf0f6cab55))
+
+
+
+# [0.20.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.19.1...v0.20.0) (2026-02-23)
+
+
+### Bug Fixes
+
+* Ensure taxonomies filter is applied correctly in latest posts block rendering ([da7b92b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/da7b92bbb4644b89f4cb4d3d671d1c8ffa566e74))
+
+
+### Features
+
+* improved inherit option to actually query by current category ([f5680b0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f5680b03381a22fbffba583d8599b49ca01d6585))
 
 
 

@@ -585,7 +585,8 @@ function Edit({
     hierarchicalFilter,
     inherit,
     showSort,
-    sortOptions
+    sortOptions,
+    search
   } = attributes;
   const {
     isSingular
@@ -878,12 +879,26 @@ function Edit({
             __nextHasNoMarginBottom: true
           }, option.value))]
         })]
-      }), !inherit && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
+      }), !inherit && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Filters', 'jcore-dynamic-archive'),
         icon: taxonomiesLoading ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Spinner, {
           size: 5
         }) : _wordpress_icons__WEBPACK_IMPORTED_MODULE_18__["default"],
-        children: !taxonomiesLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.Fragment, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_shared_components_ToggleWrapper__WEBPACK_IMPORTED_MODULE_10__["default"], {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text search', 'jcore-dynamic-archive'),
+          checked: search,
+          setAttributes: setAttributes,
+          attributeName: "search",
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.TextControl, {
+            label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Text search label', 'jcore-dynamic-archive'),
+            value: attributes.searchLabel,
+            onChange: value => setAttributes({
+              searchLabel: value
+            }),
+            __nextHasNoMarginBottom: true,
+            __next40pxDefaultSize: true
+          })
+        }), !taxonomiesLoading && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.Fragment, {
           children: [taxonomyOptions.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
             children: "Filters to show"
           }), taxonomyOptions.length === 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("p", {
@@ -950,7 +965,7 @@ function Edit({
               }, taxonomy.id);
             })
           })]
-        })
+        })]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)("div", _objectSpread(_objectSpread({}, (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_4__.useBlockProps)()), {}, {
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_15__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_7__.Disabled, {
@@ -2007,7 +2022,7 @@ function _typeof(o) {
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"jcore/dynamic-archive","version":"0.1.0","title":"Dynamic Archive","category":"widgets","icon":"grid-view","description":"A dynamic archive block.","example":{},"supports":{"html":false,"align":true,"interactivity":true},"usesContext":["templateSlug"],"attributes":{"inherit":{"type":"boolean","default":false},"instanceId":{"type":"string","default":""},"postType":{"type":"string","default":"post"},"hideChildren":{"type":"boolean","default":false},"search":{"type":"boolean","default":false},"showSort":{"type":"boolean","default":false},"sortOptions":{"type":"array","default":[]},"sticky":{"type":"string","default":"include","enum":["include","exclude","only"]},"columns":{"type":"number","default":3},"perPage":{"type":"number"},"masonryGrid":{"type":"boolean"},"showPagination":{"type":"boolean","default":true},"showAllLanguages":{"type":"boolean","default":false},"infiniteScroll":{"type":"boolean","default":true},"order":{"type":"string","default":"DESC"},"orderBy":{"type":"string","default":"date","enum":["date","post_title","modified","author","ID","menu_order"]},"taxonomies":{"type":"array","default":[]},"filterTypes":{"type":"object","default":{}},"filterTypesChild":{"type":"object","default":{}},"forcedCategories":{"type":"object","default":{}},"hierarchicalFilter":{"type":"object","default":{}}},"textdomain":"jcore-dynamic-archive","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScriptModule":"file:./view.js"}');
+module.exports = /*#__PURE__*/JSON.parse('{"$schema":"https://schemas.wp.org/trunk/block.json","apiVersion":3,"name":"jcore/dynamic-archive","version":"0.1.0","title":"Dynamic Archive","category":"widgets","icon":"grid-view","description":"A dynamic archive block.","example":{},"supports":{"html":false,"align":true,"interactivity":true},"usesContext":["templateSlug"],"attributes":{"inherit":{"type":"boolean","default":false},"instanceId":{"type":"string","default":""},"postType":{"type":"string","default":"post"},"hideChildren":{"type":"boolean","default":false},"search":{"type":"boolean","default":false},"showSort":{"type":"boolean","default":false},"sortOptions":{"type":"array","default":[]},"searchLabel":{"type":"string","default":"Free text search"},"sticky":{"type":"string","default":"include","enum":["include","exclude","only"]},"columns":{"type":"number","default":3},"perPage":{"type":"number"},"masonryGrid":{"type":"boolean"},"showPagination":{"type":"boolean","default":true},"showAllLanguages":{"type":"boolean","default":false},"infiniteScroll":{"type":"boolean","default":true},"order":{"type":"string","default":"DESC"},"orderBy":{"type":"string","default":"date","enum":["date","post_title","modified","author","ID","menu_order"]},"taxonomies":{"type":"array","default":[]},"filterTypes":{"type":"object","default":{}},"filterTypesChild":{"type":"object","default":{}},"forcedCategories":{"type":"object","default":{}},"hierarchicalFilter":{"type":"object","default":{}}},"textdomain":"jcore-dynamic-archive","editorScript":"file:./index.js","editorStyle":"file:./index.css","style":"file:./style-index.css","render":"file:./render.php","viewScriptModule":"file:./view.js"}');
 
 /***/ })
 

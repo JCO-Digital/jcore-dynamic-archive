@@ -45,6 +45,10 @@
       "type": "array",
       "default": []
     },
+    "searchLabel": {
+      "type": "string",
+      "default": "Free text search"
+    },
     "sticky": {
       "type": "string",
       "default": "include",

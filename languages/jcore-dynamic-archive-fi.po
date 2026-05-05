@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2024-12-10T14:57:02+00:00\n"
-"PO-Revision-Date: 2025-08-28 12:58+0000\n"
+"PO-Revision-Date: 2025-11-28 15:31+0000\n"
 "Language: fi\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: jcore-dynamic-archive\n"
@@ -265,6 +265,9 @@ msgstr "Edellinen sivu"
 msgid "Radio"
 msgstr ""
 
+msgid "Search..."
+msgstr "Hae..."
+
 #: blocks/templates/dynamic-archive/partials/filter-content.twig:17
 msgid "Select"
 msgstr "Valitse"
@@ -299,6 +302,12 @@ msgstr ""
 #: blocks/build/latest-posts/index.js:112
 msgctxt "Taxonomy"
 msgid "Show only items with selected: %s"
+msgstr ""
+
+msgid "Text search"
+msgstr ""
+
+msgid "Text search label"
 msgstr ""
 
 #: blocks/build/dynamic-archive/index.js:1

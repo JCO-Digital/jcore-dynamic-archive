@@ -10,13 +10,14 @@
 use Timber\Timber;
 use Timber\FunctionWrapper;
 use Timber\URLHelper;
+use function Jcore\DynamicArchive\Helpers\build_dynamic_archive_block_base_args;
 use function Jcore\DynamicArchive\Helpers\build_pagination_url;
 use function Jcore\DynamicArchive\Helpers\build_param_name;
 use function Jcore\DynamicArchive\Helpers\build_sort_options;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
 use function Jcore\DynamicArchive\Helpers\get_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
-use function Jcore\DynamicArchive\Helpers\is_post_type;
+use function Jcore\DynamicArchive\Helpers\get_taxonomy_param_field_type;
 
 $context          = Timber::context();
 $context['block'] = $block;
@@ -28,57 +29,15 @@ if ( $parsed_url === false ) {
 }
 $context['current_path'] = $parsed_url;
 
-if ( ! is_post_type( $attributes['postType'] ?? '' ) ) {
-	$attributes['postType'] = 'post';
-}
-
 $context['block_wrapper_attributes'] = new FunctionWrapper( 'get_block_wrapper_attributes' );
-$context['taxonomies_filter']        = build_taxonomies_filter( $attributes );
+
+[ $attributes, $base_args ] = build_dynamic_archive_block_base_args( $attributes );
+$context['taxonomies_filter']        = build_taxonomies_filter( $attributes, $base_args );
 $context['sort_options']             = build_sort_options( $attributes );
 
 $block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 );
-$args           = array(
-	'post_type'      => $attributes['postType'],
-	'post__not_in'   => array( get_the_ID() ),
-	'posts_per_page' => $block_per_page,
-);
 
-// If inherit is true, we need to override the arguments with the current query.
-if ( $attributes['inherit'] ) {
-	$current_post_type = get_queried_object();
-	if ( $current_post_type instanceof WP_Post_Type ) {
-		$selected_post_type = $current_post_type;
-		$args['post_type']  = $current_post_type->name;
-	} elseif ( is_home() ) {
-		$selected_post_type = get_post_type_object( 'post' );
-		$args['post_type']  = 'post';
-	} else {
-		$selected_post_type = get_post_type_object( $attributes['postType'] );
-	}
-	$attributes['postType'] = $selected_post_type->name;
-} else {
-	$selected_post_type = get_post_type_object( $attributes['postType'] );
-}
-
-
-if ( $selected_post_type->hierarchical && $attributes['hideChildren'] === true ) {
-	$args['post_parent'] = 0;
-}
-if ( isset( $attributes['sticky'] ) || ( $attributes['inherit'] && apply_filters( 'jcore_dynamic_archive_inherit_sticky', false ) ) ) {
-	$args_to_add = match ( $attributes['sticky'] ) {
-		'exclude' => array(
-			'post__not_in' => get_option( 'sticky_posts' ),
-		),
-		'only' => array(
-			'post__in'            => get_option( 'sticky_posts' ),
-			'ignore_sticky_posts' => true, // This might seem redundant, but all it does is improve performance. See https://wordpress.stackexchange.com/questions/260941/why-ignore-sticky-posts-argument-is-in-sticky-post-query#:~:text=Explanation%20of%20the%20codex%20example%3A for more information.
-		),
-		default => array(),
-	};
-	$args = array_merge( $args, $args_to_add );
-}
-
-$args = handle_dynamic_args( $args, $attributes );
+$args = handle_dynamic_args( $base_args, $attributes );
 /**
  * Filters the dynamic archive args for the dynamic archive block.
  *
@@ -92,7 +51,7 @@ $timber_posts = Timber::get_posts(
 	$args
 );
 
-$current_page            = absint( get_parameter( build_param_name( 'paged', $attributes['instanceId'] ?? '' ), 1 ) );
+$current_page            = absint( get_parameter( build_param_name( 'archive-paged', $attributes['instanceId'] ?? '', $attributes ), 1 ) );
 $context['current_page'] = $current_page;
 
 $total_pages = absint( ceil( $timber_posts->found_posts / $block_per_page ) );
@@ -158,8 +117,8 @@ if ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll
 
 $context['posts'] = $final_posts ?? $timber_posts;
 
-$taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '' );
-$sort_key     = build_param_name( 'sort', $attributes['instanceId'] ?? '' );
+$taxonomy_key = build_param_name( 'taxonomy', $attributes['instanceId'] ?? '', $attributes );
+$sort_key     = build_param_name( 'sort', $attributes['instanceId'] ?? '', $attributes );
 
 $context['sort_param_name'] = $sort_key;
 
@@ -174,6 +133,7 @@ $interactivity_context = array(
 	'currentSort'      => get_parameter( $sort_key ),
 	'terms'            => $context['taxonomies_filter'],
 	'blockId'          => $attributes['instanceId'],
+	'searchTerm'       => get_parameter( build_param_name( 'search', $attributes['instanceId'] ?? '', $attributes ), '' ),
 );
 /**
  * Filters the interactivity context for the dynamic archive block.
@@ -190,13 +150,16 @@ wp_interactivity_state(
 	'jcore/dynamic-archive',
 	apply_filters(
 		'jcore_dynamic_archive_interactivity_state',
-		array()
+		array(
+			'prefix' => build_param_name( '', $attributes['instanceId'], $attributes ),
+		)
 	)
 );
 
 $context['interactivity_context_attribute'] = wp_interactivity_data_wp_context( $interactivity_context, 'jcore/dynamic-archive' );
 
-$context['attributes'] = $attributes;
+$context['attributes']          = $attributes;
+$context['taxonomy_field_type'] = get_taxonomy_param_field_type( $attributes );
 
 $rendered = Timber::compile( 'dynamic-archive/archive.twig', $context );
 

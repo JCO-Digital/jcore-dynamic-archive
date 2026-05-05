@@ -4,9 +4,11 @@ import {
 	getServerContext,
 	splitTask,
 	store,
+	withScope,
 } from '@wordpress/interactivity';
 import qs from 'qs';
 import { cloneDeep } from 'es-toolkit/object';
+import { debounce } from 'es-toolkit/function';
 import _debug from 'debug';
 const debug = _debug('dynamic-archive:frontend');
 
@@ -17,7 +19,7 @@ const debug = _debug('dynamic-archive:frontend');
 /** @typedef {Record<FilterName, TaxonomyState>} FilterState */
 
 const buildParamName = (instanceId, name) => {
-	return `dynamic-archive-${instanceId}-${name}`;
+	return name ? `${state.prefix}-${name}` : state.prefix;
 };
 
 const isValidLink = (ref) =>
@@ -81,11 +83,15 @@ const buildFilterUrl = ({
 	currentPage,
 	type,
 	filterState,
-	taxonomyName,
+	taxonomyName = '',
 	value,
+	skipSetup = false,
+	paramName = 'taxonomy',
 }) => {
-	const taxonomyKey = buildParamName(blockId, 'taxonomy');
-	setupFilter(filterState, taxonomyKey, taxonomyName);
+	const taxonomyKey = buildParamName(blockId, paramName);
+
+	if (!skipSetup) setupFilter(filterState, taxonomyKey, taxonomyName);
+
 	switch (type) {
 		case 'checkbox':
 			handleToggle(filterState, taxonomyKey, taxonomyName, value);
@@ -96,6 +102,8 @@ const buildFilterUrl = ({
 		case 'dropdown':
 			handleRadio(filterState, taxonomyKey, taxonomyName, value);
 			break;
+		case 'text':
+			handleText(filterState, taxonomyKey, value);
 		default:
 			break;
 	}
@@ -108,9 +116,9 @@ const buildFilterUrl = ({
 	};
 	const parsedPage = parseInt(currentPage);
 	if (isInfiniteScroll && !isNaN(parsedPage) && parsedPage > 1) {
-		urlState[buildParamName(blockId, 'paged')] = currentPage;
+		urlState[buildParamName(blockId, 'archive-paged')] = currentPage;
 	} else {
-		delete urlState[buildParamName(blockId, 'paged')];
+		delete urlState[buildParamName(blockId, 'archive-paged')];
 	}
 	url.search = qs.stringify(urlState, {
 		encode: false,
@@ -208,6 +216,14 @@ const handleRadio = (filters, taxonomyKey, taxonomyName, value) => {
 	}
 };
 
+const handleText = (filters, taxonomyKey, value) => {
+	if (!value) {
+		filters[taxonomyKey] = [];
+		return;
+	}
+	filters[taxonomyKey] = value;
+};
+
 const { state } = store('jcore/dynamic-archive', {
 	state: {
 		get children() {
@@ -262,7 +278,7 @@ const { state } = store('jcore/dynamic-archive', {
 				...parsedUrl,
 				...filters,
 			};
-			delete urlState[buildParamName(blockId, 'paged')];
+			delete urlState[buildParamName(blockId, 'archive-paged')];
 
 			url.search = qs.stringify(urlState, {
 				encode: false,
@@ -298,6 +314,33 @@ const { state } = store('jcore/dynamic-archive', {
 			const { actions } = yield import('@wordpress/interactivity-router');
 			yield actions.navigate(newUrl);
 			context.isLoading = false;
+		},
+		*searchInputChange(event) {
+			const debouncedSearch = debounce(
+				withScope(async (event) => {
+					const value = event.target.value;
+					const context = getContext();
+
+					const { filters, blockId, isInfiniteScroll, currentPage } = context;
+					const newUrl = buildFilterUrl({
+						blockId,
+						type: 'text',
+						filterState: filters,
+						value,
+						isInfiniteScroll,
+						currentPage,
+						skipSetup: true,
+						paramName: 'search',
+					});
+					context.searchTerm = value;
+					context.isLoading = true;
+					const { actions } = await import('@wordpress/interactivity-router');
+					await actions.navigate(newUrl);
+					context.isLoading = false;
+				}),
+				500
+			); // 200ms debounce
+			debouncedSearch(event);
 		},
 		*prefetchFilter(event) {
 			const element = getElement();

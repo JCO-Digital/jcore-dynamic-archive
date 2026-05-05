@@ -24,20 +24,22 @@ function is_post_type( string $post_type ): bool {
 /**
  * Handles setting up the dynamic archive arguments.
  *
- * @param array $args The arguments to handle.
- * @param array $attributes The attributes of the dynamic archive block.
+ * @param array       $args The arguments to handle.
+ * @param array       $attributes The attributes of the dynamic archive block.
+ * @param string|null $skip_taxonomy The taxonomy to skip (for faceted filters).
  *
  * @return array
  */
-function handle_dynamic_args( array $args, array $attributes ): array {
+function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxonomy = null ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
 	if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
-		$args['paged'] = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
+		$args['paged'] = get_parameter( build_param_name( 'archive-paged', $instance_id, $attributes ), 1 );
 	} elseif ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
-		$paged                   = get_parameter( build_param_name( 'paged', $instance_id ), 1 );
+		$paged                   = get_parameter( build_param_name( 'archive-paged', $instance_id, $attributes ), 1 );
 		$args['posts_per_page'] *= $paged;
 	}
-	$sort = get_parameter( build_param_name( 'sort', $instance_id ) );
+
+	$sort = get_parameter( build_param_name( 'sort', $instance_id, $attributes ) );
 	if ( $sort ) {
 		if ( str_starts_with( $sort, 'tax:' ) ) {
 			$tax_sort = str_replace( 'tax:', '', $sort );
@@ -68,14 +70,14 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 			$args['orderby'] = 'post_title';
 		}
 	} else {
-		$order = get_parameter( build_param_name( 'order', $instance_id ), $attributes['order'] ?? 'desc' );
+		$order = get_parameter( build_param_name( 'order', $instance_id, $attributes ), $attributes['order'] ?? 'desc' );
 		$order = match ( strtolower( $order ) ) {
 			'asc'   => 'asc',
 			default => 'desc',
 		};
 
 		$args['order']   = strtoupper( $order );
-		$args['orderby'] = get_parameter( build_param_name( 'orderby', $instance_id ), $attributes['orderBy'] ?? 'date' );
+		$args['orderby'] = get_parameter( build_param_name( 'orderby', $instance_id, $attributes ), $attributes['orderBy'] ?? 'date' );
 
 		// Ensure orderby values are compatible with WP_Query.
 		if ( 'date' === $args['orderby'] ) {
@@ -90,7 +92,15 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 		$args['lang'] = '';
 	}
 
-	$args = handle_taxonomies_filter( $args, $attributes );
+	if ( $attributes['search'] ) {
+		$search = get_parameter( build_param_name( 'search', $instance_id, $attributes ), false );
+		if ( $search ) {
+			$args['s']          = sanitize_text_field( $search );
+			$args['relevanssi'] = true;
+		}
+	}
+
+	$args = handle_taxonomies_filter( $args, $attributes, $skip_taxonomy );
 
 	return handle_taxonomy_sorting( $args, $attributes );
 }
@@ -98,18 +108,22 @@ function handle_dynamic_args( array $args, array $attributes ): array {
 /**
  * Handles generating the taxonomies filter for the dynamic archive block.
  *
- * @param array $args The arguments to handle.
- * @param array $attributes The attributes of the dynamic archive block.
+ * @param array       $args The arguments to handle.
+ * @param array       $attributes The attributes of the dynamic archive block.
+ * @param string|null $skip_taxonomy The taxonomy to skip (for faceted filters).
  *
  * @return array
  */
-function handle_taxonomies_filter( array $args, array $attributes ): array {
+function handle_taxonomies_filter( array $args, array $attributes, ?string $skip_taxonomy = null ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
-	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id ), array() );
+	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
 
 	[$taxonomy_filters] = extract_taxonomy_filter_attributes( $attributes );
 
 	foreach ( $taxonomy_filters ?? array() as $taxonomy ) {
+		if ( $taxonomy === $skip_taxonomy ) {
+			continue;
+		}
 		$active_filters = get_nested_value( $all_filters, array( $taxonomy ), array() );
 		if ( empty( $active_filters ) ) {
 			continue;
@@ -240,15 +254,186 @@ add_filter(
 );
 
 /**
+ * Builds base WP_Query args for the dynamic archive block (before handle_dynamic_args).
+ *
+ * Mirrors {@see blocks/src/dynamic-archive/render.php}: defaults, singular exclusion, inherit merge,
+ * hierarchical post_parent, sticky handling.
+ *
+ * @param array $attributes Block attributes (postType normalized; may be updated when inherit is true).
+ *
+ * @return array{0: array, 1: array} [ $attributes, $args ]
+ */
+function build_dynamic_archive_block_base_args( array $attributes ): array {
+	if ( ! is_post_type( $attributes['postType'] ?? '' ) ) {
+		$attributes['postType'] = 'post';
+	}
+
+	$block_per_page = $attributes['perPage'] ?? get_site_option( 'posts_per_page', 10 );
+	$args           = array(
+		'post_type'      => $attributes['postType'],
+		'posts_per_page' => $block_per_page,
+		'post_status'    => 'publish',
+	);
+
+	if ( is_singular() ) {
+		$args['post__not_in'] = array( get_the_ID() );
+	}
+
+	if ( ! empty( $attributes['inherit'] ) ) {
+		$inherited = get_inherited_query_args();
+
+		if ( ! empty( $inherited['post_type'] ) ) {
+			$args['post_type']      = $inherited['post_type'];
+			$attributes['postType'] = is_array( $inherited['post_type'] ) ? $inherited['post_type'][0] : $inherited['post_type'];
+		}
+
+		if ( ! empty( $inherited['tax_query'] ) ) {
+			$args['tax_query'] = array_merge( $args['tax_query'] ?? array(), $inherited['tax_query'] );
+		}
+
+		if ( ! empty( $inherited['author'] ) ) {
+			$args['author'] = $inherited['author'];
+		}
+
+		if ( ! ( $attributes['search'] ?? false ) && ! empty( $inherited['s'] ) ) {
+			$args['s'] = $inherited['s'];
+		}
+
+		foreach ( array( 'year', 'monthnum', 'day' ) as $date_key ) {
+			if ( ! empty( $inherited[ $date_key ] ) ) {
+				$args[ $date_key ] = $inherited[ $date_key ];
+			}
+		}
+
+		$selected_post_type = get_post_type_object( $attributes['postType'] );
+		if ( ! $selected_post_type ) {
+			$selected_post_type = get_post_type_object( 'post' );
+		}
+		$attributes['postType'] = $selected_post_type->name;
+	} else {
+		$selected_post_type = get_post_type_object( $attributes['postType'] );
+		if ( ! $selected_post_type ) {
+			$selected_post_type = get_post_type_object( 'post' );
+		}
+	}
+
+	if ( $selected_post_type->hierarchical && ( $attributes['hideChildren'] ?? false ) === true ) {
+		$args['post_parent'] = 0;
+	}
+
+	if ( isset( $attributes['sticky'] ) || ( ! empty( $attributes['inherit'] ) && apply_filters( 'jcore_dynamic_archive_inherit_sticky', false ) ) ) {
+		$args_to_add = match ( $attributes['sticky'] ?? 'include' ) {
+			'exclude' => array(
+				'post__not_in' => get_option( 'sticky_posts' ),
+			),
+			'only' => array(
+				'post__in'            => get_option( 'sticky_posts' ),
+				'ignore_sticky_posts' => true,
+			),
+			default => array(),
+		};
+		$args = array_merge( $args, $args_to_add );
+	}
+
+	return array( $attributes, $args );
+}
+
+/**
+ * Strips pagination and limits for enumerating all matching post IDs (faceted term discovery).
+ *
+ * @param array $args WP_Query arguments.
+ *
+ * @return array
+ */
+function normalize_dynamic_archive_query_args_for_facet( array $args ): array {
+	unset( $args['paged'] );
+	$args['posts_per_page']         = -1;
+	$args['fields']                 = 'ids';
+	$args['no_found_rows']          = true;
+	$args['update_post_meta_cache'] = false;
+	$args['update_post_term_cache'] = false;
+	return $args;
+}
+
+/**
+ * Returns term IDs that appear on at least one post matching the current query, excluding URL filters for $taxonomy.
+ *
+ * @param string $taxonomy   Taxonomy slug.
+ * @param array  $attributes Block attributes (same merge as main query).
+ *
+ * @return int[] Distinct term IDs.
+ */
+function get_applicable_term_ids_for_taxonomy( string $taxonomy, array $attributes ): array {
+	[ $merged_attributes, $base_args ] = build_dynamic_archive_block_base_args( $attributes );
+	$facet_args                        = handle_dynamic_args( $base_args, $merged_attributes, $taxonomy );
+	$facet_args                        = apply_filters( 'jcore_dynamic_archive_args', $facet_args, $merged_attributes );
+	$facet_args                        = normalize_dynamic_archive_query_args_for_facet( $facet_args );
+	/**
+	 * Filters WP_Query args used to discover applicable terms for a taxonomy (faceted filters).
+	 *
+	 * @param array  $facet_args        Query args (post IDs enumeration).
+	 * @param string $taxonomy          Taxonomy being faceted.
+	 * @param array  $merged_attributes Block attributes after inherit merge.
+	 */
+	$facet_args = apply_filters( 'jcore_dynamic_archive_facet_term_query_args', $facet_args, $taxonomy, $merged_attributes );
+
+	$query = new \WP_Query( $facet_args );
+	$ids   = $query->posts;
+
+	if ( empty( $ids ) ) {
+		return array();
+	}
+
+	global $wpdb;
+	$ids_list = implode( ',', array_map( 'intval', $ids ) );
+	$taxonomy_sql = $wpdb->prepare( '%s', $taxonomy );
+
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+	$term_ids = $wpdb->get_col(
+		"SELECT DISTINCT tt.term_id
+         FROM {$wpdb->term_relationships} tr
+         JOIN {$wpdb->term_taxonomy} tt ON tr.term_taxonomy_id = tt.term_taxonomy_id
+         WHERE tr.object_id IN ($ids_list) AND tt.taxonomy = $taxonomy_sql"
+	);
+
+	return array_map( 'intval', $term_ids );
+}
+
+/**
+ * Builds the final WP_Query arguments for the dynamic archive block.
+ *
+ * @param array $attributes The attributes of the dynamic archive block.
+ *
+ * @return array The final WP_Query arguments.
+ */
+function build_dynamic_archive_query_args( array $attributes ): array {
+	[ $merged_attributes, $base_args ] = build_dynamic_archive_block_base_args( $attributes );
+	$args                              = handle_dynamic_args( $base_args, $merged_attributes );
+	return apply_filters( 'jcore_dynamic_archive_args', $args, $merged_attributes );
+}
+
+/**
  * Builds a parameter name for the dynamic archive block, based on the instance id and the parameter name.
  *
  * @param string     $name The name of the parameter.
  * @param int|string $instance_id The instance id of the dynamic archive block.
+ * @param array      $attributes The block attributes (for fetching the prefix).
  *
  * @return string
  */
-function build_param_name( string $name, int|string $instance_id ): string {
-	return 'dynamic-archive-' . $instance_id . '-' . $name;
+function build_param_name( string $name, int|string $instance_id, array $attributes = array() ): string {
+	$prefix = 'dynamic-archive-' . $instance_id;
+
+	/**
+	 * Filters the parameter name prefix for the dynamic archive block.
+	 *
+	 * @param string $prefix The parameter name prefix.
+	 * @param int|string $instance_id The instance id of the dynamic archive block.
+	 * @param array $attributes The block attributes.
+	 */
+	$prefix = apply_filters( 'jcore_dynamic_archive_param_prefix', $prefix, $instance_id, $attributes );
+
+	return $prefix . ( empty( $name ) ? '' : '-' . $name );
 }
 
 /**
@@ -405,16 +590,17 @@ function extract_taxonomy_filter_attributes( array $attributes ): array {
  * Handles constructing the taxonomies filter for the dynamic archive block.
  *
  * @param array $attributes The attributes of the dynamic archive block.
+ * @param array $base_args The base query arguments.
  *
  * @return array
  */
-function build_taxonomies_filter( array $attributes ): array {
+function build_taxonomies_filter( array $attributes, array $base_args = array() ): array {
 	// Extract the taxonomy filters, filter types, filter types child, and hierarchical filter from the attributes.
 	[$taxonomy_filters, $filter_types, $filter_types_child, $hierarchical_filter] = extract_taxonomy_filter_attributes( $attributes );
 
 	$taxonomies  = array();
 	$instance_id = $attributes['instanceId'] ?? '';
-	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id ), array() );
+	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
 
 	foreach ( $taxonomy_filters as $taxonomy ) {
 		// Get taxonomy object.
@@ -428,12 +614,15 @@ function build_taxonomies_filter( array $attributes ): array {
 		if ( ! $tax_object ) {
 			continue;
 		}
+
+		$applicable_term_ids = get_applicable_term_ids_for_taxonomy( $taxonomy, $attributes );
+
 		$active_filters = get_nested_value( $all_filters, array( $taxonomy ), array() );
 		if ( ! is_array( $active_filters ) ) {
 			$active_filters = array( $active_filters );
 		}
-		$active_filters          = array_map( 'absint', $active_filters );
-		$terms                   = get_terms(
+		$active_filters = array_map( 'absint', $active_filters );
+		$terms          = get_terms(
 			array(
 				'taxonomy'   => $taxonomy,
 				'hide_empty' => ! $attributes['showAllLanguages'], // Show empty if all languages are shown.
@@ -467,6 +656,7 @@ function build_taxonomies_filter( array $attributes ): array {
 				'parentActive' => in_array( $term->parent, $active_filters, true ),
 				'filterType'   => $filter_type,
 				'active'       => in_array( $term->term_id, $active_filters, true ),
+				'disabled'     => ! in_array( (int) $term->term_id, $applicable_term_ids, true ),
 			);
 		}
 	}
@@ -483,6 +673,24 @@ function build_taxonomies_filter( array $attributes ): array {
 }
 
 /**
+ * Returns the post type for the taxonomies filter, based on the attributes.
+ *
+ * @param array $attributes The block attributes.
+ *
+ * @return string The post type.
+ */
+function get_taxonomies_filter_post_type( array $attributes ): string {
+	if ( ! empty( $attributes['inherit'] ) ) {
+		$inherited = get_inherited_query_args();
+		if ( ! empty( $inherited['post_type'] ) ) {
+			return is_array( $inherited['post_type'] ) ? $inherited['post_type'][0] : $inherited['post_type'];
+		}
+	}
+
+	return $attributes['postType'] ?? 'post';
+}
+
+/**
  * Handles building pagination url.
  *
  * @param array $attributes The attributes of the dynamic archive block.
@@ -491,9 +699,69 @@ function build_taxonomies_filter( array $attributes ): array {
  */
 function build_pagination_url( array $attributes, int $page ): string {
 	$url        = URLHelper::get_current_url();
-	$param_name = rawurlencode( build_param_name( 'paged', $attributes['instanceId'] ?? '' ) );
+	$param_name = rawurlencode( build_param_name( 'archive-paged', $attributes['instanceId'] ?? '', $attributes ) );
 	$url        = remove_query_arg( $param_name, $url );
 	return rawurldecode( add_query_arg( $param_name, absint( $page ), $url ) );
+}
+
+/**
+ * Returns the filter field type for the taxonomy (slug or id).
+ *
+ * @param array $attributes The block attributes.
+ * @return string 'slug' or 'id'.
+ */
+function get_taxonomy_param_field_type( array $attributes ): string {
+	return apply_filters( 'jcore_dynamic_archive_taxonomy_field_type', 'id', $attributes );
+}
+
+/**
+ * Returns WP_Query-compatible arguments for the current main query (e.g. on a term or author archive).
+ *
+ * @return array
+ */
+function get_inherited_query_args(): array {
+	$args = array();
+
+	if ( is_category() || is_tag() || is_tax() ) {
+		$obj                = get_queried_object();
+		$args['post_type']  = get_post_type() ?: 'post';
+		$args['tax_query']  = array(
+			array(
+				'taxonomy' => $obj->taxonomy,
+				'field'    => 'id',
+				'terms'    => $obj->term_id,
+			),
+		);
+		$args['post_type']  = get_taxonomy( $obj->taxonomy )->object_type;
+	} elseif ( is_author() ) {
+		$args['post_type'] = get_post_type() ?: 'post';
+		$args['author']    = get_queried_object_id();
+	} elseif ( is_post_type_archive() ) {
+		$args['post_type'] = get_queried_object()->name;
+	} elseif ( is_home() ) {
+		$args['post_type'] = 'post';
+	} elseif ( is_search() ) {
+		$args['s'] = get_search_query();
+	}
+
+	if ( is_date() ) {
+		if ( is_year() ) {
+			$args['year'] = get_query_var( 'year' );
+		}
+		if ( is_month() ) {
+			$args['monthnum'] = get_query_var( 'monthnum' );
+		}
+		if ( is_day() ) {
+			$args['day'] = get_query_var( 'day' );
+		}
+	}
+
+	/**
+	 * Filters the inherited query args for the dynamic archive block.
+	 *
+	 * @param array $args The inherited query args.
+	 */
+	return apply_filters( 'jcore_dynamic_archive_inherited_query_args', $args );
 }
 
 /**
@@ -509,7 +777,7 @@ function build_sort_options( array $attributes ): array {
 	}
 	$instance_id      = $attributes['instanceId'] ?? '';
 	$selected_options = $attributes['sortOptions'] ?? array();
-	$current_sort     = get_parameter( build_param_name( 'sort', $instance_id ) );
+	$current_sort     = get_parameter( build_param_name( 'sort', $instance_id, $attributes ) );
 
 	$all_options = array(
 		'date-DESC'       => __( 'Date ↓', 'jcore-dynamic-archive' ),

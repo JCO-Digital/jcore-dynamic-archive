@@ -1,23 +1,25 @@
 /**
  * Hooks
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import usePostTypes from '@/shared/usePostTypes';
 import { applyFilters } from '@wordpress/hooks';
 import { useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { store as coreDataStore } from '@wordpress/core-data';
+import getQueryContextFromTemplate from '@/shared/useQueryContextFromTemplate';
 
 /**
  * Components
  */
-import ServerSideRender from '@wordpress/server-side-render';
+import { ServerSideRender } from '@wordpress/server-side-render';
 import { InspectorControls } from '@wordpress/block-editor';
 import {
 	PanelBody,
 	Spinner,
 	CheckboxControl,
+	ToggleControl,
 	__experimentalText as Text,
 	__experimentalVStack as VStack,
 	__experimentalHStack as HStack,
@@ -40,6 +42,7 @@ const debug = _debug('latest-posts:Edit');
  */
 import './editor.css';
 import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
+import { useEffect } from '@wordpress/element';
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -49,10 +52,12 @@ import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
  *
  * @return {Element} Element to render.
  */
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, context }) {
 	const {
 		postTypes,
 		related,
+		backfill,
+		heading,
 		columns,
 		postsPerPage,
 		order,
@@ -60,7 +65,14 @@ export default function Edit({ attributes, setAttributes }) {
 		selectedTaxonomies,
 		sticky,
 		expanded,
+		inherit,
 	} = attributes;
+
+	const { isSingular } = getQueryContextFromTemplate(context?.templateSlug);
+
+	if (isSingular === true && inherit) {
+		setAttributes({ inherit: false });
+	}
 
 	const { postTypes: _postTypes, loading: postTypeLoading } = usePostTypes();
 
@@ -115,6 +127,12 @@ export default function Edit({ attributes, setAttributes }) {
 		}
 	};
 
+	useEffect(() => {
+		if (!related) {
+			setAttributes({ backfill: false });
+		}
+	}, [related]);
+
 	return (
 		<>
 			<InspectorControls>
@@ -123,7 +141,20 @@ export default function Edit({ attributes, setAttributes }) {
 					icon={postTypeLoading ? <Spinner size={5} /> : settings}
 					initialOpen={expanded}
 				>
-					{!related && (
+					{!isSingular && !related && (
+						<ToggleControl
+							label={__(
+								'Inherit query from template',
+								'jcore-dynamic-archive'
+							)}
+							checked={inherit}
+							onChange={(checked) =>
+								setAttributes({ inherit: checked })
+							}
+							__nextHasNoMarginBottom
+						/>
+					)}
+					{!inherit && !related && (
 						<Spacer marginBottom={6}>
 							<VStack>
 								{postTypesToShow.map((postType) => (
@@ -161,82 +192,107 @@ export default function Edit({ attributes, setAttributes }) {
 							</VStack>
 						</Spacer>
 					)}
-					<Spacer marginBottom={6}>
-						<VStack>
-							{taxonomiesLoading && (
-								<HStack alignment={'left'}>
-									<Spinner />
-									<Text>
-										{__(
-											'Loading taxonomies...',
+					{!inherit && (
+						<Spacer marginBottom={6}>
+							<VStack>
+								{related && (
+									<ToggleControl
+										label={__(
+											'Backfill with other posts from the same post type',
 											'jcore-dynamic-archive'
 										)}
-									</Text>
-								</HStack>
-							)}
-							{!taxonomiesLoading && (
-								<QueryControls
-									numberOfItems={postsPerPage}
-									onNumberOfItemsChange={(value) =>
-										setAttributes({ postsPerPage: value })
-									}
-									maxItems={applyFilters(
-										'jcore.latestPosts.maxItems',
-										25
-									)}
-									minItems={1}
-									order={order}
-									orderBy={orderBy}
-									onOrderChange={(value) =>
-										setAttributes({ order: value })
-									}
-									onOrderByChange={(value) =>
-										setAttributes({ orderBy: value })
-									}
-									onCategoryChange={(value) =>
-										setAttributes({ category: value.id })
-									}
-								/>
-							)}
-							{postTypes && postTypes.includes('post') && (
-								<SelectControl
-									label={__(
-										'Sticky post behavior',
-										'jcore-dynamic-archive'
-									)}
-									options={[
-										{
-											label: __(
-												'Include',
+										checked={backfill}
+										onChange={(checked) =>
+											setAttributes({
+												backfill: checked,
+											})
+										}
+										help={__(
+											'If there are not enough related posts, fill the remaining slots with other posts from the same post type.',
+											'jcore-dynamic-archive'
+										)}
+										__nextHasNoMarginBottom
+									/>
+								)}
+								{taxonomiesLoading && (
+									<HStack alignment={'left'}>
+										<Spinner />
+										<Text>
+											{__(
+												'Loading taxonomies...',
 												'jcore-dynamic-archive'
-											),
-											value: 'include',
-										},
-										{
-											label: __(
-												'Exclude',
-												'jcore-dynamic-archive'
-											),
-											value: 'exclude',
-										},
-										{
-											label: __(
-												'Only',
-												'jcore-dynamic-archive'
-											),
-											value: 'only',
-										},
-									]}
-									onChange={(value) =>
-										setAttributes({ sticky: value })
-									}
-									value={sticky}
-									__nextHasNoMarginBottom
-									__next40pxDefaultSize
-								/>
-							)}
-						</VStack>
-					</Spacer>
+											)}
+										</Text>
+									</HStack>
+								)}
+								{!taxonomiesLoading && (
+									<QueryControls
+										numberOfItems={postsPerPage}
+										onNumberOfItemsChange={(value) =>
+											setAttributes({
+												postsPerPage: value,
+											})
+										}
+										maxItems={applyFilters(
+											'jcore.latestPosts.maxItems',
+											25
+										)}
+										minItems={1}
+										order={order}
+										orderBy={orderBy}
+										onOrderChange={(value) =>
+											setAttributes({ order: value })
+										}
+										onOrderByChange={(value) =>
+											setAttributes({ orderBy: value })
+										}
+										onCategoryChange={(value) =>
+											setAttributes({
+												category: value.id,
+											})
+										}
+									/>
+								)}
+								{postTypes && postTypes.includes('post') && (
+									<SelectControl
+										label={__(
+											'Sticky post behavior',
+											'jcore-dynamic-archive'
+										)}
+										options={[
+											{
+												label: __(
+													'Include',
+													'jcore-dynamic-archive'
+												),
+												value: 'include',
+											},
+											{
+												label: __(
+													'Exclude',
+													'jcore-dynamic-archive'
+												),
+												value: 'exclude',
+											},
+											{
+												label: __(
+													'Only',
+													'jcore-dynamic-archive'
+												),
+												value: 'only',
+											},
+										]}
+										onChange={(value) =>
+											setAttributes({ sticky: value })
+										}
+										value={sticky}
+										__nextHasNoMarginBottom
+										__next40pxDefaultSize
+									/>
+								)}
+							</VStack>
+						</Spacer>
+					)}
 				</PanelBody>
 				<PanelBody
 					title={__('Layout', 'jcore')}
@@ -258,7 +314,7 @@ export default function Edit({ attributes, setAttributes }) {
 						__next40pxDefaultSize
 					/>
 				</PanelBody>
-				{!related && (
+				{!related && !inherit && (
 					<PanelBody
 						title={__('Filters', 'jcore-dynamic-archive')}
 						icon={funnel}
@@ -291,13 +347,23 @@ export default function Edit({ attributes, setAttributes }) {
 				)}
 			</InspectorControls>
 			<div {...useBlockProps()}>
-				<Disabled isDisabled={true}>
-					<ServerSideRender
-						block="jcore/latest-posts"
-						attributes={attributes}
-						httpMethod={'POST'}
-					/>
-				</Disabled>
+				<RichText
+					tagName="h2"
+					className="wp-block-jcore-latest-posts__heading"
+					value={heading ?? ''}
+					allowedFormats={['core/bold', 'core/italic']}
+					placeholder={__('Latest posts', 'jcore-dynamic-archive')}
+					onChange={(value) => setAttributes({ heading: value })}
+				/>
+				<div className="jcore-latest-posts__preview">
+					<Disabled isDisabled={true}>
+						<ServerSideRender
+							block="jcore/latest-posts"
+							attributes={attributes}
+							httpMethod={'POST'}
+						/>
+					</Disabled>
+				</div>
 			</div>
 		</>
 	);

@@ -67,6 +67,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		inherit,
 		showSort,
 		sortOptions,
+		search,
 	} = attributes;
 	const { isSingular } = useQueryContextFromTemplate(context.templateSlug);
 
@@ -357,6 +358,20 @@ export default function Edit({ attributes, setAttributes, context }) {
 						title={__('Filters', 'jcore-dynamic-archive')}
 						icon={taxonomiesLoading ? <Spinner size={5} /> : funnel}
 					>
+						<ToggleWrapper
+							label={__('Text search', 'jcore-dynamic-archive')}
+							checked={search}
+							setAttributes={setAttributes}
+							attributeName="search"
+						>
+							<TextControl
+								label={__('Text search label', 'jcore-dynamic-archive')}
+								value={attributes.searchLabel}
+								onChange={(value) => setAttributes({ searchLabel: value })}
+								__nextHasNoMarginBottom
+								__next40pxDefaultSize
+							/>
+						</ToggleWrapper>
 						{!taxonomiesLoading && (
 							<>
 								{taxonomyOptions.length > 0 && <p>Filters to show</p>}

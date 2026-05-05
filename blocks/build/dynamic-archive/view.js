@@ -3623,6 +3623,83 @@ const float64ArrayTag = '[object Float64Array]';
 
 /***/ }),
 
+/***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/function/debounce.mjs":
+/*!*************************************************************************************************!*\
+  !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/function/debounce.mjs ***!
+  \*************************************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   debounce: () => (/* binding */ debounce)
+/* harmony export */ });
+function debounce(func, debounceMs, { signal, edges } = {}) {
+    let pendingThis = undefined;
+    let pendingArgs = null;
+    const leading = edges != null && edges.includes('leading');
+    const trailing = edges == null || edges.includes('trailing');
+    const invoke = () => {
+        if (pendingArgs !== null) {
+            func.apply(pendingThis, pendingArgs);
+            pendingThis = undefined;
+            pendingArgs = null;
+        }
+    };
+    const onTimerEnd = () => {
+        if (trailing) {
+            invoke();
+        }
+        cancel();
+    };
+    let timeoutId = null;
+    const schedule = () => {
+        if (timeoutId != null) {
+            clearTimeout(timeoutId);
+        }
+        timeoutId = setTimeout(() => {
+            timeoutId = null;
+            onTimerEnd();
+        }, debounceMs);
+    };
+    const cancelTimer = () => {
+        if (timeoutId !== null) {
+            clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+    };
+    const cancel = () => {
+        cancelTimer();
+        pendingThis = undefined;
+        pendingArgs = null;
+    };
+    const flush = () => {
+        cancelTimer();
+        invoke();
+    };
+    const debounced = function (...args) {
+        if (signal?.aborted) {
+            return;
+        }
+        pendingThis = this;
+        pendingArgs = args;
+        const isFirstCall = timeoutId == null;
+        schedule();
+        if (leading && isFirstCall) {
+            invoke();
+        }
+    };
+    debounced.schedule = schedule;
+    debounced.cancel = cancel;
+    debounced.flush = flush;
+    signal?.addEventListener('abort', cancel, { once: true });
+    return debounced;
+}
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeep.mjs":
 /*!************************************************************************************************!*\
   !*** ./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeep.mjs ***!
@@ -3949,12 +4026,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/interactivity */ "@wordpress/interactivity");
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! qs */ "./node_modules/.pnpm/qs@6.13.0/node_modules/qs/lib/index.js");
 /* harmony import */ var qs__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(qs__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var es_toolkit_object__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! es-toolkit/object */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeep.mjs");
+/* harmony import */ var es_toolkit_object__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! es-toolkit/object */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/object/cloneDeep.mjs");
+/* harmony import */ var es_toolkit_function__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! es-toolkit/function */ "./node_modules/.pnpm/es-toolkit@1.38.0/node_modules/es-toolkit/dist/function/debounce.mjs");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! debug */ "./node_modules/.pnpm/debug@4.3.7/node_modules/debug/src/browser.js");
 /* harmony import */ var debug__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(debug__WEBPACK_IMPORTED_MODULE_2__);
 
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+
 
 
 
@@ -3968,7 +4047,7 @@ const debug = debug__WEBPACK_IMPORTED_MODULE_2___default()('dynamic-archive:fron
 /** @typedef {Record<FilterName, TaxonomyState>} FilterState */
 
 const buildParamName = (instanceId, name) => {
-  return `dynamic-archive-${instanceId}-${name}`;
+  return name ? `${state.prefix}-${name}` : state.prefix;
 };
 const isValidLink = ref => ref && ref instanceof window.HTMLAnchorElement && ref.href && (!ref.target || ref.target === '_self') && ref.origin === window.location.origin;
 const isValidEvent = event => event.button === 0 &&
@@ -4017,11 +4096,13 @@ const buildFilterUrl = ({
   currentPage,
   type,
   filterState,
-  taxonomyName,
-  value
+  taxonomyName = '',
+  value,
+  skipSetup = false,
+  paramName = 'taxonomy'
 }) => {
-  const taxonomyKey = buildParamName(blockId, 'taxonomy');
-  setupFilter(filterState, taxonomyKey, taxonomyName);
+  const taxonomyKey = buildParamName(blockId, paramName);
+  if (!skipSetup) setupFilter(filterState, taxonomyKey, taxonomyName);
   switch (type) {
     case 'checkbox':
       handleToggle(filterState, taxonomyKey, taxonomyName, value);
@@ -4032,6 +4113,8 @@ const buildFilterUrl = ({
     case 'dropdown':
       handleRadio(filterState, taxonomyKey, taxonomyName, value);
       break;
+    case 'text':
+      handleText(filterState, taxonomyKey, value);
     default:
       break;
   }
@@ -4040,9 +4123,9 @@ const buildFilterUrl = ({
   let urlState = _objectSpread(_objectSpread({}, parsedUrl), filterState);
   const parsedPage = parseInt(currentPage);
   if (isInfiniteScroll && !isNaN(parsedPage) && parsedPage > 1) {
-    urlState[buildParamName(blockId, 'paged')] = currentPage;
+    urlState[buildParamName(blockId, 'archive-paged')] = currentPage;
   } else {
-    delete urlState[buildParamName(blockId, 'paged')];
+    delete urlState[buildParamName(blockId, 'archive-paged')];
   }
   url.search = qs__WEBPACK_IMPORTED_MODULE_3___default().stringify(urlState, {
     encode: false
@@ -4136,6 +4219,13 @@ const handleRadio = (filters, taxonomyKey, taxonomyName, value) => {
     filters[taxonomyKey][taxonomyName] = [value];
   }
 };
+const handleText = (filters, taxonomyKey, value) => {
+  if (!value) {
+    filters[taxonomyKey] = [];
+    return;
+  }
+  filters[taxonomyKey] = value;
+};
 const {
   state
 } = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.store)('jcore/dynamic-archive', {
@@ -4188,7 +4278,7 @@ const {
       const url = new URL(window.location.href);
       const parsedUrl = qs__WEBPACK_IMPORTED_MODULE_3___default().parse(url.search.replaceAll('?', ''));
       const urlState = _objectSpread(_objectSpread({}, parsedUrl), filters);
-      delete urlState[buildParamName(blockId, 'paged')];
+      delete urlState[buildParamName(blockId, 'archive-paged')];
       url.search = qs__WEBPACK_IMPORTED_MODULE_3___default().stringify(urlState, {
         encode: false
       });
@@ -4234,6 +4324,36 @@ const {
       yield actions.navigate(newUrl);
       context.isLoading = false;
     },
+    *searchInputChange(event) {
+      const debouncedSearch = (0,es_toolkit_function__WEBPACK_IMPORTED_MODULE_4__.debounce)((0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.withScope)(async event => {
+        const value = event.target.value;
+        const context = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.getContext)();
+        const {
+          filters,
+          blockId,
+          isInfiniteScroll,
+          currentPage
+        } = context;
+        const newUrl = buildFilterUrl({
+          blockId,
+          type: 'text',
+          filterState: filters,
+          value,
+          isInfiniteScroll,
+          currentPage,
+          skipSetup: true,
+          paramName: 'search'
+        });
+        context.searchTerm = value;
+        context.isLoading = true;
+        const {
+          actions
+        } = await Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! @wordpress/interactivity-router */ "@wordpress/interactivity-router"));
+        await actions.navigate(newUrl);
+        context.isLoading = false;
+      }), 500); // 200ms debounce
+      debouncedSearch(event);
+    },
     *prefetchFilter(event) {
       const element = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.getElement)();
       /** @type {HTMLLabelElement} */
@@ -4259,7 +4379,7 @@ const {
         isInfiniteScroll,
         currentPage
       } = context;
-      const fakeFilter = (0,es_toolkit_object__WEBPACK_IMPORTED_MODULE_4__.cloneDeep)(filters);
+      const fakeFilter = (0,es_toolkit_object__WEBPACK_IMPORTED_MODULE_5__.cloneDeep)(filters);
       const newUrl = buildFilterUrl({
         blockId,
         type,
