@@ -19,7 +19,7 @@ const debug = _debug('dynamic-archive:frontend');
 /** @typedef {Record<FilterName, TaxonomyState>} FilterState */
 
 const buildParamName = (instanceId, name) => {
-	return `${state.prefix}${name}`;
+	return name ? `${state.prefix}-${name}` : state.prefix;
 };
 
 const isValidLink = (ref) =>
@@ -265,6 +265,31 @@ const { state } = store('jcore/dynamic-archive', {
 		},
 	},
 	actions: {
+		*sortChange(event) {
+			const context = getContext();
+			const { filters, blockId } = context;
+			const sortKey = buildParamName(blockId, 'sort');
+			context.currentSort = event.target.value;
+			filters[sortKey] = event.target.value;
+
+			const url = new URL(window.location.href);
+			const parsedUrl = qs.parse(url.search.replaceAll('?', ''));
+			const urlState = {
+				...parsedUrl,
+				...filters,
+			};
+			delete urlState[buildParamName(blockId, 'archive-paged')];
+
+			url.search = qs.stringify(urlState, {
+				encode: false,
+			});
+			const newUrl = url.toString();
+
+			context.isLoading = true;
+			const { actions } = yield import('@wordpress/interactivity-router');
+			yield actions.navigate(newUrl);
+			context.isLoading = false;
+		},
 		*filterChange(event) {
 			const element = getElement();
 			const { attributes } = element;
@@ -411,6 +436,9 @@ const { state } = store('jcore/dynamic-archive', {
 			// Handles updating the current page number from the server.
 			const context = getContext();
 			const serverContext = getServerContext();
+			if (!serverContext) {
+				return;
+			}
 			if (serverContext.currentPage) {
 				if (!isNaN(parseInt(serverContext.currentPage))) {
 					context.currentPage = parseInt(serverContext.currentPage);
@@ -418,6 +446,12 @@ const { state } = store('jcore/dynamic-archive', {
 			}
 			if (serverContext.terms) {
 				context.terms = serverContext.terms;
+			}
+			if (serverContext.filters) {
+				context.filters = serverContext.filters;
+			}
+			if (typeof serverContext.currentSort !== 'undefined') {
+				context.currentSort = serverContext.currentSort;
 			}
 		},
 	},

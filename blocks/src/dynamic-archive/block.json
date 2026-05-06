@@ -35,6 +35,14 @@
 			"type": "boolean",
 			"default": false
 		},
+		"showSort": {
+			"type": "boolean",
+			"default": false
+		},
+		"sortOptions": {
+			"type": "array",
+			"default": []
+		},
 		"searchLabel": {
 			"type": "string",
 			"default": "Free text search"

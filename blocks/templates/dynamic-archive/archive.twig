@@ -13,6 +13,21 @@
 			'dynamic-archive/partials/filters.twig',
 			'partials/filters.twig'
 		] ignore missing %}
+		{% if sort_options|length > 0 %}
+			<div class="wp-block-jcore-dynamic-archive__filters__sort">
+				<select
+					data-wp-on-async--change="actions.sortChange"
+					data-wp-bind--value="context.currentSort"
+				>
+					<option value="">{{ __( 'Order by', 'jcore-dynamic-archive' ) }}</option>
+					{% for option in sort_options %}
+						<option value="{{ option.value }}" {{ option.selected ? 'selected="selected"' : '' }}>
+							{{ option.label }}
+						</option>
+					{% endfor %}
+				</select>
+			</div>
+		{% endif %}
 	</div>
 	<div class="wp-block-jcore-dynamic-archive-posts {{ 'post-type-' ~ attributes.postType }}">
 		<div
