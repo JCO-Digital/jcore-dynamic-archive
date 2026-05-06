@@ -1,3 +1,20 @@
+# [0.24.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.23.1...v0.24.0) (2026-05-06)
+
+
+### Bug Fixes
+
+* **archive:** update sort dropdown interactivity and context ([39a76d7](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/39a76d79954de4aabbb54a7158d25af7cccd7671))
+* **block:** move filter and sort option initialization after post ([1cf79bc](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/1cf79bc75a39995c37ef4ac33968477f65e113f8))
+
+
+### Features
+
+* **blocks:** add sort direction support for titles and taxonomies ([7995e4b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7995e4b1c6dfe4e20f263453b45a575af8726f4a))
+* **dynamic-archive:** add sort functionality to block ([ecb4570](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ecb4570c71eb51787f453762684aeeff5b745db2))
+* **i18n:** update sort label and translation files ([c815d04](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c815d0453ba3aba2f501f008311c1dd7896ea403))
+
+
+
 ## [0.23.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.23.0...v0.23.1) (2026-04-22)
 
 
@@ -40,20 +57,6 @@
 ### Features
 
 * correctly use a label for the search input to improve a11y. ([39a4c84](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/39a4c843e8130e115f10a0b216a607bf0f6cab55))
-
-
-
-# [0.20.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.19.1...v0.20.0) (2026-02-23)
-
-
-### Bug Fixes
-
-* Ensure taxonomies filter is applied correctly in latest posts block rendering ([da7b92b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/da7b92bbb4644b89f4cb4d3d671d1c8ffa566e74))
-
-
-### Features
-
-* improved inherit option to actually query by current category ([f5680b0](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f5680b03381a22fbffba583d8599b49ca01d6585))
 
 
 
