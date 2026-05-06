@@ -34,6 +34,7 @@ import useQueryContextFromTemplate from '@/shared/useQueryContextFromTemplate';
  * Styles
  */
 import './editor.css';
+import './style.css';
 import ToggleWrapper from '@/shared/components/ToggleWrapper';
 import usePostTypes from '@/shared/usePostTypes';
 import useSiteSetting from '@/shared/useSiteSetting';

@@ -1,6 +1,16 @@
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/.pnpm/css-loader@6.11.0_webpack@5.96.1/node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/.pnpm/postcss-loader@6.2.1_postcss@8.4.48_webpack@5.96.1/node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/dynamic-archive/style.css ***!
   \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/**
+ * Layout and structural styles for the Dynamic Archive block.
+ * Project-specific styling should override these.
+ */
+
+.wp-block-jcore-dynamic-archive {
+	position: relative;
+}
+
+/* Filters Container */
 .wp-block-jcore-dynamic-archive__filters {
 	display: flex;
 	flex-wrap: wrap;
@@ -9,10 +19,97 @@
 	margin-bottom: 24px;
 }
 
+/* Hide inputs but keep them accessible for labels */
+.wp-block-jcore-dynamic-archive-filters__checkbox__input,
+.wp-block-jcore-dynamic-archive-filters__radio__input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+.wp-block-jcore-dynamic-archive-filters__checkbox,
+.wp-block-jcore-dynamic-archive-filters__radio {
+	cursor: pointer;
+	display: inline-block;
+}
+
+/* Sort Dropdown */
 .wp-block-jcore-dynamic-archive__filters__sort select {
 	padding: 8px 12px;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	background-color: #fff;
+}
+
+/* Posts Grid */
+.wp-block-jcore-dynamic-archive-posts__inner {
+	display: grid;
+	gap: 16px;
+	grid-template-columns: repeat(1, 1fr);
+}
+
+.wp-block-jcore-dynamic-archive-posts__inner.columns-2 {
+	grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 768px) {
+	.wp-block-jcore-dynamic-archive-posts__inner.columns-3 {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	.wp-block-jcore-dynamic-archive-posts__inner.columns-4 {
+		grid-template-columns: repeat(4, 1fr);
+	}
+}
+
+/* Pagination & Load More */
+.wp-block-jcore-dynamic-archive-posts__pagination {
+	margin-top: 32px;
+	display: flex;
+	justify-content: center;
+}
+
+.wp-block-jcore-dynamic-archive__pagination {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+.wp-block-jcore-dynamic-archive-posts__load_more {
+	display: inline-flex;
+	align-items: center;
+	padding: 12px 24px;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+/* Loading States */
+.is-loading .wp-block-jcore-dynamic-archive-posts {
+	opacity: 0.5;
+	pointer-events: none;
+	transition: opacity 0.2s ease-in-out;
+}
+
+.wp-block-jcore-dynamic-archive-posts__load_more-spinner {
+	display: none;
+	width: 1em;
+	height: 1em;
+	margin-left: 0.5em;
+	border: 2px solid currentColor;
+	border-left-color: transparent;
+	border-radius: 50%;
+	animation: jcore-da-spin 0.75s linear infinite;
+}
+
+.is-loading .wp-block-jcore-dynamic-archive-posts__load_more-spinner {
+	display: inline-block;
+}
+
+@keyframes jcore-da-spin {
+	to {
+		transform: rotate(-360deg);
+	}
 }
 
