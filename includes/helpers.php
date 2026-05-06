@@ -44,10 +44,9 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
 	if ( $sort ) {
 		if ( str_starts_with( $sort, 'tax:' ) ) {
 			$tax_sort = str_replace( 'tax:', '', $sort );
-			if ( str_contains( $tax_sort, '-' ) ) {
-				$parts                                       = explode( '-', $tax_sort );
-				$args['jcore_dynamic_archive_sort_taxonomy'] = sanitize_key( $parts[0] );
-				$args['jcore_dynamic_archive_sort_order']    = strtoupper( $parts[1] ) === 'DESC' ? 'DESC' : 'ASC';
+			if ( preg_match( '/^(.*)-(ASC|DESC)$/i', $tax_sort, $matches ) ) {
+				$args['jcore_dynamic_archive_sort_taxonomy'] = sanitize_key( $matches[1] );
+				$args['jcore_dynamic_archive_sort_order']    = strtoupper( $matches[2] );
 			} else {
 				$args['jcore_dynamic_archive_sort_taxonomy'] = sanitize_key( $tax_sort );
 				$args['jcore_dynamic_archive_sort_order']    = 'ASC';
@@ -55,10 +54,9 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
 			// Set a default orderby so WP_Query generates an ORDER BY clause we can prepend to.
 			$args['orderby'] = 'post_date';
 			$args['order']   = $args['jcore_dynamic_archive_sort_order'];
-		} elseif ( str_contains( $sort, '-' ) ) {
-			$parts           = explode( '-', $sort );
-			$args['orderby'] = in_array( $parts[0], $allowed_order_by, true ) ? $parts[0] : 'post_date';
-			$args['order']   = strtoupper( $parts[1] ) === 'DESC' ? 'DESC' : 'ASC';
+		} elseif ( preg_match( '/^(.*)-(ASC|DESC)$/i', $sort, $matches ) ) {
+			$args['orderby'] = in_array( $matches[1], $allowed_order_by, true ) ? $matches[1] : 'post_date';
+			$args['order']   = strtoupper( $matches[2] );
 		} else {
 			$args['orderby'] = in_array( $sort, $allowed_order_by, true ) ? $sort : 'post_date';
 			$args['order']   = 'ASC';
