@@ -2,18 +2,18 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JCORE Dynamic Archive 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dynamic-archive\n"
-"Last-Translator: Maxemilian Grönblom\n"
+"Last-Translator: \n"
 "Language-Team: Swedish\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2024-12-10T14:57:02+00:00\n"
-"PO-Revision-Date: 2025-11-28 15:31+0000\n"
+"PO-Revision-Date: 2026-05-06 06:10+0000\n"
 "Language: sv_SE\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: jcore-dynamic-archive\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Loco-Version: 2.6.14; wp-6.7.1\n"
+"X-Loco-Version: 2.8.4; wp-6.9.4; php-8.4.20"
 
 #: blocks/build/dynamic-archive/index.js:1
 #: blocks/src/dynamic-archive/edit.js:103
@@ -237,7 +237,7 @@ msgstr ""
 #: blocks/src/dynamic-archive/edit.js:201
 #: blocks/build/dynamic-archive/index.js:476
 msgid "Order by"
-msgstr ""
+msgstr "Sortera"
 
 #: blocks/templates/dynamic-archive/partials/pagination.twig:3
 msgid "Pagination"
