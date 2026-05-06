@@ -1,3 +1,12 @@
+## [0.24.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.24.0...v0.24.1) (2026-05-06)
+
+
+### Bug Fixes
+
+* **helpers:** use regex to parse sort arguments for improved reliability ([e624a26](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/e624a26ff97b9939ead37038a4a5f9dcdbcf84a9))
+
+
+
 # [0.24.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.23.1...v0.24.0) (2026-05-06)
 
 
@@ -42,21 +51,6 @@
 * add sorting for taxonomy terms by name in dynamic archive block ([210f548](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/210f548d3b68d4ac41dc4eba455affdc167491ce))
 * enhance dynamic archive block with improved taxonomy filtering. ([fb717f2](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb717f2a05f82f58552b344e25a4b225a87157fb))
 * implement caching for term usage by post type in dynamic archive ([defe6b9](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/defe6b9ed3779f4c44e2a47ef68a8da8b818d158))
-
-
-
-# [0.21.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.20.0...v0.21.0) (2026-03-27)
-
-
-### Bug Fixes
-
-* actually allow overriding pagination by changing first path. ([fd2a07a](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fd2a07aaf2a8551e76d9bcd633b5dc724accfb69))
-* ensure posts are only fetched if published in dynamic-archive block ([bb10d72](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/bb10d72f963de20d016e8661a48305cefbf7f324))
-
-
-### Features
-
-* correctly use a label for the search input to improve a11y. ([39a4c84](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/39a4c843e8130e115f10a0b216a607bf0f6cab55))
 
 
 
