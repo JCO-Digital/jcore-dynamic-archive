@@ -1,6 +1,7 @@
 # Composer dependencies
 vendor/
 node_modules/
+release/
 # Log files
 *.log
 .history/
