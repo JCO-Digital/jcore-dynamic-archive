@@ -40,6 +40,7 @@ jobs:
           push: false
 
       - name: Conventional Changelog Action
+        id: changelog
         uses: TriPSs/conventional-changelog-action@v3
         with:
           github-token: ${{ secrets.MASTER_PAT }}
@@ -49,16 +50,16 @@ jobs:
           pre-commit: "./versionsync.js"
 
       - name: Build release
-        if: steps.foonver.outputs.is_bumped == 'true'
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         run: make release
 
       - name: Create GitHub Release
-        if: steps.foonver.outputs.is_bumped == 'true'
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.foonver.outputs.version }}
-          name: Release ${{ steps.foonver.outputs.version }}
-          body: ${{ steps.foonver.outputs.release_notes }}
+          tag_name: ${{ steps.changelog.outputs.tag }}
+          name: Release ${{ steps.changelog.outputs.version }}
+          body: ${{ steps.changelog.outputs.clean_changelog }}
           draft: false
           prerelease: false
           files: |
@@ -66,6 +67,7 @@ jobs:
             version.json
 
       - name: Push to protected branch
+        if: ${{ steps.changelog.outputs.skipped == 'false' }}
         uses: CasperWA/push-protected@v2
         with:
           token: ${{ secrets.MASTER_PAT }}

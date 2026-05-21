@@ -13,7 +13,7 @@ dev: blocks-dev
 .PHONY: release
 release:
 	mkdir -p release
-	zip release/jcore-dynamic-archive.zip -r * -x @zip_exclude.txt
+	zip release/jcore-dynamic-archive.zip -r * -x@zip_exclude.txt
 
 .PHONY: composer-install
 composer-install:
