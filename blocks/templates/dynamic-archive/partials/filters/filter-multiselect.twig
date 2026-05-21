@@ -55,12 +55,15 @@
 				<div
 					class="jcore-multiselect__option {{ term.active ? 'is-active' : '' }} {{ term.disabled ? 'is-disabled' : '' }}"
 					data-wp-on-async--click="actions.filterChange"
+					data-wp-on-async--keydown="actions.filterChange"
 					data-taxonomy="{{ taxonomy.name }}"
 					data-term="{{ attribute(term, taxonomy_field_type) }}"
 					data-filter-type="multiselect-pill"
 					data-term-name="{{ term.name|lower }}"
+					data-disabled="{{ term.disabled ? 'true' : 'false' }}"
 					role="option"
 					aria-selected="{{ term.active ? 'true' : 'false' }}"
+					aria-disabled="{{ term.disabled ? 'true' : 'false' }}"
 					tabindex="0"
 				>
 					<span class="jcore-multiselect__option-checkbox"></span>

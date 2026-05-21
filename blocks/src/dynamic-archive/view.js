@@ -321,9 +321,26 @@ const { state } = store('jcore/dynamic-archive', {
 			});
 		},
 		*filterChange(event) {
-			event.stopPropagation();
 			const element = getElement();
 			const { attributes } = element;
+
+			const isDisabled =
+				getNestedValue(attributes, ['data-disabled'], 'false') === 'true' ||
+				getNestedValue(attributes, ['aria-disabled'], 'false') === 'true';
+			if (isDisabled) {
+				return;
+			}
+
+			if (event.type === 'keydown') {
+				const isActivationKey =
+					event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar';
+				if (!isActivationKey) {
+					return;
+				}
+				event.preventDefault();
+			}
+
+			event.stopPropagation();
 			const [type, taxonomyName, value] = parseAttributes(event, element.ref, attributes);
 			// Bail early if we don't have a taxonomy name.
 			if (!taxonomyName) {
