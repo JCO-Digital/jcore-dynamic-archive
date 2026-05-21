@@ -4297,8 +4297,11 @@ const {
       yield actions.navigate(newUrl);
       context.isLoading = false;
     },
-    toggleMultiselect() {
+    toggleMultiselect(event) {
       const context = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.getContext)();
+      if (event.target.closest('.jcore-multiselect__pill')) {
+        return;
+      }
       context.isOpen = !context.isOpen;
     },
     searchMultiselect(event) {
@@ -4317,6 +4320,7 @@ const {
       });
     },
     *filterChange(event) {
+      event.stopPropagation();
       const element = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_1__.getElement)();
       const {
         attributes

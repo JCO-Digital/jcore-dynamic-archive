@@ -287,8 +287,11 @@ const { state } = store('jcore/dynamic-archive', {
 			yield actions.navigate(newUrl);
 			context.isLoading = false;
 		},
-		toggleMultiselect() {
+		toggleMultiselect(event) {
 			const context = getContext();
+			if (event.target.closest('.jcore-multiselect__pill')) {
+				return;
+			}
 			context.isOpen = !context.isOpen;
 		},
 		searchMultiselect(event) {
@@ -308,6 +311,7 @@ const { state } = store('jcore/dynamic-archive', {
 			});
 		},
 		*filterChange(event) {
+			event.stopPropagation();
 			const element = getElement();
 			const { attributes } = element;
 			const [type, taxonomyName, value] = parseAttributes(event, element.ref, attributes);
