@@ -312,8 +312,14 @@ msgstr ""
 msgid "Search..."
 msgstr ""
 
+msgid "Select..."
+msgstr ""
+
 msgid "Text search"
 msgstr ""
 
 msgid "Text search label"
+msgstr ""
+
+msgid "Remove %s"
 msgstr ""

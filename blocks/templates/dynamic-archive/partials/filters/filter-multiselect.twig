@@ -1,0 +1,75 @@
+<div
+	class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__multiselect jcore-multiselect"
+	data-wp-context='{ "isOpen": false }'
+	data-wp-class--is-open="context.isOpen"
+	data-wp-on-async--click-away="context.isOpen = false"
+>
+	<div
+		class="jcore-multiselect__selection"
+		data-wp-on--click="actions.toggleMultiselect"
+		data-wp-on--keydown="actions.toggleMultiselect"
+		tabindex="0"
+		role="combobox"
+		aria-expanded="false"
+		data-wp-bind--aria-expanded="context.isOpen"
+	>
+		<div class="jcore-multiselect__pills">
+			{% set activeTerms = terms|filter(term => term.active) %}
+			{% for term in activeTerms %}
+				<span class="jcore-multiselect__pill">
+					{{ term.name }}
+					<button
+						type="button"
+						class="jcore-multiselect__pill-remove"
+						data-wp-on-async--click="actions.filterChange"
+						data-taxonomy="{{ taxonomy.name }}"
+						data-term="{{ attribute(term, taxonomy_field_type) }}"
+						data-filter-type="multiselect-pill"
+						aria-label="{{ __( 'Remove %s', 'jcore-dynamic-archive' )|format(term.name) }}"
+					>
+						&times;
+					</button>
+				</span>
+			{% endfor %}
+			{% if activeTerms|length == 0 %}
+				<span class="jcore-multiselect__placeholder">{{ __( 'Select...', 'jcore-dynamic-archive' ) }}</span>
+			{% endif %}
+		</div>
+		<div class="jcore-multiselect__arrow"></div>
+	</div>
+
+	<div
+		class="jcore-multiselect__dropdown"
+		role="listbox"
+	>
+		<div class="jcore-multiselect__search">
+			<input
+				type="text"
+				class="jcore-multiselect__search-input"
+				placeholder="{{ __( 'Search...', 'jcore-dynamic-archive' ) }}"
+				data-wp-on-async--input="actions.searchMultiselect"
+			/>
+		</div>
+		<div class="jcore-multiselect__options">
+			{% for term in terms %}
+				<div
+					class="jcore-multiselect__option {{ term.active ? 'is-active' : '' }} {{ term.disabled ? 'is-disabled' : '' }}"
+					data-wp-on-async--click="actions.filterChange"
+					data-wp-on-async--keydown="actions.filterChange"
+					data-taxonomy="{{ taxonomy.name }}"
+					data-term="{{ attribute(term, taxonomy_field_type) }}"
+					data-filter-type="multiselect-pill"
+					data-term-name="{{ term.name|lower }}"
+					data-disabled="{{ term.disabled ? 'true' : 'false' }}"
+					role="option"
+					aria-selected="{{ term.active ? 'true' : 'false' }}"
+					aria-disabled="{{ term.disabled ? 'true' : 'false' }}"
+					tabindex="0"
+				>
+					<span class="jcore-multiselect__option-checkbox"></span>
+					<span class="jcore-multiselect__option-label">{{ term.name }}</span>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</div>

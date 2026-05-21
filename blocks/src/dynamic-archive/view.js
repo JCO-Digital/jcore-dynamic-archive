@@ -45,24 +45,18 @@ const isValidEvent = (event) =>
  * @returns {[*,*]}
  */
 const parseAttributes = (event, ref, attributes) => {
-	if (getNestedValue(attributes, ['data-filter-type'], undefined) === 'dropdown') {
+	const type = getNestedValue(attributes, ['data-filter-type'], undefined);
+	if (type === 'dropdown' || type === 'multiselect') {
 		const taxonomyName = getNestedValue(attributes, ['data-taxonomy'], undefined);
-		const value = getNestedValue(event, ['target', 'value'], undefined);
-		return [
-			getNestedValue(attributes, ['data-filter-type'], undefined),
-			taxonomyName,
-			value,
-			getNestedValue(attributes, ['data-is-child'], false),
-		];
+		let value = getNestedValue(event, ['target', 'value'], undefined);
+		if (type === 'multiselect' && event.target && event.target.multiple) {
+			value = Array.from(event.target.selectedOptions).map((option) => option.value);
+		}
+		return [type, taxonomyName, value, getNestedValue(attributes, ['data-is-child'], false)];
 	}
 	const taxonomyName = getNestedValue(attributes, ['data-taxonomy'], undefined);
 	const value = getNestedValue(attributes, ['data-term'], undefined);
-	return [
-		getNestedValue(attributes, ['data-filter-type'], undefined),
-		taxonomyName,
-		value,
-		getNestedValue(attributes, ['data-is-child'], false),
-	];
+	return [type, taxonomyName, value, getNestedValue(attributes, ['data-is-child'], false)];
 };
 
 /**
@@ -94,16 +88,19 @@ const buildFilterUrl = ({
 
 	switch (type) {
 		case 'checkbox':
+		case 'multiselect-pill':
 			handleToggle(filterState, taxonomyKey, taxonomyName, value);
 			break;
-		case 'radio':
-			handleRadio(filterState, taxonomyKey, taxonomyName, value);
+		case 'multiselect':
+			filterState[taxonomyKey][taxonomyName] = value;
 			break;
+		case 'radio':
 		case 'dropdown':
 			handleRadio(filterState, taxonomyKey, taxonomyName, value);
 			break;
 		case 'text':
 			handleText(filterState, taxonomyKey, value);
+			break;
 		default:
 			break;
 	}
@@ -290,9 +287,60 @@ const { state } = store('jcore/dynamic-archive', {
 			yield actions.navigate(newUrl);
 			context.isLoading = false;
 		},
+		toggleMultiselect(event) {
+			const context = getContext();
+			if (event.target.closest('.jcore-multiselect__pill')) {
+				return;
+			}
+
+			if (event.type === 'keydown') {
+				const isToggleKey =
+					event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar';
+				if (!isToggleKey) {
+					return;
+				}
+				event.preventDefault();
+			}
+
+			context.isOpen = !context.isOpen;
+		},
+		searchMultiselect(event) {
+			const element = getElement();
+			const searchTerm = event.target.value.toLowerCase();
+			const dropdown = element.ref.closest('.jcore-multiselect');
+			if (!dropdown) return;
+
+			const options = dropdown.querySelectorAll('.jcore-multiselect__option');
+			options.forEach((option) => {
+				const termName = option.getAttribute('data-term-name') || '';
+				if (termName.includes(searchTerm)) {
+					option.style.display = 'flex';
+				} else {
+					option.style.display = 'none';
+				}
+			});
+		},
 		*filterChange(event) {
 			const element = getElement();
 			const { attributes } = element;
+
+			const isDisabled =
+				getNestedValue(attributes, ['data-disabled'], 'false') === 'true' ||
+				getNestedValue(attributes, ['aria-disabled'], 'false') === 'true';
+			if (isDisabled) {
+				return;
+			}
+
+			if (event.type === 'keydown') {
+				const isActivationKey =
+					event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar';
+				if (!isActivationKey) {
+					return;
+				}
+				event.preventDefault();
+			}
+
+			event.stopPropagation();
 			const [type, taxonomyName, value] = parseAttributes(event, element.ref, attributes);
 			// Bail early if we don't have a taxonomy name.
 			if (!taxonomyName) {
