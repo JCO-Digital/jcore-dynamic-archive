@@ -1,3 +1,20 @@
+# [0.25.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.24.1...v0.25.0) (2026-05-21)
+
+
+### Bug Fixes
+
+* **archive:** add keyboard accessibility support for multiselect toggle ([a4aad06](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a4aad0648b21acb39c099ba014ed0c82808df1b6))
+* **block:** improve multiselect interaction handling ([fab7264](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fab7264b13c959c6910d5f6aa7a5810ad6477e93))
+* **dynamic-archive:** add keyboard support and disabled state handling ([41b5a48](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/41b5a4875c86bfb66cc3bb215ce57267f93fcd54))
+* **i18n:** use format string for remove button aria-label ([f584f2b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f584f2b257c7a6bcc8065876eee612b461bc5a0e))
+
+
+### Features
+
+* **dynamic-archive:** add multiselect filter type ([c6108b5](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c6108b580959a570a72fc719f692f5f7d245cf68))
+
+
+
 ## [0.24.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.24.0...v0.24.1) (2026-05-06)
 
 
@@ -40,17 +57,6 @@
 
 * add backfill option to latest posts block for improved post retrieval ([4b2a8ba](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/4b2a8bae6e665e02818b21f530b6b72775717cb1))
 * add heading support to latest posts block and improve code formatting ([1ad8e32](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/1ad8e3238569aa6705c77206886dc9679f9e8c15))
-
-
-
-# [0.22.0](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.21.0...v0.22.0) (2026-03-30)
-
-
-### Features
-
-* add sorting for taxonomy terms by name in dynamic archive block ([210f548](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/210f548d3b68d4ac41dc4eba455affdc167491ce))
-* enhance dynamic archive block with improved taxonomy filtering. ([fb717f2](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb717f2a05f82f58552b344e25a4b225a87157fb))
-* implement caching for term usage by post type in dynamic archive ([defe6b9](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/defe6b9ed3779f4c44e2a47ef68a8da8b818d158))
 
 
 
