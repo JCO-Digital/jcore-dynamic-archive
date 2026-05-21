@@ -8,7 +8,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "POT-Creation-Date: 2024-12-10T14:57:02+00:00\n"
-"PO-Revision-Date: 2026-05-06 06:09+0000\n"
+"PO-Revision-Date: 2026-05-21 07:51+0000\n"
 "Language: fi\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Domain: jcore-dynamic-archive\n"
@@ -271,6 +271,9 @@ msgstr "Hae..."
 #: blocks/templates/dynamic-archive/partials/filter-content.twig:17
 msgid "Select"
 msgstr "Valitse"
+
+msgid "Select..."
+msgstr "Valitse..."
 
 #: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
 #: blocks/src/dynamic-archive/edit.js:153 blocks/src/latest-posts/edit.js:108

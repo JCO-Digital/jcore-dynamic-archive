@@ -312,6 +312,9 @@ msgstr ""
 msgid "Search..."
 msgstr ""
 
+msgid "Select..."
+msgstr ""
+
 msgid "Text search"
 msgstr ""
 
