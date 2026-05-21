@@ -320,3 +320,6 @@ msgstr ""
 
 msgid "Text search label"
 msgstr ""
+
+msgid "Remove %s"
+msgstr ""

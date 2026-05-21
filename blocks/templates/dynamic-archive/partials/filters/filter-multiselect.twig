@@ -24,7 +24,7 @@
 						data-taxonomy="{{ taxonomy.name }}"
 						data-term="{{ attribute(term, taxonomy_field_type) }}"
 						data-filter-type="multiselect-pill"
-						aria-label="{{ __( 'Remove', 'jcore-dynamic-archive' ) }} {{ term.name }}"
+						aria-label="{{ __( 'Remove %s', 'jcore-dynamic-archive' )|format(term.name) }}"
 					>
 						&times;
 					</button>
