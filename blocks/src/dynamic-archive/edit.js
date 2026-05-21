@@ -185,6 +185,7 @@ export default function Edit({ attributes, setAttributes, context }) {
 		{ label: __('Checkbox', 'jcore-dynamic-archive'), value: 'checkbox' },
 		{ label: __('Radio', 'jcore-dynamic-archive'), value: 'radio' },
 		{ label: __('Dropdown', 'jcore-dynamic-archive'), value: 'dropdown' },
+		{ label: __('Multiselect', 'jcore-dynamic-archive'), value: 'multiselect' },
 	];
 
 	return (

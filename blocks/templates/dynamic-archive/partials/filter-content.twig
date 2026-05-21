@@ -1,10 +1,14 @@
-{% if (isChild == true and taxonomy.filterTypeChild == 'dropdown') or (isChild == false and taxonomy.filterType == 'dropdown') %}
+{% set currentFilterType = isChild ? taxonomy.filterTypeChild : taxonomy.filterType %}
+
+{% if currentFilterType == 'multiselect' %}
+	{% include ['dynamic-archive/partials/filters/filter-multiselect.twig', 'partials/filters/filter-multiselect.twig'] ignore missing with { terms: terms, taxonomy: taxonomy, instanceId: instanceId, isChild: isChild } %}
+{% elseif currentFilterType == 'dropdown' %}
 	<select
 		aria-labelledby="taxonomy-{{ instanceId }}-{{ taxonomy.name }}-label"
 		class="wp-block-jcore-dynamic-archive__filters__taxonomies__type{{ ' taxonomy-type-' ~ taxonomy.name }}__dropdown"
 		data-wp-on-async--change="actions.filterChange"
 		data-taxonomy="{{ taxonomy.name }}"
-		data-filter-type="{{ taxonomy.filterType }}"
+		data-filter-type="{{ currentFilterType }}"
 		data-is-child="{{ isChild }}"
 	>
 		{% set fieldType = attribute((terms|filter(term => term.active)|first), taxonomy_field_type) ?? '' %}
@@ -18,12 +22,16 @@
 		>{{ __( 'Select', 'jcore-dynamic-archive' ) }}</option>
 {% endif %}
 
-{% if (isChild == false and taxonomy.filterType == 'radio') %}
+{% if currentFilterType == 'radio' %}
 	{% include ['dynamic-archive/partials/filters/filter-radio-all.twig', 'partials/filters/filter-radio-all.twig'] ignore missing with { term: '', taxonomy: taxonomy } %}
 {% endif %}
-{% for term in terms %}
-	{% include ['dynamic-archive/partials/filters/filter-' ~ term.filterType ~ '.twig', 'partials/filters/filter-' ~ term.filterType ~ '.twig'] ignore missing with { term: term, taxonomy: taxonomy } %}
-{% endfor %}
-{% if (isChild and taxonomy.filterTypeChild == 'dropdown') or (not isChild and taxonomy.filterType == 'dropdown') %}
+
+{% if currentFilterType != 'multiselect' %}
+	{% for term in terms %}
+		{% include ['dynamic-archive/partials/filters/filter-' ~ term.filterType ~ '.twig', 'partials/filters/filter-' ~ term.filterType ~ '.twig'] ignore missing with { term: term, taxonomy: taxonomy } %}
+	{% endfor %}
+{% endif %}
+
+{% if currentFilterType == 'dropdown' %}
 	</select>
 {% endif %}
