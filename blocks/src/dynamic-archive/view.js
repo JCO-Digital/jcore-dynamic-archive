@@ -292,6 +292,16 @@ const { state } = store('jcore/dynamic-archive', {
 			if (event.target.closest('.jcore-multiselect__pill')) {
 				return;
 			}
+
+			if (event.type === 'keydown') {
+				const isToggleKey =
+					event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar';
+				if (!isToggleKey) {
+					return;
+				}
+				event.preventDefault();
+			}
+
 			context.isOpen = !context.isOpen;
 		},
 		searchMultiselect(event) {
