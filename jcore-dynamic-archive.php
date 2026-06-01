@@ -17,10 +17,12 @@ use Jcore\DynamicArchive;
 if ( is_file( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
+define( 'JCORE_DYNAMIC_ARCHIVE_PLUGIN_FILE', __FILE__ );
 
 require_once __DIR__ . '/consts.php';
 require_once __DIR__ . '/includes/helpers.php';
 require_once __DIR__ . '/includes/term-post-type-usage.php';
+require_once __DIR__ . '/includes/update.php';
 require_once __DIR__ . '/blocks/dynamic-archive.php';
 
 add_action(
