@@ -40,7 +40,7 @@ const debug = _debug('latest-posts:Edit');
 /**
  * Styles
  */
-import './editor.css';
+import './editor.scss';
 import TaxonomyPicker from '@/shared/components/TaxonomyPicker';
 import { useEffect } from '@wordpress/element';
 

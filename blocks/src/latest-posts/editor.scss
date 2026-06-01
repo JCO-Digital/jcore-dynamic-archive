@@ -1,0 +1,27 @@
+@use "../../shared/editor.scss";
+
+// Keep the server-rendered post grid contained within the editor canvas.
+@include editor.archive-grid-containment(
+	".wp-block-jcore-latest-posts",
+	".wp-block-jcore-latest-posts__inner"
+);
+
+.wp-block-jcore-latest-posts {
+	@include editor.editor-label("Latest Posts");
+}
+
+.wp-block-jcore-latest-posts__inner {
+	grid-template-columns: repeat(1, 1fr);
+	display: grid;
+	gap: 16px;
+}
+
+@for $i from 2 through 5 {
+	.wp-block-jcore-latest-posts__inner.columns-#{$i} {
+		grid-template-columns: repeat($i, 1fr);
+	}
+}
+
+.jcore-latest-posts__preview .wp-block-jcore-latest-posts__heading {
+	display: none;
+}
