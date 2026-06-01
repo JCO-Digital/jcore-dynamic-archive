@@ -15,7 +15,8 @@ ci-install: ci-node-install ci-composer-install
 
 .PHONY: ci-node-install
 ci-node-install:
-	pnpm install
+	corepack enable
+	cd blocks && pnpm install
 
 .PHONY: ci-composer-install
 ci-composer-install:

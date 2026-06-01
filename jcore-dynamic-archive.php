@@ -12,17 +12,17 @@
  * @package Jcore\DynamicArchive
  */
 
-use Jcore\DynamicArchive;
-
 if ( is_file( __DIR__ . '/vendor/autoload.php' ) ) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
-define( 'JCORE_DYNAMIC_ARCHIVE_PLUGIN_FILE', __FILE__ );
+defined( 'JCORE_DYNAMIC_ARCHIVE_PLUGIN_FILE' ) || define( 'JCORE_DYNAMIC_ARCHIVE_PLUGIN_FILE', __FILE__ );
 
 require_once __DIR__ . '/consts.php';
 require_once __DIR__ . '/includes/helpers.php';
 require_once __DIR__ . '/includes/term-post-type-usage.php';
-require_once __DIR__ . '/includes/update.php';
+if ( class_exists( \Jcore\Update\Hooks\PluginUpdateHooks::class ) ) {
+	require_once __DIR__ . '/includes/update.php';
+}
 require_once __DIR__ . '/blocks/dynamic-archive.php';
 
 add_action(
@@ -38,15 +38,25 @@ add_action(
 
 add_action(
 	'plugins_loaded',
-	function () {
-		if ( ! class_exists( 'Timber\Timber' ) ) {
-			wp_admin_notice(
-				'You are doing something wrong... Timber is required for Dynamic Archive to work.',
-				array(
-					'type' => 'error',
-				)
-			);
+	static function () {
+		if ( class_exists( 'Timber\\Timber' ) || ! is_admin() ) {
+			return;
 		}
+
+		add_action(
+			'admin_notices',
+			static function () {
+				if ( function_exists( 'wp_admin_notice' ) ) {
+					wp_admin_notice(
+						esc_html__( 'Timber is required for JCORE Dynamic Archive to work.', 'jcore-dynamic-archive' ),
+						array( 'type' => 'error' )
+					);
+					return;
+				}
+
+				echo '<div class="notice notice-error"><p>' . esc_html__( 'Timber is required for JCORE Dynamic Archive to work.', 'jcore-dynamic-archive' ) . '</p></div>';
+			}
+		);
 	}
 );
 
