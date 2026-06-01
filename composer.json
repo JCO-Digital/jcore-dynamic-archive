@@ -15,8 +15,8 @@
 		}
 	],
 	"require": {
-		"jcore/ydin": "^3 || ^4",
-		"composer/installers": "^2.3"
+		"composer/installers": "^2.3",
+		"jcodigital/jcore-update": "^1.1"
 	},
 	"config": {
 		"allow-plugins": {
