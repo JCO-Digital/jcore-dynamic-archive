@@ -1,4 +1,4 @@
-zip_exclude.txt
+.zipexclude
 .distignore
 .editorconfig
 .git/*
@@ -20,7 +20,6 @@ phpcs.xml
 webpack.config.js
 wp-cli.local.yml
 tests
-vendor
 node_modules
 *.sql
 *.tar.gz

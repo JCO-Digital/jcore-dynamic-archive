@@ -10,10 +10,21 @@ build: blocks-build
 .PHONY: dev
 dev: blocks-dev
 
-.PHONY: release
-release:
-	mkdir -p release
-	zip release/jcore-dynamic-archive.zip -r * -x@zip_exclude.txt
+.PHONY: ci-install
+ci-install: ci-node-install ci-composer-install
+
+.PHONY: ci-node-install
+ci-node-install:
+	corepack enable
+	cd blocks && pnpm install
+
+.PHONY: ci-composer-install
+ci-composer-install:
+	composer install --no-dev --no-interaction --optimize-autoloader
+
+
+.PHONY: ci
+ci: ci-install build
 
 .PHONY: composer-install
 composer-install:

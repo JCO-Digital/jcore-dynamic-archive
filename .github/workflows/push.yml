@@ -11,66 +11,33 @@ jobs:
         permissions:
             contents: write
         runs-on: ubuntu-latest
+        outputs:
+            is_bumped: ${{ steps.foonver.outputs.is_bumped }}
+            version: ${{ steps.foonver.outputs.version }}
+            release_notes: ${{ steps.foonver.outputs.release_notes }}
         steps:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
-            - uses: actions/setup-node@v4
+            - name: Run foonver
+              id: foonver
+              uses: foonly/foonver@v0.13.0
               with:
-                  node-version: 20
-
-            - name: Cache node modules
-              uses: actions/cache@v3
-              with:
-                  path: ./blocks/node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('**/pnpm-lock.yaml') }}
-                  restore-keys: |
-                      ${{ runner.os }}-node-
-
-            - name: Build project
-              run: make
-
-            - name: Commit built blocks
-              uses: EndBug/add-and-commit@v9
-              with:
-                  add: 'blocks/build'
-                  message: 'chore(blocks): build blocks for release [skip ci]'
-                  default_author: github_actions
-                  push: false
-
-            - name: Conventional Changelog Action
-              id: changelog
-              uses: TriPSs/conventional-changelog-action@v3
-              with:
-                  github-token: ${{ secrets.MASTER_PAT }}
-                  version-file: './version.json'
-                  fallback-version: 3.1.0
-                  git-push: false
-                  pre-commit: './versionsync.js'
-
-            - name: Build release
-              if: ${{ steps.changelog.outputs.skipped == 'false' }}
-              run: make release
-
-            - name: Push to protected branch
-              if: ${{ steps.changelog.outputs.skipped == 'false' }}
-              uses: CasperWA/push-protected@v2
-              with:
-                  token: ${{ secrets.MASTER_PAT }}
-                  branch: main
-                  tags: true
-                  unprotect_reviews: true
-
-            - name: Create GitHub Release
-              if: ${{ steps.changelog.outputs.skipped == 'false' }}
-              uses: softprops/action-gh-release@v2
-              with:
-                  tag_name: ${{ steps.changelog.outputs.tag }}
-                  name: Release ${{ steps.changelog.outputs.version }}
-                  body: ${{ steps.changelog.outputs.clean_changelog }}
-                  draft: false
-                  prerelease: false
-                  files: |
-                      release/*
-                      version.json
+                  command: 'auto'
+                  changelog: 'true'
+                  push: 'true'
+                  commit_suffix: '[skip ci]'
+                  version_sync: 'jcore-dynamic-archive.php'
+    # Call the reusable workflow from jcore-update
+    publish:
+        needs: release
+        if: needs.release.outputs.is_bumped == 'true'
+        uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@2a482a6d032399c80f7b97fabba0e41cc0e3141d
+        with:
+            slug: 'jcore-dynamic-archive'
+            version: ${{ needs.release.outputs.version }}
+            release_notes: ${{ needs.release.outputs.release_notes }}
+            plugin_file: 'jcore-dynamic-archive.php'
+        secrets:
+            UPDATE_API_KEY: ${{ secrets.UPDATE_API_KEY }}
