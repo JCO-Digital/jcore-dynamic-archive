@@ -1,4 +1,4 @@
-## [0.25.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.25.0...v0.25.1) (2026-06-01)
+## [0.25.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.25.1...v0.25.2) (2026-06-01)
 
 
 ### Bug Fixes
@@ -6,6 +6,7 @@
 * **archive:** add keyboard accessibility support for multiselect toggle ([a4aad06](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/a4aad0648b21acb39c099ba014ed0c82808df1b6))
 * **block:** improve multiselect interaction handling ([fab7264](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fab7264b13c959c6910d5f6aa7a5810ad6477e93))
 * **blocks:** migrate CSS to SCSS for dynamic-archive and latest-posts ([fe43723](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fe43723d6ab39234e3b1fafd2b89122d40a7c785))
+* **ci:** Create release after tag has been created ([d0f05e3](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/d0f05e3ee8f017356ebe5d3af2991788421ef260))
 * **dynamic-archive:** add keyboard support and disabled state handling ([41b5a48](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/41b5a4875c86bfb66cc3bb215ce57267f93fcd54))
 * **i18n:** use format string for remove button aria-label ([f584f2b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f584f2b257c7a6bcc8065876eee612b461bc5a0e))
 
@@ -39,15 +40,6 @@
 * **blocks:** add sort direction support for titles and taxonomies ([7995e4b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7995e4b1c6dfe4e20f263453b45a575af8726f4a))
 * **dynamic-archive:** add sort functionality to block ([ecb4570](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ecb4570c71eb51787f453762684aeeff5b745db2))
 * **i18n:** update sort label and translation files ([c815d04](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c815d0453ba3aba2f501f008311c1dd7896ea403))
-
-
-
-## [0.23.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.23.0...v0.23.1) (2026-04-22)
-
-
-### Bug Fixes
-
-* update URL handling in helper functions to prevent XSS ([f4619eb](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/f4619eb6ac459fe28c24b7ce5cfbba4b9ce5dd67))
 
 
 
