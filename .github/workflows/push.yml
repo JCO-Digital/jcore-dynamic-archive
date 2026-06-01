@@ -33,7 +33,7 @@ jobs:
     publish:
         needs: release
         if: needs.release.outputs.is_bumped == 'true'
-        uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@2a482a6d032399c80f7b97fabba0e41cc0e3141d
+        uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@3f89699ee869f0fc5413a7e847cb08a9b9400b59
         with:
             slug: 'jcore-dynamic-archive'
             version: ${{ needs.release.outputs.version }}
