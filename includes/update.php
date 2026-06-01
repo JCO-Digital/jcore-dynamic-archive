@@ -11,6 +11,11 @@ use Jcore\Update\Config\UpdateConfig;
 use Jcore\Update\Hooks\PluginUpdateHooks;
 use Jcore\Update\Support\PluginHelper;
 
+// Exit if ABSPATH is not defined.
+if ( ! defined( ABSPATH ) ) {
+	exit;
+}
+
 $config = new UpdateConfig(
 	pluginFile: JCORE_DYNAMIC_ARCHIVE_PLUGIN_FILE,
 	slug: 'jcore-dynamic-archive',

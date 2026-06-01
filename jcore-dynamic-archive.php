@@ -53,8 +53,6 @@ add_action(
 					);
 					return;
 				}
-
-				echo '<div class="notice notice-error"><p>' . esc_html__( 'Timber is required for JCORE Dynamic Archive to work.', 'jcore-dynamic-archive' ) . '</p></div>';
 			}
 		);
 	}
