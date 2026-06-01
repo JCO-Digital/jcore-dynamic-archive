@@ -1,0 +1,78 @@
+/**
+ * Shared editor-only styling for JCORE archive-style blocks.
+ *
+ * These blocks render their frontend (server-side) markup inside the editor
+ * via ServerSideRender. Teases are project-specific and styled per-project on
+ * the frontend, so this stays intentionally minimal: just enough containment
+ * to stop the post grid from overflowing the editor canvas. We do not style
+ * the teases themselves.
+ *
+ * @param {String} $root  Block wrapper selector to scope the rules to.
+ * @param {String} $inner Post grid selector inside the block.
+ */
+@mixin archive-grid-containment($root, $inner) {
+	#{$root} {
+		// Grid (and flex) items default to min-width: auto, which lets wide
+		// content — intrinsic-width media, long unbreakable strings — expand
+		// the 1fr tracks past the container and overflow the canvas. Letting
+		// the items shrink is the actual fix for the overflow.
+		#{$inner} > * {
+			min-width: 0;
+			overflow-wrap: break-word;
+		}
+
+		// Keep media inside its container regardless of the tease markup.
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+
+		// Icons should stay icon-sized rather than stretch to full width.
+		i,
+		svg {
+			max-width: 40px;
+			height: auto;
+		}
+	}
+}
+
+/**
+ * Editor-only block label.
+ *
+ * Mirrors the Lohko accordion blocks: a small badge in the top-left corner
+ * plus a dashed outline, so the server-rendered preview is easy to identify
+ * as an editable block in the editor. Apply inside the block wrapper selector.
+ *
+ * @param {String} $label Text shown in the badge.
+ */
+@mixin editor-label($label) {
+	position: relative;
+	border: 2px dashed var(--wp--preset--color--primary, #007cba);
+	padding: 1rem;
+
+	&::before {
+		content: $label;
+		position: absolute;
+		top: -12px;
+		left: 0;
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--wp--preset--color--white, white);
+		background-color: var(--wp--preset--color--primary, #007cba);
+		padding: 2px 8px;
+		border-radius: 2px;
+		z-index: 1;
+	}
+
+	// The server-rendered preview repeats this block's wrapper class
+	// (via get_block_wrapper_attributes), so the label/outline would
+	// otherwise render twice. Keep it only on the outermost wrapper.
+	& & {
+		border: none;
+		padding: 0;
+
+		&::before {
+			content: none;
+		}
+	}
+}

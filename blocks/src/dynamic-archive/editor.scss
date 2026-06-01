@@ -1,0 +1,234 @@
+@use "../../shared/editor.scss";
+
+// Keep the server-rendered post grid contained within the editor canvas.
+@include editor.archive-grid-containment(
+	".wp-block-jcore-dynamic-archive",
+	".wp-block-jcore-dynamic-archive-posts__inner"
+);
+
+.wp-block-jcore-dynamic-archive {
+	@include editor.editor-label("Dynamic Archive");
+}
+
+.jcore-toggle-component {
+	padding-top: 16px;
+	padding-bottom: 16px;
+}
+
+.jcore__dynamic-archive-post-type {
+	.components-h-stack {
+		.components-base-control {
+			width: 100%;
+		}
+	}
+}
+
+.wp-block-jcore-dynamic-archive a {
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+.wp-block-jcore-dynamic-archive-posts__inner {
+	grid-auto-flow: row dense;
+}
+
+@for $i from 1 through 6 {
+	.wp-block-jcore-dynamic-archive-posts__inner.columns-#{$i} {
+		grid-template-columns: repeat($i, 1fr);
+	}
+}
+
+// Filters render the live frontend markup inside the preview, which is
+// otherwise unstyled in the editor. Keep this minimal — just enough layout so
+// each filter type reads clearly. Projects style filters themselves on the
+// frontend.
+.wp-block-jcore-dynamic-archive {
+	&__filters__taxonomies {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		margin-bottom: 16px;
+
+		&__type {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 8px;
+
+			&__label {
+				flex-basis: 100%;
+				margin: 0;
+				font-size: 0.875rem;
+				font-weight: 600;
+			}
+
+			// Hierarchical parent/child groups still flow as chip rows.
+			&__parents,
+			&__children {
+				display: flex;
+				flex-basis: 100%;
+				flex-wrap: wrap;
+				gap: 8px;
+			}
+
+			select {
+				padding: 6px 10px;
+				border: 1px solid #ccc;
+				border-radius: 4px;
+			}
+		}
+	}
+
+	&__filters__search {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		margin-bottom: 16px;
+
+		&__label {
+			font-size: 0.875rem;
+			font-weight: 600;
+		}
+
+		&__input {
+			padding: 6px 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+		}
+	}
+
+	// Checkbox / radio render as a label plus a native input. Show them as
+	// simple chips: hide the raw control and let the label carry the state.
+	&-filters__checkbox,
+	&-filters__radio {
+		display: inline-flex;
+		align-items: center;
+		padding: 4px 12px;
+		border: 1px solid #ccc;
+		border-radius: 999px;
+		font-size: 0.8125rem;
+		line-height: 1.4;
+
+		&.is-active {
+			border-color: var(--wp--preset--color--primary, #007cba);
+			background-color: var(--wp--preset--color--primary, #007cba);
+			color: var(--wp--preset--color--white, white);
+		}
+
+		&__input {
+			display: none;
+		}
+	}
+}
+
+// Multiselect: a closed combobox with pills, opening to a searchable option
+// list. Basic styling so the closed and open states are both legible.
+.jcore-multiselect {
+	position: relative;
+	display: inline-block;
+	min-width: 200px;
+
+	&__selection {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 8px;
+		padding: 6px 10px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	&__pills {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 4px;
+	}
+
+	&__pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 4px;
+		padding: 2px 8px;
+		border-radius: 999px;
+		background-color: var(--wp--preset--color--primary, #007cba);
+		color: var(--wp--preset--color--white, white);
+		font-size: 0.75rem;
+	}
+
+	&__pill-remove {
+		padding: 0;
+		border: 0;
+		background: none;
+		color: inherit;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	&__placeholder {
+		color: #757575;
+		font-size: 0.8125rem;
+	}
+
+	&__arrow {
+		width: 0;
+		height: 0;
+		border-right: 4px solid transparent;
+		border-left: 4px solid transparent;
+		border-top: 5px solid #757575;
+	}
+
+	&__dropdown {
+		display: none;
+		position: absolute;
+		top: 100%;
+		right: 0;
+		left: 0;
+		z-index: 2;
+		margin-top: 4px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		background-color: var(--wp--preset--color--white, white);
+		max-height: 240px;
+		overflow-y: auto;
+	}
+
+	&.is-open &__dropdown {
+		display: block;
+	}
+
+	&__search {
+		padding: 8px;
+	}
+
+	&__search-input {
+		width: 100%;
+		padding: 4px 8px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+	}
+
+	&__option {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		padding: 6px 10px;
+		cursor: pointer;
+
+		&.is-active {
+			font-weight: 600;
+		}
+
+		&.is-disabled {
+			opacity: 0.5;
+		}
+	}
+
+	&__option-checkbox {
+		flex-shrink: 0;
+		width: 14px;
+		height: 14px;
+		border: 1px solid #ccc;
+		border-radius: 2px;
+	}
+}
