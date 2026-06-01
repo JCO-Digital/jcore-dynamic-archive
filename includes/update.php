@@ -12,7 +12,7 @@ use Jcore\Update\Hooks\PluginUpdateHooks;
 use Jcore\Update\Support\PluginHelper;
 
 // Exit if ABSPATH is not defined.
-if ( ! defined( ABSPATH ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
