@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.0.3 (2026-06-02)
+### 1.0.4 (2026-06-02)
+
+#### Maintenance
+
+- blocks: remove build directory from source control (285f094)
+
+### v1.0.3 (2026-06-02)
 
 #### Features
 
