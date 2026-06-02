@@ -1,3 +1,10 @@
+## [0.24.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.24.1...v0.24.2) (2026-05-06)
+
+### Bug Fixes
+
+* Backport and reapply reflected XSS fix
+
+
 ## [0.24.1](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.24.0...v0.24.1) (2026-05-06)
 
 
@@ -51,6 +58,3 @@
 * add sorting for taxonomy terms by name in dynamic archive block ([210f548](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/210f548d3b68d4ac41dc4eba455affdc167491ce))
 * enhance dynamic archive block with improved taxonomy filtering. ([fb717f2](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/fb717f2a05f82f58552b344e25a4b225a87157fb))
 * implement caching for term usage by post type in dynamic archive ([defe6b9](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/defe6b9ed3779f4c44e2a47ef68a8da8b818d158))
-
-
-
