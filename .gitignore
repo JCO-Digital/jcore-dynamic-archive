@@ -2,6 +2,7 @@
 vendor/
 node_modules/
 release/
+blocks/build
 # Log files
 *.log
 .history/
