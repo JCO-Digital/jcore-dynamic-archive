@@ -1,6 +1,12 @@
 # Changelog
 
-## 1.0.0 (2026-06-02)
+### 1.0.1 (2026-06-02)
+
+#### Bug Fixes
+
+- pagination: escape generated URL attributes (d08926f)
+
+## v1.0.0 (2026-06-02)
 
 #### Features
 
