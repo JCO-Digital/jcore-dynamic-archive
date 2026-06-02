@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.0.4 (2026-06-02)
+### 1.0.5 (2026-06-02)
+
+#### Maintenance
+
+- composer: update project package name (4db1f48)
+
+### v1.0.4 (2026-06-02)
 
 #### Maintenance
 
