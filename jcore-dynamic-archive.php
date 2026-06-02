@@ -22,7 +22,6 @@ defined( 'JCORE_DYNAMIC_ARCHIVE_PLUGIN_FILE' ) || define( 'JCORE_DYNAMIC_ARCHIVE
 
 require_once __DIR__ . '/consts.php';
 require_once __DIR__ . '/includes/helpers.php';
-require_once __DIR__ . '/includes/term-post-type-usage.php';
 if ( class_exists( \Jcore\Update\Hooks\PluginUpdateHooks::class ) ) {
 	require_once __DIR__ . '/includes/update.php';
 }
