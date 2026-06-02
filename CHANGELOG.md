@@ -1,3 +1,8 @@
+## [0.25.3](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.25.2...v0.25.3) (2026-06-01)
+
+### Bug Fixes
+* Backported and reapply reflected XSS fix
+
 ## [0.25.2](https://github.com/JCO-Digital/jcore-dynamic-archive/compare/v0.25.1...v0.25.2) (2026-06-01)
 
 
@@ -40,6 +45,3 @@
 * **blocks:** add sort direction support for titles and taxonomies ([7995e4b](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/7995e4b1c6dfe4e20f263453b45a575af8726f4a))
 * **dynamic-archive:** add sort functionality to block ([ecb4570](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/ecb4570c71eb51787f453762684aeeff5b745db2))
 * **i18n:** update sort label and translation files ([c815d04](https://github.com/JCO-Digital/jcore-dynamic-archive/commit/c815d0453ba3aba2f501f008311c1dd7896ea403))
-
-
-
