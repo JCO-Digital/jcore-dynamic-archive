@@ -18,7 +18,7 @@ const TERM_POST_TYPE_USAGE_VERSION_OPTION = 'jcore_dynamic_archive_term_pt_usage
  *
  * @return void
  */
-function store_value( string $key, mixed $value, int $ttl ): void {
+function cache_usage_value( string $key, mixed $value, int $ttl ): void {
 	if ( ! wp_using_ext_object_cache() ) {
 		set_transient( $key, $value, $ttl );
 	} else {
@@ -33,7 +33,7 @@ function store_value( string $key, mixed $value, int $ttl ): void {
  *
  * @return mixed
  */
-function get_value( string $key ): mixed {
+function get_cached_usage_value( string $key ): mixed {
 	if ( ! wp_using_ext_object_cache() ) {
 		return get_transient( $key );
 	} else {
@@ -46,7 +46,7 @@ function get_value( string $key ): mixed {
  *
  * @return int
  */
-function get_term_post_type_usage_cache_version(): int {
+function get_usage_cache_version(): int {
 	$version = absint( get_option( TERM_POST_TYPE_USAGE_VERSION_OPTION, 1 ) );
 	if ( $version < 1 ) {
 		$version = 1;
@@ -64,8 +64,8 @@ function get_term_post_type_usage_cache_version(): int {
  *
  * @return string
  */
-function get_term_post_type_usage_cache_key( string $taxonomy, string $post_type ): string {
-	$version = get_term_post_type_usage_cache_version();
+function get_usage_cache_key( string $taxonomy, string $post_type ): string {
+	$version = get_usage_cache_version();
 	return 'jcore_tpu_' . md5( $version . '|' . $taxonomy . '|' . $post_type );
 }
 
@@ -77,7 +77,7 @@ function get_term_post_type_usage_cache_key( string $taxonomy, string $post_type
  *
  * @return int
  */
-function get_term_post_type_usage_cache_ttl( string $taxonomy, string $post_type ): int {
+function get_usage_cache_ttl( string $taxonomy, string $post_type ): int {
 	$ttl = (int) apply_filters(
 		'jcore_dynamic_archive_term_post_type_usage_cache_ttl',
 		DAY_IN_SECONDS,
@@ -103,8 +103,8 @@ function get_term_ids_in_use_for_post_type( string $taxonomy, string $post_type 
 		return array();
 	}
 
-	$cache_key = get_term_post_type_usage_cache_key( $taxonomy, $post_type );
-	$cached    = get_value( $cache_key );
+	$cache_key = get_usage_cache_key( $taxonomy, $post_type );
+	$cached    = get_cached_usage_value( $cache_key );
 	if ( is_array( $cached ) ) {
 		return array_values( array_map( 'absint', $cached ) );
 	}
@@ -139,8 +139,8 @@ function get_term_ids_in_use_for_post_type( string $taxonomy, string $post_type 
 	$term_ids     = $prepared ? $wpdb->get_col( $prepared ) : array(); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 	$term_ids     = array_values( array_unique( array_map( 'absint', $term_ids ) ) );
 
-	$ttl = get_term_post_type_usage_cache_ttl( $taxonomy, $post_type );
-	store_value( $cache_key, $term_ids, $ttl );
+	$ttl = get_usage_cache_ttl( $taxonomy, $post_type );
+	cache_usage_value( $cache_key, $term_ids, $ttl );
 
 	return $term_ids;
 }
@@ -169,9 +169,9 @@ function term_is_in_use_for_post_type( int $term_id, string $taxonomy, string $p
  *
  * @return void
  */
-function invalidate_term_post_type_usage_cache( ?string $taxonomy = null, ?string $post_type = null ): void {
+function invalidate_usage_cache( ?string $taxonomy = null, ?string $post_type = null ): void {
 	if ( null === $taxonomy && null === $post_type ) {
-		update_option( TERM_POST_TYPE_USAGE_VERSION_OPTION, get_term_post_type_usage_cache_version() + 1, false );
+		update_option( TERM_POST_TYPE_USAGE_VERSION_OPTION, get_usage_cache_version() + 1, false );
 		return;
 	}
 
@@ -179,7 +179,7 @@ function invalidate_term_post_type_usage_cache( ?string $taxonomy = null, ?strin
 		return;
 	}
 
-	$cache_key = get_term_post_type_usage_cache_key( $taxonomy, $post_type );
+	$cache_key = get_usage_cache_key( $taxonomy, $post_type );
 	delete_transient( $cache_key );
 	wp_cache_delete( $cache_key, TERM_POST_TYPE_USAGE_CACHE_GROUP );
 }
@@ -191,14 +191,14 @@ function invalidate_term_post_type_usage_cache( ?string $taxonomy = null, ?strin
  *
  * @return void
  */
-function invalidate_term_post_type_usage_cache_for_post_type( string $post_type ): void {
+function invalidate_usage_cache_for_post_type( string $post_type ): void {
 	if ( ! post_type_exists( $post_type ) ) {
 		return;
 	}
 
 	$taxonomies = get_object_taxonomies( $post_type, 'names' );
 	foreach ( $taxonomies as $taxonomy ) {
-		invalidate_term_post_type_usage_cache( $taxonomy, $post_type );
+		invalidate_usage_cache( $taxonomy, $post_type );
 	}
 }
 
@@ -218,7 +218,7 @@ function handle_term_post_type_usage_save_post( int $post_id, \WP_Post $post, bo
 		return;
 	}
 
-	invalidate_term_post_type_usage_cache_for_post_type( $post->post_type );
+	invalidate_usage_cache_for_post_type( $post->post_type );
 }
 
 /**
@@ -235,7 +235,7 @@ function handle_term_post_type_usage_deleted_post( int $post_id, ?\WP_Post $post
 		return;
 	}
 
-	invalidate_term_post_type_usage_cache_for_post_type( $post_type );
+	invalidate_usage_cache_for_post_type( $post_type );
 }
 
 /**
@@ -258,7 +258,7 @@ function handle_term_post_type_usage_set_object_terms( int $object_id, $terms, a
 		return;
 	}
 
-	invalidate_term_post_type_usage_cache( $taxonomy, $post_type );
+	invalidate_usage_cache( $taxonomy, $post_type );
 }
 
 add_action( 'save_post', __NAMESPACE__ . '\\handle_term_post_type_usage_save_post', 10, 3 );
