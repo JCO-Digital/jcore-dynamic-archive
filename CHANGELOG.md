@@ -1,6 +1,25 @@
 # Changelog
 
-### 1.0.1 (2026-06-02)
+### 1.0.2 (2026-06-02)
+
+#### Bug Fixes
+
+- helpers: improve taxonomy filtering and query awareness (259e6da)
+- pagination: remove extra closing parenthesis in build_pagination_url (506b69f)
+- helpers: ensure paged parameter is an integer and escape pagination URL (1e44faf)
+- remove unused term post type usage functionality, since it is being requeried separately. (4648057)
+
+#### Refactor
+
+- cache: rename functions for conciseness in term post type usage (5744a0f)
+
+#### Maintenance
+
+- bump plugin version to 1.0.1 (2fdee2e)
+- helpers: re-add term usage by post type cache and helper functions (7c12c0c)
+- plugin: update header metadata with compatibility requirements (7c58e0b)
+
+### v1.0.1 (2026-06-02)
 
 #### Bug Fixes
 
