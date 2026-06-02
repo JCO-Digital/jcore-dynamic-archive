@@ -35,7 +35,7 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
 	if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
 		$args['paged'] = get_parameter( build_param_name( 'archive-paged', $instance_id, $attributes ), 1 );
 	} elseif ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
-		$paged                   = get_parameter( build_param_name( 'archive-paged', $instance_id, $attributes ), 1 );
+		$paged                   = (int) get_parameter( build_param_name( 'archive-paged', $instance_id, $attributes ), 1 );
 		$args['posts_per_page'] *= $paged;
 	}
 
@@ -689,7 +689,7 @@ function build_pagination_url( array $attributes, int $page ): string {
 	$url        = URLHelper::get_current_url();
 	$param_name = rawurlencode( build_param_name( 'archive-paged', $attributes['instanceId'] ?? '', $attributes ) );
 	$url        = remove_query_arg( $param_name, $url );
-	return rawurldecode( add_query_arg( $param_name, absint( $page ), $url ) );
+	return esc_attr( rawurldecode( add_query_arg( $param_name, absint( $page ), $url ) ) ) );
 }
 
 /**
