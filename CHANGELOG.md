@@ -1,6 +1,70 @@
 # Changelog
 
-### 1.0.2 (2026-06-02)
+### 1.0.3 (2026-06-02)
+
+#### Features
+
+- rollback version and allow workflow to correctly bump (c58a8fe)
+- update: register plugin update hooks (5d253c7)
+- Overhaul CI system to use foonver and jcore-update. (BREAKING CHANGE) (9dc5146)
+- dynamic-archive: add multiselect filter type (c6108b5)
+
+#### Bug Fixes
+
+- helpers: improve taxonomy filtering and query awareness (259e6da)
+- pagination: escape generated URL attributes (d08926f)
+- pagination: remove extra closing parenthesis in build_pagination_url (506b69f)
+- helpers: ensure paged parameter is an integer and escape pagination URL (1e44faf)
+- remove unused term post type usage functionality, since it is being requeried separately. (4648057)
+- also revert version.json... (98742b8)
+- update: add missing quotes to ABSPATH constant definition (522f0b5)
+- plugin: remove redundant Timber requirement notice (13f9e08)
+- minor improvements (c68e381)
+- ci: Create release after tag has been created (d0f05e3)
+- blocks: migrate CSS to SCSS for dynamic-archive and latest-posts blocks (fe43723)
+- dynamic-archive: add keyboard support and disabled state handling to filters (41b5a48)
+- archive: add keyboard accessibility support for multiselect toggle (a4aad06)
+- i18n: use format string for remove button aria-label (f584f2b)
+- block: improve multiselect interaction handling (fab7264)
+
+#### Refactor
+
+- cache: rename functions for conciseness in term post type usage (5744a0f)
+
+#### Continuous Integration
+
+- github: add distribution repository configuration to release workflow (a6397a0)
+- github: add contents write permission to publish job (d7399b6)
+- github: update reusable-plugin-publish action version (114940a)
+- github: pin reusable publish workflow to commit hash (cff1a86)
+- github: update release workflow to use conventional-changelog-action and fix zip command (4919666)
+- github: automate release process with zip packaging and GitHub releases (366c772)
+
+#### Maintenance
+
+- bump plugin version to 1.0.1 (2fdee2e)
+- helpers: re-add term usage by post type cache and helper functions (7c12c0c)
+- plugin: update header metadata with compatibility requirements (7c58e0b)
+- rename zipexclude to .zipexclude (cb686ed)
+- git: add common files to .zipexclude (147ce54)
+- rename zip_exclude.txt to .zipexclude (62f1fe0)
+- i18n: add missing Select... translation string (37d5c8f)
+
+### v0.24.2 (2026-06-02)
+
+#### Bug Fixes
+
+- pagination: escape generated URL attributes (bd539c1)
+- backport and reapply XSS fix + release version 0.24.2 (928f62b)
+
+### v0.25.3 (2026-06-02)
+
+#### Bug Fixes
+
+- backport and reapply XSS fix + release version 0.25.3 (0e14a86)
+- pagination: escape URL output in build_pagination_url (03c8bff)
+
+### v1.0.2 (2026-06-02)
 
 #### Bug Fixes
 
