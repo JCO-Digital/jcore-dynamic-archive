@@ -119,6 +119,14 @@ function handle_taxonomies_filter( array $args, array $attributes, ?string $skip
 		if ( ! is_array( $active_filters ) ) {
 			$active_filters = array( $active_filters );
 		}
+		if ( get_taxonomy_param_field_type( $attributes ) === 'slug' ) {
+			foreach ( $active_filters as $key => $slug ) {
+				$term = get_term_by( 'slug', $slug, $taxonomy );
+				if ( $term ) {
+					$active_filters[ $key ] = $term->term_id;
+				}
+			}
+		}
 		$active_filters   = array_map( 'absint', $active_filters );
 		$has_active_child = array_filter(
 			$active_filters,
@@ -388,15 +396,16 @@ function get_applicable_term_ids_for_taxonomy( string $taxonomy, array $attribut
 }
 
 /**
- * Builds the final WP_Query arguments for the dynamic archive block.
+ * Builds full WP_Query args for the dynamic archive block (same as main Timber query).
  *
- * @param array $attributes The attributes of the dynamic archive block.
+ * @param array       $attributes Block attributes.
+ * @param string|null $skip_taxonomy Optional taxonomy slug to omit from URL-driven tax_query (faceting).
  *
- * @return array The final WP_Query arguments.
+ * @return array
  */
-function build_dynamic_archive_query_args( array $attributes ): array {
+function build_dynamic_archive_query_args( array $attributes, ?string $skip_taxonomy = null ): array {
 	[ $merged_attributes, $base_args ] = build_dynamic_archive_block_base_args( $attributes );
-	$args                              = handle_dynamic_args( $base_args, $merged_attributes );
+	$args                              = handle_dynamic_args( $base_args, $merged_attributes, $skip_taxonomy );
 	return apply_filters( 'jcore_dynamic_archive_args', $args, $merged_attributes );
 }
 
@@ -583,37 +592,67 @@ function extract_taxonomy_filter_attributes( array $attributes ): array {
  * @return array
  */
 function build_taxonomies_filter( array $attributes, array $base_args = array() ): array {
+	if ( empty( $base_args ) ) {
+		[ $attributes, $base_args ] = build_dynamic_archive_block_base_args( $attributes );
+	}
+
 	// Extract the taxonomy filters, filter types, filter types child, and hierarchical filter from the attributes.
 	[$taxonomy_filters, $filter_types, $filter_types_child, $hierarchical_filter] = extract_taxonomy_filter_attributes( $attributes );
 
-	$taxonomies  = array();
-	$instance_id = $attributes['instanceId'] ?? '';
-	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
+	$taxonomies         = array();
+	$instance_id        = $attributes['instanceId'] ?? '';
+	$all_filters        = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
+	$selected_post_type = get_taxonomies_filter_post_type( $attributes );
+	$query_aware        = apply_filters( 'jcore_dynamic_archive_taxonomies_filter_query_aware', false, $attributes, $all_filters );
 
 	foreach ( $taxonomy_filters as $taxonomy ) {
 		// Get taxonomy object.
 		$tax_object   = get_taxonomy( $taxonomy );
 		$forced_terms = get_nested_value( $attributes, array( 'forcedCategories', $taxonomy ), array() );
+		if ( ! $tax_object ) {
+			continue;
+		}
+
+		$use_post_type_term_usage    = ! ( $attributes['showAllLanguages'] ?? false )
+			&& '' !== $selected_post_type
+			&& apply_filters( 'jcore_dynamic_archive_use_post_type_term_usage', false, $taxonomy, $selected_post_type, $attributes, $all_filters );
+		$post_type_used_term_ids     = $use_post_type_term_usage ? get_term_ids_in_use_for_post_type( $taxonomy, $selected_post_type ) : array();
+		$post_type_used_term_ids_map = $use_post_type_term_usage ? array_fill_keys( $post_type_used_term_ids, true ) : array();
+
 		if ( ! is_array( $forced_terms ) || $attributes['inherit'] ) {
 			$forced_terms = array();
 		}
 		$forced_terms = array_map( 'absint', $forced_terms );
 		$has_forced   = count( $forced_terms ) > 0;
-		if ( ! $tax_object ) {
-			continue;
-		}
-
-		$applicable_term_ids = get_applicable_term_ids_for_taxonomy( $taxonomy, $attributes );
 
 		$active_filters = get_nested_value( $all_filters, array( $taxonomy ), array() );
 		if ( ! is_array( $active_filters ) ) {
 			$active_filters = array( $active_filters );
 		}
+
+		if ( get_taxonomy_param_field_type( $attributes ) === 'slug' ) {
+			foreach ( $active_filters as $key => $slug ) {
+				$term = get_term_by( 'slug', $slug, $taxonomy );
+				if ( $term ) {
+					$active_filters[ $key ] = $term->term_id;
+				}
+			}
+		}
 		$active_filters = array_map( 'absint', $active_filters );
-		$terms          = get_terms(
+
+		$applicable_map = array();
+		if ( $query_aware ) {
+			$applicable_ids = get_applicable_term_ids_for_taxonomy( $taxonomy, $attributes );
+			$applicable_map = array_fill_keys( $applicable_ids, true );
+			foreach ( $active_filters as $active_filter ) {
+				$applicable_map[ absint( $active_filter ) ] = true;
+			}
+		}
+
+		$terms                   = get_terms(
 			array(
 				'taxonomy'   => $taxonomy,
-				'hide_empty' => ! $attributes['showAllLanguages'], // Show empty if all languages are shown.
+				'hide_empty' => ! ( $attributes['showAllLanguages'] ?? false ) && ! $use_post_type_term_usage,
 			)
 		);
 		$taxonomies[ $taxonomy ] = array(
@@ -630,11 +669,18 @@ function build_taxonomies_filter( array $attributes, array $base_args = array() 
 			if ( ( $taxonomies[ $taxonomy ]['hierarchical'] ?? false ) && $term->parent > 0 ) {
 				$filter_type = $taxonomies[ $taxonomy ]['filterTypeChild'] ?? 'checkbox';
 			}
+			if ( $use_post_type_term_usage && ! isset( $post_type_used_term_ids_map[ $term->term_id ] ) ) {
+				continue;
+			}
 			// Handles only showing forced categories.
 			if ( $has_forced && ! in_array( $term->term_id, $forced_terms, true ) ) {
 				continue;
 			}
-			$taxonomies[ $taxonomy ]['terms'][] = array(
+			if ( $query_aware && ! isset( $applicable_map[ $term->term_id ] ) ) {
+				continue;
+			}
+
+			$term_data = array(
 				'id'           => $term->term_id,
 				'type'         => $term->taxonomy,
 				'slug'         => $term->slug,
@@ -644,8 +690,17 @@ function build_taxonomies_filter( array $attributes, array $base_args = array() 
 				'parentActive' => in_array( $term->parent, $active_filters, true ),
 				'filterType'   => $filter_type,
 				'active'       => in_array( $term->term_id, $active_filters, true ),
-				'disabled'     => ! in_array( (int) $term->term_id, $applicable_term_ids, true ),
 			);
+
+			if ( ! $query_aware ) {
+				$term_data['disabled'] = false;
+			}
+
+			$taxonomies[ $taxonomy ]['terms'][] = $term_data;
+		}
+
+		if ( $query_aware && empty( $taxonomies[ $taxonomy ]['terms'] ) ) {
+			unset( $taxonomies[ $taxonomy ] );
 		}
 	}
 	/**
