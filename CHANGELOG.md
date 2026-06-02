@@ -1,14 +1,16 @@
 # Changelog
 
-## 1.0.0 (2026-06-01)
+## 1.0.0 (2026-06-02)
 
 #### Features
 
+- rollback version and allow workflow to correctly bump (c58a8fe)
 - update: register plugin update hooks (5d253c7)
 - Overhaul CI system to use foonver and jcore-update. (BREAKING CHANGE) (9dc5146)
 
 #### Bug Fixes
 
+- also revert version.json... (98742b8)
 - update: add missing quotes to ABSPATH constant definition (522f0b5)
 - plugin: remove redundant Timber requirement notice (13f9e08)
 - minor improvements (c68e381)
