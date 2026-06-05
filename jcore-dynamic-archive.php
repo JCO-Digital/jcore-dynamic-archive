@@ -6,7 +6,7 @@
  * Version: 1.0.5
  * Requires at least: 6.7
  * Tested up to:      7.0
- * Requires PHP:      8.2
+ * Requires PHP:      8.1
  * Author: JCO Digital
  * Author URI: https://jco.fi
  * Text Domain: jcore-dynamic-archive
