@@ -36,7 +36,7 @@ jobs:
     if: needs.release.outputs.is_bumped == 'true'
     permissions:
       contents: write
-    uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@e1dda6d4b072be20b81314ef9973f83b0af68ddd
+    uses: JCO-Digital/jcore-update/.github/workflows/reusable-plugin-publish.yml@main
     with:
       slug: "jcore-dynamic-archive"
       version: ${{ needs.release.outputs.version }}
