@@ -1,6 +1,21 @@
 # Changelog
 
-### 1.0.5 (2026-06-02)
+### 1.0.6 (2026-06-05)
+
+#### Bug Fixes
+
+- plugin: lower minimum PHP version requirement to 8.1 (8ecb7a8)
+
+#### Build System
+
+- composer: update lock file (52f217d)
+
+#### Continuous Integration
+
+- github: update plugin publish workflow to use main branch (2215fa8)
+- github: update pnpm version to 11 in push workflow (b4adde7)
+
+### v1.0.5 (2026-06-02)
 
 #### Maintenance
 
