@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.0.6 (2026-06-05)
+### 1.0.7 (2026-06-05)
+
+#### Build System
+
+- composer: update jcore-update dependency to v1.2.0 (94a7ba2)
+
+### v1.0.6 (2026-06-05)
 
 #### Bug Fixes
 
