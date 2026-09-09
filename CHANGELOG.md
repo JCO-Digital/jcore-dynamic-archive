@@ -1,6 +1,12 @@
 # Changelog
 
-### 1.0.7 (2026-06-05)
+### 1.0.8 (2026-09-09)
+
+#### Bug Fixes
+
+- helpers: guard against non-array taxonomy filter query parameter (eeb25a0)
+
+### v1.0.7 (2026-06-05)
 
 #### Build System
 
