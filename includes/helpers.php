@@ -105,6 +105,9 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
 function handle_taxonomies_filter( array $args, array $attributes, ?string $skip_taxonomy = null ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
 	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
+	if ( ! is_array( $all_filters ) ) {
+		$all_filters = array();
+	}
 
 	[$taxonomy_filters] = extract_taxonomy_filter_attributes( $attributes );
 
