@@ -25,7 +25,6 @@ jobs:
         uses: foonly/foonver@v0.13.0
         with:
           command: "auto"
-          changelog: "true"
           push: "true"
           commit_suffix: "[skip ci]"
           version_sync: "jcore-dynamic-archive.php"

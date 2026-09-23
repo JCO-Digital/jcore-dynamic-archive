@@ -1,0 +1,4 @@
+changelog = true
+changelog-file = "readme.txt"
+changelog-start = "== Changelog =="
+version-sync = ["jcore-dynamic-archive.php","readme.txt"]

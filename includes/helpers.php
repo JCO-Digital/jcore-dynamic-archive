@@ -33,13 +33,12 @@ function is_post_type( string $post_type ): bool {
 function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxonomy = null ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
 	if ( ( $attributes['showPagination'] ?? false ) && ! ( $attributes['infiniteScroll'] ?? false ) ) {
-		$args['paged'] = get_parameter( build_param_name( 'archive-paged', $instance_id, $attributes ), 1 );
+		$args['paged'] = get_current_page( $attributes );
 	} elseif ( ( $attributes['showPagination'] ?? false ) && ( $attributes['infiniteScroll'] ?? false ) ) {
-		$paged                   = (int) get_parameter( build_param_name( 'archive-paged', $instance_id, $attributes ), 1 );
-		$args['posts_per_page'] *= $paged;
+		$args['posts_per_page'] *= get_current_page( $attributes );
 	}
 
-	$sort             = get_parameter( build_param_name( 'sort', $instance_id, $attributes ) );
+	$sort             = get_string_parameter( build_param_name( 'sort', $instance_id, $attributes ) );
 	$allowed_order_by = array( 'date', 'post_date', 'title', 'post_title', 'modified', 'author', 'ID', 'menu_order' );
 	if ( $sort ) {
 		if ( str_starts_with( $sort, 'tax:' ) ) {
@@ -62,9 +61,9 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
 			$args['order']   = 'ASC';
 		}
 	} else {
-		$order           = get_parameter( build_param_name( 'order', $instance_id, $attributes ), $attributes['order'] ?? 'DESC' );
+		$order           = get_string_parameter( build_param_name( 'order', $instance_id, $attributes ), (string) ( $attributes['order'] ?? 'DESC' ) );
 		$args['order']   = strtoupper( $order ) === 'ASC' ? 'ASC' : 'DESC';
-		$orderby         = get_parameter( build_param_name( 'orderby', $instance_id, $attributes ), $attributes['orderBy'] ?? 'post_date' );
+		$orderby         = get_string_parameter( build_param_name( 'orderby', $instance_id, $attributes ), (string) ( $attributes['orderBy'] ?? 'post_date' ) );
 		$args['orderby'] = in_array( $orderby, $allowed_order_by, true ) ? $orderby : 'post_date';
 	}
 
@@ -81,9 +80,9 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
 	}
 
 	if ( $attributes['search'] ) {
-		$search = get_parameter( build_param_name( 'search', $instance_id, $attributes ), false );
+		$search = get_string_parameter( build_param_name( 'search', $instance_id, $attributes ) );
 		if ( $search ) {
-			$args['s']          = sanitize_text_field( $search );
+			$args['s']          = $search;
 			$args['relevanssi'] = true;
 		}
 	}
@@ -104,10 +103,7 @@ function handle_dynamic_args( array $args, array $attributes, ?string $skip_taxo
  */
 function handle_taxonomies_filter( array $args, array $attributes, ?string $skip_taxonomy = null ): array {
 	$instance_id = $attributes['instanceId'] ?? '';
-	$all_filters = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
-	if ( ! is_array( $all_filters ) ) {
-		$all_filters = array();
-	}
+	$all_filters = get_array_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ) );
 
 	[$taxonomy_filters] = extract_taxonomy_filter_attributes( $attributes );
 
@@ -263,6 +259,8 @@ add_filter(
  * @return array{0: array, 1: array} [ $attributes, $args ]
  */
 function build_dynamic_archive_block_base_args( array $attributes ): array {
+	$attributes['instanceId'] = sanitize_instance_id( $attributes['instanceId'] ?? '' );
+
 	if ( ! is_post_type( $attributes['postType'] ?? '' ) ) {
 		$attributes['postType'] = 'post';
 	}
@@ -459,6 +457,73 @@ function get_parameter( string $name, mixed $default_value = null ): mixed {
 }
 
 /**
+ * Gets a scalar parameter from the URL. Arrays (e.g. `?name[]=x`) are treated as missing.
+ *
+ * @param string $name The name of the parameter.
+ * @param string $default_value The default value to return if the parameter is not set or not a string.
+ *
+ * @return string
+ */
+function get_string_parameter( string $name, string $default_value = '' ): string {
+	$value = get_parameter( $name, $default_value );
+	return is_string( $value ) ? $value : $default_value;
+}
+
+/**
+ * Gets an array parameter from the URL. Scalars (e.g. `?name=x`) are treated as missing.
+ *
+ * @param string $name The name of the parameter.
+ *
+ * @return array
+ */
+function get_array_parameter( string $name ): array {
+	$value = get_parameter( $name, array() );
+	return is_array( $value ) ? $value : array();
+}
+
+/**
+ * Returns the current page number for the dynamic archive block, clamped to a safe range.
+ *
+ * With infinite scroll the page number multiplies posts_per_page, so it is capped to avoid
+ * loading an unbounded number of posts.
+ *
+ * @param array $attributes The block attributes.
+ *
+ * @return int
+ */
+function get_current_page( array $attributes ): int {
+	$page = absint( get_string_parameter( build_param_name( 'archive-paged', $attributes['instanceId'] ?? '', $attributes ), '1' ) );
+	$page = max( 1, $page );
+
+	if ( $attributes['infiniteScroll'] ?? false ) {
+		/**
+		 * Filters the maximum page number reachable with infinite scroll ("load more").
+		 *
+		 * @param int   $max_pages The maximum page number.
+		 * @param array $attributes The block attributes.
+		 */
+		$max_pages = max( 1, (int) apply_filters( 'jcore_dynamic_archive_infinite_scroll_max_pages', 50, $attributes ) );
+		$page      = min( $page, $max_pages );
+	}
+
+	return $page;
+}
+
+/**
+ * Sanitizes the block instance id, as it is output in HTML attributes and used in parameter names.
+ *
+ * @param mixed $instance_id The instance id.
+ *
+ * @return string
+ */
+function sanitize_instance_id( mixed $instance_id ): string {
+	if ( ! is_scalar( $instance_id ) ) {
+		return '';
+	}
+	return (string) preg_replace( '/[^A-Za-z0-9_-]/', '', (string) $instance_id );
+}
+
+/**
  * Recursively sanitize a value or an array of values.
  *
  * @param mixed $value The value to be sanitized.
@@ -604,7 +669,7 @@ function build_taxonomies_filter( array $attributes, array $base_args = array() 
 
 	$taxonomies         = array();
 	$instance_id        = $attributes['instanceId'] ?? '';
-	$all_filters        = get_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ), array() );
+	$all_filters        = get_array_parameter( build_param_name( 'taxonomy', $instance_id, $attributes ) );
 	$selected_post_type = get_taxonomies_filter_post_type( $attributes );
 	$query_aware        = apply_filters( 'jcore_dynamic_archive_taxonomies_filter_query_aware', false, $attributes, $all_filters );
 

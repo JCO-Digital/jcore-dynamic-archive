@@ -2,7 +2,7 @@
 Contributors:      JCO Digital
 Tags:              block
 Tested up to:      6.6
-Stable tag: 0.25.2
+Stable tag:        1.0.8
 License:           GPL-3.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,4 +26,3 @@ Install the plugin via composer, and use a vendor autoloader as a mu-loader plug
 * Release
 
 == Arbitrary section ==
-
