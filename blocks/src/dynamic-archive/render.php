@@ -15,7 +15,9 @@ use function Jcore\DynamicArchive\Helpers\build_pagination_url;
 use function Jcore\DynamicArchive\Helpers\build_param_name;
 use function Jcore\DynamicArchive\Helpers\build_sort_options;
 use function Jcore\DynamicArchive\Helpers\build_taxonomies_filter;
-use function Jcore\DynamicArchive\Helpers\get_parameter;
+use function Jcore\DynamicArchive\Helpers\get_array_parameter;
+use function Jcore\DynamicArchive\Helpers\get_current_page;
+use function Jcore\DynamicArchive\Helpers\get_string_parameter;
 use function Jcore\DynamicArchive\Helpers\handle_dynamic_args;
 use function Jcore\DynamicArchive\Helpers\get_taxonomy_param_field_type;
 
@@ -49,7 +51,7 @@ $timber_posts = Timber::get_posts(
 	$args
 );
 
-$current_page            = absint( get_parameter( build_param_name( 'archive-paged', $attributes['instanceId'] ?? '', $attributes ), 1 ) );
+$current_page            = get_current_page( $attributes );
 $context['current_page'] = $current_page;
 
 $total_pages = absint( ceil( $timber_posts->found_posts / $block_per_page ) );
@@ -128,13 +130,13 @@ $interactivity_context = array(
 	'isInfiniteScroll' => $attributes['infiniteScroll'] ?? false,
 	'showAllLanguages' => $attributes['showAllLanguages'] ?? false,
 	'filters'          => array(
-		$taxonomy_key => get_parameter( $taxonomy_key, array() ),
-		$sort_key     => get_parameter( $sort_key ),
+		$taxonomy_key => get_array_parameter( $taxonomy_key ),
+		$sort_key     => get_string_parameter( $sort_key ),
 	),
-	'currentSort'      => get_parameter( $sort_key ),
+	'currentSort'      => get_string_parameter( $sort_key ),
 	'terms'            => $context['taxonomies_filter'],
 	'blockId'          => $attributes['instanceId'],
-	'searchTerm'       => get_parameter( build_param_name( 'search', $attributes['instanceId'] ?? '', $attributes ), '' ),
+	'searchTerm'       => get_string_parameter( build_param_name( 'search', $attributes['instanceId'] ?? '', $attributes ) ),
 );
 /**
  * Filters the interactivity context for the dynamic archive block.
