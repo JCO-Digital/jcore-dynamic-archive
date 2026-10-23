@@ -70,7 +70,11 @@ The plugin shows an admin notice. The blocks render through Timber, so install i
 
 == Changelog ==
 
-= 1.0.11 (2026-10-23) =
+= 1.1.0 (2026-10-23) =
+
+* Feature: post-picker - add post picker block
+
+= v1.0.11 (2026-10-23) =
 
 * Documentation: readme - match the readme.txt style of the other JCORE plugins
 

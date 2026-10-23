@@ -3,7 +3,7 @@
  * Plugin Name: JCORE Dynamic Archive
  * Plugin URI: https://github.com/jco-digital/jcore-dynamic-archive
  * Description: JCORE Dynamic Archive module.
- * Version: 1.0.11
+ * Version: 1.1.0
  * Requires at least: 6.7
  * Tested up to:      7.0
  * Requires PHP:      8.1
