@@ -1,0 +1,10 @@
+<div {{ block_wrapper_attributes }} data-mode="{{ attributes.mode|e('html_attr') }}">
+	{% if posts|length > 0 and heading|length > 0 %}
+		<h2 class="wp-block-jcore-post-picker__heading">{{ heading|raw }}</h2>
+	{% endif %}
+	<div class="wp-block-jcore-post-picker__inner columns-{{ attributes.columns|e('html_attr') }}">
+		{% for post in posts %}
+			{% include ['post-picker/partials/tease.twig', 'partials/tease.twig'] with { post: post, nr: loop.index } %}
+		{% endfor %}
+	</div>
+</div>

@@ -1,0 +1,66 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "jcore/post-picker",
+	"version": "0.1.0",
+	"title": "Post picker (JCORE)",
+	"category": "widgets",
+	"icon": "list-view",
+	"description": "Show posts you pick, or the newest posts in a category.",
+	"keywords": ["posts", "pick", "select", "category", "term"],
+	"example": {},
+	"attributes": {
+		"mode": {
+			"type": "string",
+			"default": "posts",
+			"enum": ["posts", "term"]
+		},
+		"postIds": {
+			"type": "array",
+			"default": [],
+			"items": {
+				"type": "number"
+			}
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": ""
+		},
+		"termId": {
+			"type": "number",
+			"default": 0
+		},
+		"postsPerPage": {
+			"type": "number",
+			"default": 6
+		},
+		"orderBy": {
+			"type": "string",
+			"default": "date",
+			"enum": ["date", "title"]
+		},
+		"order": {
+			"type": "string",
+			"default": "desc",
+			"enum": ["asc", "desc"]
+		},
+		"columns": {
+			"type": "number",
+			"default": 3,
+			"enum": [1, 2, 3, 4, 5]
+		},
+		"heading": {
+			"type": "string",
+			"default": ""
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": true
+	},
+	"textdomain": "jcore-dynamic-archive",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

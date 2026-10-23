@@ -1,0 +1,71 @@
+@use "../../shared/editor.scss";
+
+// Keep the server-rendered post grid contained within the editor canvas.
+@include editor.archive-grid-containment(
+	".wp-block-jcore-post-picker",
+	".wp-block-jcore-post-picker__inner"
+);
+
+.wp-block-jcore-post-picker {
+	@include editor.editor-label("Post Picker");
+}
+
+.wp-block-jcore-post-picker__inner {
+	grid-template-columns: repeat(1, 1fr);
+	display: grid;
+	gap: 16px;
+}
+
+@for $i from 2 through 5 {
+	.wp-block-jcore-post-picker__inner.columns-#{$i} {
+		grid-template-columns: repeat($i, 1fr);
+	}
+}
+
+.jcore-post-picker__preview .wp-block-jcore-post-picker__heading {
+	display: none;
+}
+
+// Block settings sidebar.
+.jcore-post-picker__results:not(:empty) {
+	margin-top: 8px;
+}
+
+.jcore-post-picker__heading {
+	margin: 24px 0 8px;
+	font-size: 11px;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.jcore-post-picker__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.jcore-post-picker__list--selected {
+	padding-left: 1.75em;
+	list-style: decimal;
+}
+
+.jcore-post-picker__item {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 6px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.jcore-post-picker__title {
+	flex: 1;
+	min-width: 0;
+	overflow-wrap: anywhere;
+}
+
+// #757575 on white is 4.6:1.
+.jcore-post-picker__meta {
+	display: block;
+	color: #757575;
+	font-size: 12px;
+}
