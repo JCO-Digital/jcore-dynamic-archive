@@ -69,7 +69,11 @@ The plugin shows an admin notice. The blocks render through Timber, so install i
 
 == Changelog ==
 
-= 1.0.10 (2026-10-23) =
+= 1.0.11 (2026-10-23) =
+
+* Documentation: readme - match the readme.txt style of the other JCORE plugins
+
+= v1.0.10 (2026-10-23) =
 
 * Build: composer - update jcore-update dependency to v1.7.1
 
@@ -290,7 +294,7 @@ The plugin shows an admin notice. The blocks render through Timber, so install i
 
 = v0.10.2 (2024-12-17) =
 
-* Fix: TaxonomyPicker: Fixed an issue that caused a crash if the taxonomy picker is used to search for values. 🐛
+* Fix: TaxonomyPicker - Fixed an issue that caused a crash if the taxonomy picker is used to search for values. 🐛
 
 = v0.10.1 (2024-12-10) =
 
@@ -325,7 +329,7 @@ The plugin shows an admin notice. The blocks render through Timber, so install i
 
 * Feature: multiple blocks preserve state on a page. ✨
 * Feature: Forced categories now work ✨
-* Feature: blocks/archive: Added hierarchical filtering. ✨
+* Feature: blocks/archive - Added hierarchical filtering. ✨
 * Feature: Finalize rewrite to wp-interactivity API + loads of minor fixes ✨ (BREAKING CHANGE)
 * Feature: very many stuff
 * Feature: finalized settings view and new settings ✨
@@ -399,4 +403,4 @@ The plugin shows an admin notice. The blocks render through Timber, so install i
 * Fix: composer.lock updated to work correctly 🐛
 * CI: allow secrets to be inherited
 * CI: use the correct tag 💚
-* Maintenance: Initial commit
+* Initial commit
