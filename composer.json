@@ -16,7 +16,7 @@
 	],
 	"require": {
 		"composer/installers": "^2.3",
-		"jcodigital/jcore-update": "^1.1"
+		"jcodigital/jcore-update": "^1.7"
 	},
 	"config": {
 		"allow-plugins": {
