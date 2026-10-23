@@ -1,584 +1,402 @@
-=== Dynamic Archive ===
-Contributors:      JCO Digital
-Tags:              block
-Tested up to:      6.6
-Stable tag:        1.0.8
-License:           GPL-3.0-or-later
-License URI:       https://www.gnu.org/licenses/gpl-3.0.html
+=== JCORE Dynamic Archive ===
+Contributors: jcodigital
+Tags: archive, posts, filters, block, interactivity
+Requires at least: 6.7
+Tested up to: 7.0
+Requires PHP: 8.1
+Stable tag: 1.0.10
+License: GPL-2.0-only
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A module for adding a dynamic archive to WordPress.
+A filterable post archive block and a latest posts block for the block editor.
 
 == Description ==
 
-A module for adding a dynamic archive to WordPress.
+JCORE Dynamic Archive adds two blocks for listing posts:
+
+* **Dynamic Archive** – a post archive with optional filters, sorting, search and pagination. The list updates without a full page reload, and every filtered or paged state has its own address that can be shared.
+* **Latest posts (JCORE)** – the newest posts of the chosen post types, optionally limited to some terms. Its **Related Posts (JCORE)** variation shows posts that share terms with the current post, and can fill the remaining places with other recent posts.
+
+= Features =
+
+* **Inherit the query** – in templates, both blocks can follow the current archive: term, author, post type, date, search or blog page.
+* **Taxonomy filters** – shown as checkboxes, radio buttons, a dropdown or a multiselect. Child terms can stay hidden until their parent is chosen.
+* **Forced terms** – limit an archive and its filters to selected terms.
+* **Search and sorting** – free-text search, using Relevanssi when it is active, and sorting by date, title or a taxonomy.
+* **Pagination or load more** – numbered pages, or a load more link that adds the next page below the list.
+* **Sticky posts** – include, exclude or show only sticky posts.
+* **Polylang** – show posts in the current language or in all languages.
+* **Automatic updates** – through the J&Co Digital update service.
+
+= Theme integration =
+
+The plugin does not ship a post teaser: the blocks render each post with the theme's `partials/tease.twig`, or with `dynamic-archive/partials/tease.twig` and `latest-posts/partials/tease.twig` when a block needs its own. The template receives `post` (a Timber post) and `nr` (its position in the list).
+
+Any other template of the plugin can be overridden by placing a file with the same relative path in the theme's Timber views directory.
+
+= External services =
+
+The plugin checks for updates against `https://update.jcore.fi`, operated by J&Co Digital Oy. It sends the plugin slug and the installed version, and WordPress adds the site address to the request's user agent. No visitor or content data is involved.
+
+= Source code =
+
+The blocks are built with `@wordpress/scripts`. Their readable source is published at https://github.com/JCO-Digital/jcore-dynamic-archive.
 
 == Installation ==
 
-Install the plugin via composer, and use a vendor autoloader as a mu-loader plugin.
+1. Make sure Timber 2 is installed. The plugin does not bundle it; the theme or site provides it.
+2. Install the plugin with `composer require jcodigital/jcore-dynamic-archive`, or upload the release zip on the Plugins screen.
+3. Activate the plugin.
+4. Add a **Dynamic Archive** or **Latest posts (JCORE)** block in the editor.
 
 == Frequently Asked Questions ==
 
-== Screenshots ==
+= Why does the block show no posts, or show them without styling? =
+
+The blocks render posts with the theme's teaser template. Add `partials/tease.twig` to the theme's Timber views directory.
+
+= Can I change the queries? =
+
+Yes. `jcore_dynamic_archive_args` filters the archive's `WP_Query` arguments and `jcore_latest_posts_args` those of the latest posts block. The README on GitHub lists every PHP and JavaScript filter.
+
+= Can I link to a filtered archive? =
+
+Yes. The archive keeps its filters, search, sorting and page in the query string, for example `?dynamic-archive-3-taxonomy[category][]=12`. Terms are referred to by ID, or by slug with the `jcore_dynamic_archive_taxonomy_field_type` filter.
+
+= What happens if Timber is missing? =
+
+The plugin shows an admin notice. The blocks render through Timber, so install it before adding them to any page.
 
 == Changelog ==
 
-### 1.0.10 (2026-10-23)
+= 1.0.10 (2026-10-23) =
 
-#### Build System
+* Build: composer - update jcore-update dependency to v1.7.1
 
-- composer: update jcore-update dependency to v1.7.1 (808784f)
+= v1.0.9 (2026-09-23) =
 
-### v1.0.9 (2026-09-23)
+* Fix: security - harden URL parameter handling and escape block attributes
+* Documentation: readme - update documentation and remove unused configs
+* Maintenance: config - add foonver configuration file and update stable tag
 
-#### Bug Fixes
+= v1.0.8 (2026-09-09) =
 
-- security: harden URL parameter handling and escape block attributes (29f3ce4)
+* Fix: helpers - guard against non-array taxonomy filter query parameter
 
-#### Documentation
+= v1.0.7 (2026-06-05) =
 
-- readme: update documentation and remove unused configs (2effa38)
+* Build: composer - update jcore-update dependency to v1.2.0
 
-#### Maintenance
+= v1.0.6 (2026-06-05) =
 
-- config: add foonver configuration file and update stable tag (cc6373c)
+* Fix: plugin - lower minimum PHP version requirement to 8.1
+* Build: composer - update lock file
+* CI: github - update plugin publish workflow to use main branch
+* CI: github - update pnpm version to 11 in push workflow
 
-### v1.0.8 (2026-09-09)
+= v1.0.5 (2026-06-02) =
 
-#### Bug Fixes
+* Maintenance: composer - update project package name
 
-- helpers: guard against non-array taxonomy filter query parameter (eeb25a0)
+= v1.0.4 (2026-06-02) =
 
-### v1.0.7 (2026-06-05)
+* Maintenance: blocks - remove build directory from source control
 
-#### Build System
+= v1.0.3 (2026-06-02) =
 
-- composer: update jcore-update dependency to v1.2.0 (94a7ba2)
+* CI: github - add distribution repository configuration to release workflow
 
-### v1.0.6 (2026-06-05)
+= v1.0.2 (2026-06-02) =
 
-#### Bug Fixes
+* Fix: helpers - improve taxonomy filtering and query awareness
+* Fix: pagination - remove extra closing parenthesis in build_pagination_url
+* Fix: helpers - ensure paged parameter is an integer and escape pagination URL
+* Fix: remove unused term post type usage functionality, since it is being requeried separately.
+* Refactor: cache - rename functions for conciseness in term post type usage
+* Maintenance: bump plugin version to 1.0.1
+* Maintenance: helpers - re-add term usage by post type cache and helper functions
+* Maintenance: plugin - update header metadata with compatibility requirements
 
-- plugin: lower minimum PHP version requirement to 8.1 (8ecb7a8)
+= v1.0.1 (2026-06-02) =
 
-#### Build System
+* Fix: pagination - escape generated URL attributes
 
-- composer: update lock file (52f217d)
+= v1.0.0 (2026-06-02) =
 
-#### Continuous Integration
+* Feature: rollback version and allow workflow to correctly bump
+* Feature: update - register plugin update hooks
+* Feature: Overhaul CI system to use foonver and jcore-update. (BREAKING CHANGE)
+* Fix: also revert version.json...
+* Fix: update - add missing quotes to ABSPATH constant definition
+* Fix: plugin - remove redundant Timber requirement notice
+* Fix: minor improvements
+* CI: github - add contents write permission to publish job
+* CI: github - update reusable-plugin-publish action version
+* CI: github - pin reusable publish workflow to commit hash
+* Maintenance: rename zipexclude to .zipexclude
+* Maintenance: git - add common files to .zipexclude
+* Maintenance: rename zip_exclude.txt to .zipexclude
 
-- github: update plugin publish workflow to use main branch (2215fa8)
-- github: update pnpm version to 11 in push workflow (b4adde7)
+= v0.25.3 (2026-06-02) =
 
-### v1.0.5 (2026-06-02)
+* Fix: backport and reapply XSS fix + release version 0.25.3
+* Fix: pagination - escape URL output in build_pagination_url
 
-#### Maintenance
+= v0.25.2 (2026-06-01) =
 
-- composer: update project package name (4db1f48)
+* Fix: ci - Create release after tag has been created
 
-### v1.0.4 (2026-06-02)
+= v0.25.1 (2026-06-01) =
 
-#### Maintenance
+* Fix: blocks - migrate CSS to SCSS for dynamic-archive and latest-posts blocks
 
-- blocks: remove build directory from source control (285f094)
+= v0.25.0 (2026-05-21) =
 
-### v1.0.3 (2026-06-02)
+* Feature: dynamic-archive - add multiselect filter type
+* Fix: dynamic-archive - add keyboard support and disabled state handling to filters
+* Fix: archive - add keyboard accessibility support for multiselect toggle
+* Fix: i18n - use format string for remove button aria-label
+* Fix: block - improve multiselect interaction handling
+* CI: github - update release workflow to use conventional-changelog-action and fix zip command
+* CI: github - automate release process with zip packaging and GitHub releases
+* Maintenance: i18n - add missing Select... translation string
 
-#### Continuous Integration
+= v0.24.2 (2026-06-02) =
 
-- github: add distribution repository configuration to release workflow (a6397a0)
+* Fix: pagination - escape generated URL attributes
+* Fix: backport and reapply XSS fix + release version 0.24.2
 
-### v1.0.2 (2026-06-02)
+= v0.24.1 (2026-05-06) =
 
-#### Bug Fixes
+* Fix: helpers - use regex to parse sort arguments for improved reliability
 
-- helpers: improve taxonomy filtering and query awareness (259e6da)
-- pagination: remove extra closing parenthesis in build_pagination_url (506b69f)
-- helpers: ensure paged parameter is an integer and escape pagination URL (1e44faf)
-- remove unused term post type usage functionality, since it is being requeried separately. (4648057)
+= v0.24.0 (2026-05-06) =
 
-#### Refactor
+* Feature: i18n - update sort label and translation files
+* Feature: blocks - add sort direction support for titles and taxonomies
+* Feature: dynamic-archive - add sort functionality to block
+* Fix: block - move filter and sort option initialization after post retrieval
+* Fix: archive - update sort dropdown interactivity and context
+* Refactor: dynamic-archive - consolidate styles and improve security
 
-- cache: rename functions for conciseness in term post type usage (5744a0f)
+= v0.23.1 (2026-04-22) =
 
-#### Maintenance
+* Fix: update URL handling in helper functions to prevent XSS
 
-- bump plugin version to 1.0.1 (2fdee2e)
-- helpers: re-add term usage by post type cache and helper functions (7c12c0c)
-- plugin: update header metadata with compatibility requirements (7c58e0b)
+= v0.23.0 (2026-04-02) =
 
-### v1.0.1 (2026-06-02)
+* Feature: add backfill option to latest posts block for improved post retrieval
+* Feature: add heading support to latest posts block and improve code formatting
+* Maintenance: build artifacts
 
-#### Bug Fixes
+= v0.22.0 (2026-03-30) =
 
-- pagination: escape generated URL attributes (d08926f)
+* Feature: enhance dynamic archive block with improved taxonomy filtering.
+* Feature: implement caching for term usage by post type in dynamic archive
+* Feature: add sorting for taxonomy terms by name in dynamic archive block
 
-## v1.0.0 (2026-06-02)
+= v0.21.0 (2026-03-27) =
 
-#### Features
+* Feature: correctly use a label for the search input to improve a11y.
+* Fix: ensure posts are only fetched if published in dynamic-archive block
+* Fix: actually allow overriding pagination by changing first path.
+* Maintenance: build files
+* Maintenance: update block styles and dependencies for latest posts and dynamic archive
 
-- rollback version and allow workflow to correctly bump (c58a8fe)
-- update: register plugin update hooks (5d253c7)
-- Overhaul CI system to use foonver and jcore-update. (BREAKING CHANGE) (9dc5146)
+= v0.20.0 (2026-02-23) =
 
-#### Bug Fixes
+* Feature: improved inherit option to actually query by current category
+* Fix: Ensure taxonomies filter is applied correctly in latest posts block rendering
+* Documentation: Update AGENTS.md to include project-specific notes and clarify package management instructions
+* Documentation: Update AGENTS.md to clarify project details and package management
 
-- also revert version.json... (98742b8)
-- update: add missing quotes to ABSPATH constant definition (522f0b5)
-- plugin: remove redundant Timber requirement notice (13f9e08)
-- minor improvements (c68e381)
+= v0.19.1 (2026-01-09) =
 
-#### Continuous Integration
+* Fix: Update dynamic-archive block to correctly handle post exclusion on singular pages
 
-- github: add contents write permission to publish job (d7399b6)
-- github: update reusable-plugin-publish action version (114940a)
-- github: pin reusable publish workflow to commit hash (cff1a86)
+= v0.19.0 (2025-12-05) =
 
-#### Maintenance
+* Feature: Support taxonomy filter by slug and customizable param names
+* Fix: Fix typo in interactivity state filter name.
+* Build: Minify dynamic-archive block build files.
 
-- rename zipexclude to .zipexclude (cb686ed)
-- git: add common files to .zipexclude (147ce54)
-- rename zip_exclude.txt to .zipexclude (62f1fe0)
+= v0.18.0 (2025-12-01) =
 
-### v0.25.3 (2026-06-02)
+* Feature: Add support for relevanssi.
 
-#### Bug Fixes
+= v0.17.0 (2025-12-01) =
 
-- backport and reapply XSS fix + release version 0.25.3 (0e14a86)
-- pagination: escape URL output in build_pagination_url (03c8bff)
+* Feature: Add "Search..." translation to Finnish and Swedish files.
+* Feature: Add free text search option to filters.
+* Style: Refactor edit.js to improve readability and reduce nesting.
 
-### v0.25.2 (2026-06-01)
+= v0.16.4 (2025-11-19) =
 
-#### Bug Fixes
+* Fix: added composer installers.
 
-- ci: Create release after tag has been created (d0f05e3)
+= v0.16.3 (2025-11-14) =
 
-### v0.25.1 (2026-06-01)
+* Fix: require v3 or v4 of ydin
 
-#### Bug Fixes
+= v0.16.2 (2025-11-03) =
 
-- blocks: migrate CSS to SCSS for dynamic-archive and latest-posts blocks (fe43723)
+* Fix: latest-posts - add similar filter as with dynamic-archive for the post query args
 
-## v0.25.0 (2026-05-21)
+= v0.16.1 (2025-10-31) =
 
-#### Features
+* Fix: Update tax query relation to use a filter for improved flexibility
 
-- dynamic-archive: add multiselect filter type (c6108b5)
+= v0.16.0 (2025-09-12) =
 
-#### Bug Fixes
+* Feature: Add "Show all" option for radio filters and update translations. ✨ 🌐
 
-- dynamic-archive: add keyboard support and disabled state handling to filters (41b5a48)
-- archive: add keyboard accessibility support for multiselect toggle (a4aad06)
-- i18n: use format string for remove button aria-label (f584f2b)
-- block: improve multiselect interaction handling (fab7264)
+= v0.15.1 (2025-06-11) =
 
-#### Continuous Integration
+* Fix: labels now also recieves an is-active class + some accessibility improvements. 🐛
 
-- github: update release workflow to use conventional-changelog-action and fix zip command (4919666)
-- github: automate release process with zip packaging and GitHub releases (366c772)
+= v0.15.0 (2025-06-03) =
 
-#### Maintenance
+* Feature: Remove all CSS styles from latest-posts block. 🔥
 
-- i18n: add missing Select... translation string (37d5c8f)
+= v0.14.0 (2025-05-27) =
 
-### v0.24.2 (2026-06-02)
+* Feature: dynamic-archive - add inherit attribute for dynamic archive, allowing for reading the post type from the current archive page.
+* Fix: dynamic-archive - handle inherit if block is inserted into singular
 
-#### Bug Fixes
+= v0.13.1 (2025-05-26) =
 
-- pagination: escape generated URL attributes (bd539c1)
-- backport and reapply XSS fix + release version 0.24.2 (928f62b)
+* Fix: latest-posts - conditionally render filters panel based on related posts state 🐛
 
-### v0.24.1 (2026-05-06)
+= v0.13.0 (2025-05-26) =
 
-#### Bug Fixes
+* Feature: latest-posts - added related posts variation. ✨
+* Maintenance: deps - remove lodash
 
-- helpers: use regex to parse sort arguments for improved reliability (e624a26)
+= v0.12.2 (2025-05-26) =
 
-## v0.24.0 (2026-05-06)
+* Fix: blocks - add Disabled wrapper to blocks to disable interaction in the editor.
 
-#### Features
+= v0.12.1 (2025-05-26) =
 
-- i18n: update sort label and translation files (c815d04)
-- blocks: add sort direction support for titles and taxonomies (7995e4b)
-- dynamic-archive: add sort functionality to block (ecb4570)
+* Fix: workflow - update cache key to use pnpm-lock.yaml
 
-#### Bug Fixes
+= v0.12.0 (2025-05-26) =
 
-- block: move filter and sort option initialization after post retrieval (1cf79bc)
-- archive: update sort dropdown interactivity and context (39a76d7)
+* Feature: change to pnpm + add new preCommit hook to deploy
 
-#### Refactor
+= v0.11.0 (2025-03-28) =
 
-- dynamic-archive: consolidate styles and improve security (4e43a82)
+* Feature: Added option to show items of all languages.
 
-### v0.23.1 (2026-04-22)
+= v0.10.2 (2024-12-17) =
 
-#### Bug Fixes
+* Fix: TaxonomyPicker: Fixed an issue that caused a crash if the taxonomy picker is used to search for values. 🐛
 
-- update URL handling in helper functions to prevent XSS (f4619eb)
+= v0.10.1 (2024-12-10) =
 
-## v0.23.0 (2026-04-02)
+* Fix: do not make pot when building.
+* Fix: Added i18n and fixed some broken domains
+* Maintenance: make file can create translations. ✨
 
-#### Features
+= v0.10.0 (2024-12-10) =
 
-- add backfill option to latest posts block for improved post retrieval (4b2a8ba)
-- add heading support to latest posts block and improve code formatting (1ad8e32)
+* Feature: finalized the first version of the latest posts block ✨
+* Feature: started working on latest-posts block :sparkles:
 
-#### Maintenance
+= v0.9.0 (2024-12-03) =
 
-- build artifacts (1bac736)
+* Feature: archive - Added ability to hide children for hierarchical post types :sparkles:
 
-## v0.22.0 (2026-03-30)
+= v0.8.0 (2024-12-02) =
 
-#### Features
+* Feature: pagination now has dots when pages are over 6
 
-- enhance dynamic archive block with improved taxonomy filtering. (fb717f2)
-- implement caching for term usage by post type in dynamic archive (defe6b9)
-- add sorting for taxonomy terms by name in dynamic archive block (210f548)
+= v0.7.2 (2024-11-22) =
 
-## v0.21.0 (2026-03-27)
+* Fix: minor changes and fixes for different setting combinations :bug:
 
-#### Features
+= v0.7.1 (2024-11-21) =
 
-- correctly use a label for the search input to improve a11y. (39a4c84)
+* Fix: When terms have been set, and then unset, Gberg leaves an "empty" array, which triggered filtering. 🐛
+* Maintenance: fix merge conflicts
+* Maintenance: test ci 💚
 
-#### Bug Fixes
+= v0.7.0 (2024-11-21) =
 
-- ensure posts are only fetched if published in dynamic-archive block (bb10d72)
-- actually allow overriding pagination by changing first path. (fd2a07a)
+* Feature: multiple blocks preserve state on a page. ✨
+* Feature: Forced categories now work ✨
+* Feature: blocks/archive: Added hierarchical filtering. ✨
+* Feature: Finalize rewrite to wp-interactivity API + loads of minor fixes ✨ (BREAKING CHANGE)
+* Feature: very many stuff
+* Feature: finalized settings view and new settings ✨
+* Feature: package updates + installed needed packages
+* Feature: Started working on new filter settings ✨
+* Fix: disable building for now
+* Refactor: frontend - Cleanup external dependencies (htmx + alpine) ♻️
+* Refactor: Settings refactored ♻️
+* CI: fix push target 💚
+* CI: Fix cache + use npm
+* CI: Fix CI build issues 💚
+* CI: Add build step to correctly build files when a pull request is created. 👷
+* Maintenance: build and commit blocks on release ✨
+* Maintenance: cleanup imports 🗑
 
-#### Maintenance
+= v0.6.6 (2024-09-30) =
 
-- build files (6630be2)
-- update block styles and dependencies for latest posts and dynamic archive (29621b1)
+* Fix: use block attributes + add support for alignment
 
-## v0.20.0 (2026-02-23)
+= v0.6.5 (2024-09-25) =
 
-#### Features
+* Fix: gutenberg - fix an issue fetching CPTs :bug:
 
-- improved inherit option to actually query by current category (f5680b0)
+= v0.6.4 (2024-09-25) =
 
-#### Bug Fixes
+* Fix: pagination - Fixed issues when pagination is disabled and pagination + filtering not working together 🐛
 
-- Ensure taxonomies filter is applied correctly in latest posts block rendering (da7b92b)
+= v0.6.3 (2024-09-25) =
 
-#### Documentation
+* Fix: Some defaults added to prevent issues when first adding the block. 🐛
 
-- Update AGENTS.md to include project-specific notes and clarify package management instructions (bcd3b79)
-- Update AGENTS.md to clarify project details and package management (7fce99a)
+= v0.6.2 (2024-09-25) =
 
-### v0.19.1 (2026-01-09)
+* Fix: lock ydin to 3.7.2 ⬆️
 
-#### Bug Fixes
+= v0.6.1 (2024-09-25) =
 
-- Update dynamic-archive block to correctly handle post exclusion on singular pages (37d2587)
+* Fix: masonry grid class name fixed 🐛
 
-## v0.19.0 (2025-12-05)
+= v0.6.0 (2024-09-25) =
 
-#### Features
+* Feature: block - Added load more functionality for the block. ✨
 
-- Support taxonomy filter by slug and customizable param names (ab85d3e)
+= v0.5.0 (2024-09-25) =
 
-#### Bug Fixes
+* Feature: Dynamic archive made dynamic courtesy of HTMX ✨
+* Feature: Dynamic archive made dynamic courtesy of HTMX ✨ (BREAKING CHANGE)
 
-- Fix typo in interactivity state filter name. (fcb70c9)
+= v0.4.1 (2024-09-25) =
 
-#### Build System
+* Fix: renderblocks class added for now.
 
-- Minify dynamic-archive block build files. (39c43d5)
+= v0.4.0 (2024-09-25) =
 
-## v0.18.0 (2025-12-01)
+* Feature: gutenberg - Added basic version of dynamic archive block ✨
+* Feature: gutenberg - multi block functionality and loading added ✨
+* Refactor: Move blocks one dir up
+* Build: Added built gutenberg files 📦
 
-#### Features
+= v0.3.0 (2024-09-24) =
 
-- Add support for relevanssi. (19d9d4a)
+* Feature: updated jcore-dynamic archive to be a plugin. ✨
 
-## v0.17.0 (2025-12-01)
+= v0.2.1 (2024-09-24) =
 
-#### Features
+* Fix: composer namespace updated to match the used namespace 🐛
 
-- Add "Search..." translation to Finnish and Swedish files. (899fcb6)
-- Add free text search option to filters. (2c27896)
+= v0.2.0 (2024-09-24) =
 
-#### Styles
-
-- Refactor edit.js to improve readability and reduce nesting. (3949435)
-
-### v0.16.4 (2025-11-19)
-
-#### Bug Fixes
-
-- added composer installers. (d87e8b7)
-
-### v0.16.3 (2025-11-14)
-
-#### Bug Fixes
-
-- require v3 or v4 of ydin (7b29371)
-
-### v0.16.2 (2025-11-03)
-
-#### Bug Fixes
-
-- latest-posts: add similar filter as with dynamic-archive for the post query args (554fdb0)
-
-### v0.16.1 (2025-10-31)
-
-#### Bug Fixes
-
-- Update tax query relation to use a filter for improved flexibility (21613c4)
-
-## v0.16.0 (2025-09-12)
-
-#### Features
-
-- Add "Show all" option for radio filters and update translations. ✨ 🌐 (f726025)
-
-### v0.15.1 (2025-06-11)
-
-#### Bug Fixes
-
-- labels now also recieves an is-active class + some accessibility improvements. 🐛 (8b1a6f0)
-
-## v0.15.0 (2025-06-03)
-
-#### Features
-
-- Remove all CSS styles from latest-posts block. 🔥 (e9bccc0)
-
-## v0.14.0 (2025-05-27)
-
-#### Features
-
-- dynamic-archive: add inherit attribute for dynamic archive, allowing for reading the post type from the current archive page. (7d77ada)
-
-#### Bug Fixes
-
-- dynamic-archive: handle inherit if block is inserted into singular (0d3f37e)
-
-### v0.13.1 (2025-05-26)
-
-#### Bug Fixes
-
-- latest-posts: conditionally render filters panel based on related posts state 🐛 (a24ba9f)
-
-## v0.13.0 (2025-05-26)
-
-#### Features
-
-- latest-posts: added related posts variation. ✨ (fb6946a)
-
-#### Maintenance
-
-- deps: remove lodash (f83cfe0)
-
-### v0.12.2 (2025-05-26)
-
-#### Bug Fixes
-
-- blocks: add Disabled wrapper to blocks to disable interaction in the editor. (5731efe)
-
-### v0.12.1 (2025-05-26)
-
-#### Bug Fixes
-
-- workflow: update cache key to use pnpm-lock.yaml (0c60a4e)
-
-## v0.12.0 (2025-05-26)
-
-#### Features
-
-- change to pnpm + add new preCommit hook to deploy (4794a52)
-
-## v0.11.0 (2025-03-28)
-
-#### Features
-
-- Added option to show items of all languages. (4daafee)
-
-### v0.10.2 (2024-12-17)
-
-#### Bug Fixes
-
-- TaxonomyPicker: Fixed an issue that caused a crash if the taxonomy picker is used to search for values. 🐛 (f51c137)
-
-### v0.10.1 (2024-12-10)
-
-#### Bug Fixes
-
-- do not make pot when building. (e7f4fb1)
-- Added i18n and fixed some broken domains (c8bfd4c)
-
-#### Maintenance
-
-- make file can create translations. ✨ (e888a68)
-
-## v0.10.0 (2024-12-10)
-
-#### Features
-
-- finalized the first version of the latest posts block ✨ (6c3a01a)
-- started working on latest-posts block :sparkles: (05db418)
-
-## v0.9.0 (2024-12-03)
-
-#### Features
-
-- archive: Added ability to hide children for hierarchical post types :sparkles: (0a6df60)
-
-## v0.8.0 (2024-12-02)
-
-#### Features
-
-- pagination now has dots when pages are over 6 (a739dcf)
-
-### v0.7.2 (2024-11-22)
-
-#### Bug Fixes
-
-- minor changes and fixes for different setting combinations :bug: (f8fa13a)
-
-### v0.7.1 (2024-11-21)
-
-#### Bug Fixes
-
-- When terms have been set, and then unset, Gberg leaves an "empty" array, which triggered filtering. 🐛 (aecc57f)
-
-#### Maintenance
-
-- fix merge conflicts (3e91b4e)
-- test ci 💚 (207c063)
-
-## v0.7.0 (2024-11-21)
-
-#### Features
-
-- multiple blocks preserve state on a page. ✨ (a881a27)
-- Forced categories now work ✨ (fbc4895)
-- blocks/archive: Added hierarchical filtering. ✨ (8b00697)
-- Finalize rewrite to wp-interactivity API + loads of minor fixes ✨ (BREAKING CHANGE) (2bebd26)
-- very many stuff (7562b6e)
-- finalized settings view and new settings ✨ (42efadf)
-- package updates + installed needed packages (503d082)
-- Started working on new filter settings ✨ (d5965aa)
-
-#### Bug Fixes
-
-- disable building for now (5dd227f)
-
-#### Refactor
-
-- frontend: Cleanup external dependencies (htmx + alpine) ♻️ (05b1ab8)
-- Settings refactored ♻️ (d82c4d4)
-
-#### Continuous Integration
-
-- fix push target 💚 (8cae9af)
-- Fix cache + use npm (c1aaa31)
-- Fix CI build issues 💚 (e79f43c)
-- Add build step to correctly build files when a pull request is created. 👷 (3901937)
-
-#### Maintenance
-
-- build and commit blocks on release ✨ (d235884)
-- cleanup imports 🗑 (85cda72)
-
-### v0.6.6 (2024-09-30)
-
-#### Bug Fixes
-
-- use block attributes + add support for alignment (ff1a723)
-
-### v0.6.5 (2024-09-25)
-
-#### Bug Fixes
-
-- gutenberg: fix an issue fetching CPTs :bug: (4751d23)
-
-### v0.6.4 (2024-09-25)
-
-#### Bug Fixes
-
-- pagination: Fixed issues when pagination is disabled and pagination + filtering not working together 🐛 (ad715c0)
-
-### v0.6.3 (2024-09-25)
-
-#### Bug Fixes
-
-- Some defaults added to prevent issues when first adding the block. 🐛 (454031b)
-
-### v0.6.2 (2024-09-25)
-
-#### Bug Fixes
-
-- lock ydin to 3.7.2 ⬆️ (9f97402)
-
-### v0.6.1 (2024-09-25)
-
-#### Bug Fixes
-
-- masonry grid class name fixed 🐛 (03c70dc)
-
-## v0.6.0 (2024-09-25)
-
-#### Features
-
-- block: Added load more functionality for the block. ✨ (e9a4b67)
-
-## v0.5.0 (2024-09-25)
-
-#### Features
-
-- Dynamic archive made dynamic courtesy of HTMX ✨ (5099c77)
-- Dynamic archive made dynamic courtesy of HTMX ✨ (BREAKING CHANGE) (5aeb814)
-
-### v0.4.1 (2024-09-25)
-
-#### Bug Fixes
-
-- renderblocks class added for now. (d0493bc)
-
-## v0.4.0 (2024-09-25)
-
-#### Features
-
-- gutenberg: Added basic version of dynamic archive block ✨ (8e20c9d)
-- gutenberg: multi block functionality and loading added ✨ (e8b697f)
-
-#### Refactor
-
-- Move blocks one dir up (457eaec)
-
-#### Build System
-
-- Added built gutenberg files 📦 (7111525)
-
-## v0.3.0 (2024-09-24)
-
-#### Features
-
-- updated jcore-dynamic archive to be a plugin. ✨ (c1f81a5)
-
-### v0.2.1 (2024-09-24)
-
-#### Bug Fixes
-
-- composer namespace updated to match the used namespace 🐛 (fc9e4be)
-
-## v0.2.0 (2024-09-24)
-
-#### Features
-
-- repo: Repo is now free of template stuff and ready to be deployed 🚀 (e1a29e1)
-
-#### Bug Fixes
-
-- composer.lock updated to work correctly 🐛 (7b97e92)
-
-#### Continuous Integration
-
-- allow secrets to be inherited (c2793f9)
-- use the correct tag 💚 (aa4b359)
-
-#### Misc
-
-- Initial commit (5521752)
+* Feature: repo - Repo is now free of template stuff and ready to be deployed 🚀
+* Fix: composer.lock updated to work correctly 🐛
+* CI: allow secrets to be inherited
+* CI: use the correct tag 💚
+* Maintenance: Initial commit
