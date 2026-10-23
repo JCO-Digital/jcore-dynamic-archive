@@ -35,7 +35,7 @@ function dynamic_archive_setup_timber() {
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
 function init_dynamic_archive_block(): void {
-	$blocks = array( 'dynamic-archive', 'latest-posts' );
+	$blocks = array( 'dynamic-archive', 'latest-posts', 'post-picker' );
 	foreach ( $blocks as $block ) {
 		$success[] = register_block_type( __DIR__ . '/build/' . $block );
 	}

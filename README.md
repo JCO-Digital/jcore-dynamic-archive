@@ -1,6 +1,6 @@
 # JCORE Dynamic Archive
 
-A WordPress plugin that adds a filterable, sortable and searchable post archive block, plus a latest/related posts block. Front-end filtering, pagination and "load more" are powered by the [Interactivity API](https://developer.wordpress.org/block-editor/reference-guides/interactivity-api/) and its router, so the archive updates without full page reloads while every state stays linkable through the URL.
+A WordPress plugin that adds a filterable, sortable and searchable post archive block, plus a latest/related posts block and a post picker block. Front-end filtering, pagination and "load more" are powered by the [Interactivity API](https://developer.wordpress.org/block-editor/reference-guides/interactivity-api/) and its router, so the archive updates without full page reloads while every state stays linkable through the URL.
 
 Templates are rendered with [Timber](https://timber.github.io/docs/v2/), and themes can override any of them.
 
@@ -57,6 +57,13 @@ Shows the newest posts of the selected post types, optionally limited to specifi
 
 The **Related Posts (JCORE)** variation shows posts that share terms with the current post. With **backfill** enabled, remaining slots are filled with other recent posts of the same post type.
 
+### Post Picker (`jcore/post-picker`)
+
+Shows a hand-picked set of posts, or the newest posts in one term, with an optional heading and columns.
+
+- **Posts I pick**: search posts of any viewable post type, add them, and put them in order. They are shown in that order. Posts that are not published (or no longer exist) are flagged in the editor and skipped on the front end.
+- **Newest posts in a category**: choose a taxonomy and a term, the number of posts and the order (date or title). Posts in child terms are included, and the post the block is shown on is left out.
+
 ## Theme integration
 
 ### Post teaser (required)
@@ -67,6 +74,7 @@ The plugin does not ship a post teaser template. Your theme must provide one, lo
 | --------------- | ---------------------------------------------------------------- |
 | Dynamic Archive | `dynamic-archive/partials/tease.twig`, then `partials/tease.twig` |
 | Latest Posts    | `latest-posts/partials/tease.twig`, then `partials/tease.twig`    |
+| Post Picker     | `post-picker/partials/tease.twig`, then `partials/tease.twig`     |
 
 The template receives `post` (a Timber post) and `nr` (the 1-based loop index).
 
@@ -116,6 +124,7 @@ Taxonomy filters use term IDs by default. Switch to slugs with the `jcore_dynami
 | `jcore_dynamic_archive_interactivity_context` | Interactivity API context of the block. |
 | `jcore_dynamic_archive_interactivity_state` | Global Interactivity API state. |
 | `jcore_latest_posts_args` | `WP_Query` args of the Latest Posts block (also applied to the backfill query). |
+| `jcore_post_picker_args` | `WP_Query` args of the Post Picker block. |
 
 Example: enable faceted filters for all archives.
 
@@ -132,6 +141,9 @@ add_filter( 'jcore_dynamic_archive_taxonomies_filter_query_aware', '__return_tru
 | `jcore.latestPosts.taxonomies` | Taxonomies offered for term selection in the Latest Posts block. |
 | `jcore.latestPosts.maxSelected` | Maximum number of selectable post types (default `-1`, unlimited). |
 | `jcore.latestPosts.maxItems` | Maximum value for posts per page (default `25`). |
+| `jcore.postPicker.postTypes` | Post type slugs searched by the Post Picker (default: all viewable post types). |
+| `jcore.postPicker.taxonomies` | Taxonomies offered in the Post Picker's term mode. |
+| `jcore.postPicker.maxItems` | Maximum number of posts in the Post Picker's term mode (default `25`). |
 
 ## Development
 

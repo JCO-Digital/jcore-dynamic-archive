@@ -8,14 +8,15 @@ Stable tag: 1.0.10
 License: GPL-2.0-only
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A filterable post archive block and a latest posts block for the block editor.
+A filterable post archive block, a latest posts block and a post picker block for the block editor.
 
 == Description ==
 
-JCORE Dynamic Archive adds two blocks for listing posts:
+JCORE Dynamic Archive adds three blocks for listing posts:
 
 * **Dynamic Archive** – a post archive with optional filters, sorting, search and pagination. The list updates without a full page reload, and every filtered or paged state has its own address that can be shared.
 * **Latest posts (JCORE)** – the newest posts of the chosen post types, optionally limited to some terms. Its **Related Posts (JCORE)** variation shows posts that share terms with the current post, and can fill the remaining places with other recent posts.
+* **Post picker (JCORE)** – posts you pick and put in order yourself, or the newest posts in one category, tag or other term.
 
 = Features =
 
@@ -30,7 +31,7 @@ JCORE Dynamic Archive adds two blocks for listing posts:
 
 = Theme integration =
 
-The plugin does not ship a post teaser: the blocks render each post with the theme's `partials/tease.twig`, or with `dynamic-archive/partials/tease.twig` and `latest-posts/partials/tease.twig` when a block needs its own. The template receives `post` (a Timber post) and `nr` (its position in the list).
+The plugin does not ship a post teaser: the blocks render each post with the theme's `partials/tease.twig`, or with `dynamic-archive/partials/tease.twig`, `latest-posts/partials/tease.twig` or `post-picker/partials/tease.twig` when a block needs its own. The template receives `post` (a Timber post) and `nr` (its position in the list).
 
 Any other template of the plugin can be overridden by placing a file with the same relative path in the theme's Timber views directory.
 
@@ -47,7 +48,7 @@ The blocks are built with `@wordpress/scripts`. Their readable source is publish
 1. Make sure Timber 2 is installed. The plugin does not bundle it; the theme or site provides it.
 2. Install the plugin with `composer require jcodigital/jcore-dynamic-archive`, or upload the release zip on the Plugins screen.
 3. Activate the plugin.
-4. Add a **Dynamic Archive** or **Latest posts (JCORE)** block in the editor.
+4. Add a **Dynamic Archive**, **Latest posts (JCORE)** or **Post picker (JCORE)** block in the editor.
 
 == Frequently Asked Questions ==
 
@@ -57,7 +58,7 @@ The blocks render posts with the theme's teaser template. Add `partials/tease.tw
 
 = Can I change the queries? =
 
-Yes. `jcore_dynamic_archive_args` filters the archive's `WP_Query` arguments and `jcore_latest_posts_args` those of the latest posts block. The README on GitHub lists every PHP and JavaScript filter.
+Yes. `jcore_dynamic_archive_args` filters the archive's `WP_Query` arguments `jcore_latest_posts_args` those of the latest posts block, and `jcore_post_picker_args` those of the post picker. The README on GitHub lists every PHP and JavaScript filter.
 
 = Can I link to a filtered archive? =
 

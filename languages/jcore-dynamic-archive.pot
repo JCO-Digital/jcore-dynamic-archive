@@ -1,21 +1,18 @@
-# Copyright (C) 2024 JCO Digital
+# Copyright (C) 2026 JCO Digital
 # This file is distributed under the same license as the JCORE Dynamic Archive plugin.
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: JCORE Dynamic Archive 0.1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dynamic-archive\n"
+"Project-Id-Version: JCORE Dynamic Archive 1.0.11\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/jcore-dynamic-archive\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-11-28 15:31+0000\n"
+"POT-Creation-Date: 2026-10-23T13:41:41+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: Loco https://localise.biz/\n"
+"X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: jcore-dynamic-archive\n"
-"Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;"
 
 #. Plugin Name of the plugin
 #: jcore-dynamic-archive.php
@@ -42,216 +39,484 @@ msgstr ""
 msgid "https://jco.fi"
 msgstr ""
 
+#: includes/helpers.php:894
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:158
+msgid "Date ↓"
+msgstr ""
+
+#: includes/helpers.php:895
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:162
+msgid "Date ↑"
+msgstr ""
+
+#: includes/helpers.php:896
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:166
+msgid "Title ↑"
+msgstr ""
+
+#: includes/helpers.php:897
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:170
+msgid "Title ↓"
+msgstr ""
+
+#: jcore-dynamic-archive.php:54
+msgid "Timber is required for JCORE Dynamic Archive to work."
+msgstr ""
+
 #. translators: The label of the taxonomy.
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/shared/components/TaxonomyPicker.js:69
-#: blocks/build/dynamic-archive/index.js:112
-#: blocks/build/latest-posts/index.js:112
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/shared/components/TaxonomyPicker.js:101
+#, js-format
 msgctxt "Taxonomy"
 msgid "Show only items with selected: %s"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:103
-#: blocks/build/dynamic-archive/index.js:378
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:116
 msgid "Ascending"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:104
-#: blocks/build/dynamic-archive/index.js:379
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:117
 msgid "Descending"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:107
-#: blocks/build/dynamic-archive/index.js:382
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:120
 msgid "Date"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:108
-#: blocks/build/dynamic-archive/index.js:383
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:121
 msgid "Title"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:109
-#: blocks/build/dynamic-archive/index.js:384
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:122
 msgid "Modified"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:110
-#: blocks/build/dynamic-archive/index.js:385
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:123
 msgid "Author"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:111
-#: blocks/build/dynamic-archive/index.js:386
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:124
 msgid "ID"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:113
-#: blocks/build/dynamic-archive/index.js:388
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:126
 msgid "Menu order"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:144
-#: blocks/build/dynamic-archive/index.js:419
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:186
 msgid "Checkbox"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:145
-#: blocks/build/dynamic-archive/index.js:420
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:187
 msgid "Radio"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:146
-#: blocks/build/dynamic-archive/index.js:421
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:188
 msgid "Dropdown"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:153 blocks/src/latest-posts/edit.js:108
-#: blocks/build/dynamic-archive/index.js:428
-#: blocks/build/latest-posts/index.js:344
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:190
+msgid "Multiselect"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/dynamic-archive/edit.js:199
+#: blocks/src/latest-posts/edit.js:140
 msgid "Settings"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:159
-#: blocks/build/dynamic-archive/index.js:434
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:204
+msgid "Inherit settings from query"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:221
 msgid "Post Type"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:173
-#: blocks/build/dynamic-archive/index.js:448
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:239
 msgid "Hide children"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:180
-#: blocks/build/dynamic-archive/index.js:455
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:250
+msgid "Show all languages"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:261
 msgid "Show pagination"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:186
-#: blocks/build/dynamic-archive/index.js:461
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:267
 msgid "Infinite scroll"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:193
-#: blocks/build/dynamic-archive/index.js:468
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:281
 msgid "Order"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:201
-#: blocks/build/dynamic-archive/index.js:476
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:291
 msgid "Order by"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:210 blocks/src/latest-posts/edit.js:167
-#: blocks/build/dynamic-archive/index.js:485
-#: blocks/build/latest-posts/index.js:403
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/dynamic-archive/edit.js:302
+#: blocks/src/latest-posts/edit.js:258
 msgid "Sticky post behavior"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:213 blocks/src/latest-posts/edit.js:170
-#: blocks/build/dynamic-archive/index.js:488
-#: blocks/build/latest-posts/index.js:406
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/dynamic-archive/edit.js:308
+#: blocks/src/latest-posts/edit.js:264
 msgid "Include"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:217 blocks/src/latest-posts/edit.js:174
-#: blocks/build/dynamic-archive/index.js:492
-#: blocks/build/latest-posts/index.js:410
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/dynamic-archive/edit.js:315
+#: blocks/src/latest-posts/edit.js:271
 msgid "Exclude"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:220 blocks/src/latest-posts/edit.js:177
-#: blocks/build/dynamic-archive/index.js:495
-#: blocks/build/latest-posts/index.js:413
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/dynamic-archive/edit.js:322
+#: blocks/src/latest-posts/edit.js:278
 msgid "Only"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:229
-#: blocks/build/dynamic-archive/index.js:504
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/dynamic-archive/edit.js:341
+#: blocks/src/post-picker/edit.js:241
 msgid "Layout"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:231
-#: blocks/build/dynamic-archive/index.js:506
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:345
 msgid "Masonry Grid"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:237 blocks/src/latest-posts/edit.js:194
-#: blocks/build/dynamic-archive/index.js:512
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/dynamic-archive/edit.js:353
+#: blocks/src/latest-posts/edit.js:303
+#: blocks/src/post-picker/edit.js:245
 msgid "Columns"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:251
-#: blocks/build/dynamic-archive/index.js:526
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:367
 msgid "Posts per Page"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1 blocks/build/latest-posts/index.js:1
-#: blocks/src/dynamic-archive/edit.js:267 blocks/src/latest-posts/edit.js:209
-#: blocks/build/dynamic-archive/index.js:542
-#: blocks/build/latest-posts/index.js:445
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:383
+msgid "Sorting"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:387
+msgid "Show sorting"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:397
+msgid "Options to show in dropdown"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/dynamic-archive/edit.js:425
+#: blocks/src/latest-posts/edit.js:319
 msgid "Filters"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:295
-#: blocks/build/dynamic-archive/index.js:570
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:429
+msgid "Text search"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:435
+msgid "Text search label"
+msgstr ""
+
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:497
 msgid "Hierarchical filter"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:299
-#: blocks/build/dynamic-archive/index.js:574
-msgid ""
-"If enabled, child categories will be hidden until parent category is selected"
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:501
+msgid "If enabled, child categories will be hidden until parent category is selected"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:320
-#: blocks/build/dynamic-archive/index.js:595
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:529
 msgid "Filter type (Parent categories)"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:324
-#: blocks/build/dynamic-archive/index.js:599
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:533
 msgid "Filter type"
 msgstr ""
 
-#: blocks/build/dynamic-archive/index.js:1
-#: blocks/src/dynamic-archive/edit.js:341
-#: blocks/build/dynamic-archive/index.js:616
+#: blocks/build/dynamic-archive/index.js:4
+#: blocks/src/dynamic-archive/edit.js:562
 msgid "Filter type (Child categories)"
 msgstr ""
 
-#: blocks/build/latest-posts/index.js:1 blocks/src/latest-posts/edit.js:146
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/latest-posts/edit.js:146
+msgid "Inherit query from template"
+msgstr ""
+
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/latest-posts/edit.js:200
+msgid "Backfill with other posts from the same post type"
+msgstr ""
+
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/latest-posts/edit.js:210
+msgid "If there are not enough related posts, fill the remaining slots with other posts from the same post type."
+msgstr ""
+
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/latest-posts/edit.js:221
 msgid "Loading taxonomies..."
+msgstr ""
+
+#: blocks/build/latest-posts/index.js:4
+#: blocks/src/latest-posts/edit.js:355
+msgid "Latest posts"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:1
+#: blocks/build/post-picker/index.js:7
+#: blocks/src/post-picker/PostPicker.js:119
+#: blocks/src/post-picker/PostPicker.js:299
+msgid "No posts found."
+msgstr ""
+
+#. translators: %d: Number of posts found.
+#: blocks/build/post-picker/index.js:4
+#: blocks/src/post-picker/PostPicker.js:122
+#, js-format
+msgid "%d post found."
+msgid_plural "%d posts found."
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %d: Post ID.
+#: blocks/build/post-picker/index.js:4
+#: blocks/src/post-picker/PostPicker.js:198
+#, js-format
+msgid "Post %d"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:4
+#: blocks/src/post-picker/PostPicker.js:203
+msgid "(no title)"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:4
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:68
+#: blocks/src/post-picker/PostPicker.js:201
+msgid "Loading…"
+msgstr ""
+
+#. translators: 1: Post title. 2: New position. 3: Number of selected posts.
+#: blocks/build/post-picker/index.js:7
+#: blocks/src/post-picker/PostPicker.js:245
+#, js-format
+msgid "%1$s moved to position %2$d of %3$d."
+msgstr ""
+
+#: blocks/build/post-picker/index.js:7
+#: blocks/src/post-picker/PostPicker.js:277
+msgid "Search for posts to add"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:7
+#: blocks/src/post-picker/PostPicker.js:282
+msgid "Type at least two letters."
+msgstr ""
+
+#: blocks/build/post-picker/index.js:7
+#: blocks/src/post-picker/PostPicker.js:292
+msgid "The search failed. Please try again."
+msgstr ""
+
+#: blocks/build/post-picker/index.js:7
+#: blocks/src/post-picker/PostPicker.js:304
+msgid "Search results"
+msgstr ""
+
+#. translators: %s: Post title.
+#: blocks/build/post-picker/index.js:10
+#: blocks/src/post-picker/PostPicker.js:329
+#, js-format
+msgid "Added: %s"
+msgstr ""
+
+#. translators: %s: Post title.
+#: blocks/build/post-picker/index.js:13
+#: blocks/src/post-picker/PostPicker.js:337
+#, js-format
+msgid "Add %s"
+msgstr ""
+
+#. translators: 1: Post title. 2: Number of selected posts.
+#: blocks/build/post-picker/index.js:16
+#: blocks/src/post-picker/PostPicker.js:219
+#, js-format
+msgid "%1$s added. %2$d post selected."
+msgid_plural "%1$s added. %2$d posts selected."
+msgstr[0] ""
+msgstr[1] ""
+
+#: blocks/build/post-picker/index.js:16
+#: blocks/src/post-picker/PostPicker.js:347
+msgid "Added"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:16
+#: blocks/src/post-picker/PostPicker.js:348
+msgid "Add"
+msgstr ""
+
+#. translators: %d: Number of selected posts.
+#: blocks/build/post-picker/index.js:19
+#: blocks/src/post-picker/PostPicker.js:362
+#, js-format
+msgid "Selected posts (%d)"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:19
+#: blocks/src/post-picker/PostPicker.js:368
+msgid "No posts selected yet. Search for posts above and add them."
+msgstr ""
+
+#: blocks/build/post-picker/index.js:19
+#: blocks/src/post-picker/PostPicker.js:387
+msgid "Not published or not found. It will not be shown."
+msgstr ""
+
+#. translators: %s: Post title.
+#: blocks/build/post-picker/index.js:22
+#: blocks/src/post-picker/PostPicker.js:402
+#, js-format
+msgid "Move %s up"
+msgstr ""
+
+#. translators: %s: Post title.
+#: blocks/build/post-picker/index.js:25
+#: blocks/src/post-picker/PostPicker.js:418
+#, js-format
+msgid "Move %s down"
+msgstr ""
+
+#. translators: %s: Post title.
+#: blocks/build/post-picker/index.js:28
+#: blocks/src/post-picker/PostPicker.js:435
+#, js-format
+msgid "Remove %s"
+msgstr ""
+
+#. translators: %s: Post title.
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/PostPicker.js:265
+#, js-format
+msgid "%s removed."
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:69
+msgid "Start typing to filter the list."
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:139
+msgid "Content"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:144
+msgid "What to show"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:148
+msgid "Posts I pick"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:155
+msgid "Newest posts in a category"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:175
+msgid "Kind of category"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:185
+msgid "Choose…"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:264
+msgid "Heading"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:268
+msgid "Add a heading (optional)"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:289
+msgid "Post picker"
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:293
+msgid "Choose a category in the block settings."
+msgstr ""
+
+#: blocks/build/post-picker/index.js:31
+#: blocks/src/post-picker/edit.js:297
+msgid "Pick the posts to show in the block settings."
 msgstr ""
 
 #: blocks/build/dynamic-archive/block.json
@@ -266,60 +531,56 @@ msgctxt "block description"
 msgid "A dynamic archive block."
 msgstr ""
 
-#: blocks/build/latest-posts/block.json blocks/src/latest-posts/block.json
+#: blocks/build/latest-posts/block.json
+#: blocks/src/latest-posts/block.json
 msgctxt "block title"
-msgid "Latest posts"
+msgid "Latest posts (JCORE)"
 msgstr ""
 
-#: blocks/build/latest-posts/block.json blocks/src/latest-posts/block.json
+#: blocks/build/latest-posts/block.json
+#: blocks/src/latest-posts/block.json
 msgctxt "block description"
 msgid "Show latest posts"
 msgstr ""
 
-#: blocks/templates/dynamic-archive/archive.twig:21
-msgid "No posts found"
+#: blocks/build/post-picker/block.json
+#: blocks/src/post-picker/block.json
+msgctxt "block title"
+msgid "Post picker (JCORE)"
 msgstr ""
 
-#: blocks/templates/dynamic-archive/partials/filter-content.twig:17
-msgid "Select"
+#: blocks/build/post-picker/block.json
+#: blocks/src/post-picker/block.json
+msgctxt "block description"
+msgid "Show posts you pick, or the newest posts in a category."
 msgstr ""
 
-#: blocks/templates/dynamic-archive/partials/load-more.twig:9
-msgid "Load more"
+#: blocks/build/post-picker/block.json
+#: blocks/src/post-picker/block.json
+msgctxt "block keyword"
+msgid "posts"
 msgstr ""
 
-#: blocks/templates/dynamic-archive/partials/pagination.twig:3
-msgid "Pagination"
+#: blocks/build/post-picker/block.json
+#: blocks/src/post-picker/block.json
+msgctxt "block keyword"
+msgid "pick"
 msgstr ""
 
-#: blocks/templates/dynamic-archive/partials/pagination.twig:14
-msgid "First page"
+#: blocks/build/post-picker/block.json
+#: blocks/src/post-picker/block.json
+msgctxt "block keyword"
+msgid "select"
 msgstr ""
 
-#: blocks/templates/dynamic-archive/partials/pagination.twig:25
-msgid "Previous page"
+#: blocks/build/post-picker/block.json
+#: blocks/src/post-picker/block.json
+msgctxt "block keyword"
+msgid "category"
 msgstr ""
 
-msgid "Next page"
-msgstr ""
-
-msgid "Last page"
-msgstr ""
-
-msgid "Show all"
-msgstr ""
-
-msgid "Search..."
-msgstr ""
-
-msgid "Select..."
-msgstr ""
-
-msgid "Text search"
-msgstr ""
-
-msgid "Text search label"
-msgstr ""
-
-msgid "Remove %s"
+#: blocks/build/post-picker/block.json
+#: blocks/src/post-picker/block.json
+msgctxt "block keyword"
+msgid "term"
 msgstr ""
