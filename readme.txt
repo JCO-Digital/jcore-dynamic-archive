@@ -70,7 +70,11 @@ The plugin shows an admin notice. The blocks render through Timber, so install i
 
 == Changelog ==
 
-= 1.1.0 (2026-10-23) =
+= 1.1.1 (2026-11-02) =
+
+* CI: release - keep publishing to the dist repo
+
+= v1.1.0 (2026-10-23) =
 
 * Feature: post-picker - add post picker block
 
